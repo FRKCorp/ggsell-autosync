@@ -302,8 +302,30 @@ class GGSellV1Client:
             "GET", "/api_sellers/api/debates/messages", params={"id_i": chat_id}
         )
 
-    def list_chats(self) -> Any:
-        return self._request("GET", "/api_sellers/api/debates/chats")
+    def list_chats(
+        self,
+        *,
+        filter_new: Optional[int] = None,
+        email: Optional[str] = None,
+        id_ds: Optional[str] = None,
+        pagesize: Optional[int] = None,
+        page: Optional[int] = None,
+    ) -> Any:
+        """Список чатов. Каждый элемент: {id_i (это CHAT id, не invoice_id
+        заказа — совпадение имени поля чисто случайное на стороне GGSell), email,
+        product (offer_id), last_message, cnt_msg, cnt_new}. Фильтруй по email
+        покупателя (из get_order_info.content.buyer_info.email) и сверяй
+        product == item_id заказа, чтобы найти нужный чат для create_message.
+        """
+        params = {
+            "filter_new": filter_new,
+            "email": email,
+            "id_ds": id_ds,
+            "pagesize": pagesize,
+            "page": page,
+        }
+        params = {k: v for k, v in params.items() if v is not None}
+        return self._request("GET", "/api_sellers/api/debates/v2/chats", params=params)
 
     # ------------------------------------------------------------------
     # Products — bulk price update (кандидат на замену поштучных V2 PATCH)

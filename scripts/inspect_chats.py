@@ -23,7 +23,8 @@ def main() -> None:
     base_url = os.getenv("GGSELL_BASE_URL", "https://seller.ggsel.com")
 
     with GGSellV1Client(seller_id=seller_id, api_key=api_key, base_url=base_url) as client:
-        result = client.list_chats()
+        email = sys.argv[1] if len(sys.argv) > 1 else None
+        result = client.list_chats(email=email) if email else client.list_chats()
         print(result)
 
 
