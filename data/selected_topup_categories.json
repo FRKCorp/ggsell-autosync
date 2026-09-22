@@ -1,0 +1,50 @@
+{
+  "_comment": "Подтверждённый клиентом список категорий /topups для импорта. region_label попадёт в название позиции. undawn сознательно пропущен — ждём уточнения (два разных 'Global': undawn_global и undawn_garena_global).",
+  "items": [
+    { "category_id": "8_ball_pool", "region_label": null },
+    { "category_id": "afk_journey", "region_label": null },
+    { "category_id": "bullet_echo", "region_label": null },
+    { "category_id": "capcut", "region_label": null },
+    { "category_id": "delta_force", "region_label": null },
+    { "category_id": "eve_echoes", "region_label": null },
+    { "category_id": "farlight_84", "region_label": null },
+    { "category_id": "honor_of_kings", "region_label": null },
+    { "category_id": "likee", "region_label": null },
+    { "category_id": "lords_mobile", "region_label": null },
+    { "category_id": "marvel_rivals", "region_label": null },
+    { "category_id": "punishing_gray_raven", "region_label": null },
+    { "category_id": "silver_and_blood", "region_label": null },
+    { "category_id": "stumble_guys", "region_label": null },
+    { "category_id": "super_sus", "region_label": null },
+    { "category_id": "wuthering_waves", "region_label": null },
+    { "category_id": "zepeto", "region_label": null },
+    { "category_id": "bigo_live", "region_label": null },
+    { "category_id": "acecraft", "region_label": null },
+    { "category_id": "ace_racer", "region_label": null },
+    { "category_id": "crossout_mobile", "region_label": null },
+
+    { "category_id": "free_fire_cis", "region_label": "CIS" },
+    { "category_id": "pubg_mobile_auto", "region_label": "Auto" },
+    { "category_id": "mobile_legends_ru", "region_label": "RU" },
+    { "category_id": "mobile_legends_global", "region_label": "Global" },
+    { "category_id": "codm_activision_in", "region_label": "Activision IN" },
+    { "category_id": "codm_activision_kz", "region_label": "Activision KZ" },
+    { "category_id": "codm_activision_us", "region_label": "Activision US" },
+    { "category_id": "r6_mobile_global", "region_label": "Global" },
+    { "category_id": "genshin_impact_global", "region_label": "Global" },
+    { "category_id": "honkai_star_rail_global", "region_label": "Global" },
+    { "category_id": "zenless_zone_zero_global", "region_label": "Global" },
+    { "category_id": "love_and_deepspace", "region_label": "Global" },
+    { "category_id": "arena_breakout", "region_label": "Mobile" },
+    { "category_id": "arena_breakout_infinite", "region_label": "PC / Infinite" },
+    { "category_id": "blood_strike", "region_label": "Global" },
+    { "category_id": "undawn_global", "region_label": "Global" }
+  ],
+  "self_decided": [
+    {
+      "game": "Undawn",
+      "chosen": "undawn_global",
+      "reason": "Обычная глобальная версия vs undawn_garena_global (региональный релиз Garena, обычно ограничен SEA несмотря на слово Global). Клиента решили не беспокоить, выбрали сами — можно поменять одной строкой, если он уточнит иное."
+    }
+  ]
+}

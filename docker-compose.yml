@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ggsell_autosync_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-ggsell_autosync}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: ggsell_autosync_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - db
+    expose:
+      - "8000"
+
+  scheduler:
+    build: .
+    container_name: ggsell_autosync_scheduler
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: ["python", "-m", "app.sync.main"]
+    depends_on:
+      - db
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: ggsell_autosync_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
