@@ -1,27 +1,30 @@
 """Приёмник вебхука GGSell о новой продаже (notification_settings.url на
-каждом оффере). Формат подтверждён частично — из формы настройки уведомлений
-в личном кабинете GGSell известны поля для GET-запроса:
+каждом оффере).
 
-    id_i, id_d, amount, curr, date, email, sha256, ip, isMyProduct
+ПОДТВЕРЖДЕНО НА ЖИВОМ ЗАКАЗЕ (первый реальный вебхук, 22 сентября):
+метод POST, тело — JSON (НЕ query-параметры, как можно было подумать из
+описания в личном кабинете):
 
-Не подтверждено эмпирически:
-- Совпадает ли набор полей для POST (тело JSON? form-data? или те же
-  query-параметры, просто с методом POST)? Принимаем оба варианта ниже —
-  и query, и JSON-тело — чтобы не потерять данные независимо от того, как
-  GGSell реально их пришлёт.
-- Что именно хешируется в sha256 (подпись для проверки подлинности запроса).
-  Пока только логируем значение, не проверяем — see TODO ниже.
+    {"id_i": 51308662, "id_d": 103170287, "amount": "1.0",
+     "currency": "RUB", "email": "...", "date": "...", "ip": "...",
+     "SHA256": "...", "is_my_product": true}
 
-Как только реальный вебхук прилетит (см. инструкцию в конце файла про
-ngrok) — сверить фактические поля с этим списком и поправить.
+Имена полей отличаются от текста в личном кабинете GGSell (там было
+curr/sha256/isMyProduct) — реальные имена: currency, SHA256, is_my_product.
+
+id_i совпадает с номером заказа, который виден покупателю ("Заказ №
+51308662") — это и есть invoice_id для get_order_info. Значение id_d пока
+не подтверждено (предположительно offer_id) — сверить через get_order_info.
+
+Подпись SHA256 — что именно хешируется, всё ещё не известно (см. TODO
+ниже), пока не проверяем.
 """
 
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
-from fastapi import APIRouter, Query, Request
+from fastapi import APIRouter, Request
 
 logger = logging.getLogger(__name__)
 
@@ -29,20 +32,7 @@ router = APIRouter()
 
 
 @router.api_route("/webhooks/ggsell", methods=["GET", "POST"])
-async def ggsell_webhook(
-    request: Request,
-    id_i: Optional[str] = Query(None),
-    id_d: Optional[str] = Query(None),
-    amount: Optional[str] = Query(None),
-    curr: Optional[str] = Query(None),
-    date: Optional[str] = Query(None),
-    email: Optional[str] = Query(None),
-    sha256: Optional[str] = Query(None),
-    ip: Optional[str] = Query(None),
-    isMyProduct: Optional[str] = Query(None),
-):
-    # Логируем вообще всё сырьё — метод, query-параметры, тело — чтобы на
-    # первом же реальном вызове увидеть точный формат, а не гадать заранее.
+async def ggsell_webhook(request: Request):
     raw_body = await request.body()
     logger.info(
         "GGSell webhook: method=%s query_params=%s body=%r",
@@ -51,17 +41,33 @@ async def ggsell_webhook(
         raw_body,
     )
 
-    # TODO: проверка подписи sha256 — не реализована, т.к. не знаем, что
-    # именно поставщик хеширует (api_key+id_i? shared secret+timestamp?).
-    # Определить эмпирически на первом реальном вызове и сверить с
-    # несколькими гипотезами, прежде чем полагаться на неё как на защиту.
+    payload = dict(request.query_params)
+    if raw_body:
+        try:
+            import json
 
+            payload.update(json.loads(raw_body))
+        except ValueError:
+            logger.warning("GGSell webhook: не удалось распарсить JSON-тело: %r", raw_body)
+
+    id_i = payload.get("id_i")
     if id_i is None:
         logger.warning("GGSell webhook пришёл без id_i — не могу определить заказ")
         return {"ok": True}  # отвечаем 200 в любом случае, чтобы GGSell не ретраил бесконечно
 
-    # TODO: здесь будет вызов app.orders.order_processor.process_new_order(id_i, ...)
-    # — сам процессор ещё не написан, это следующий шаг.
-    logger.info("Новая продажа: id_i=%s amount=%s curr=%s email=%s", id_i, amount, curr, email)
+    # TODO: проверка подписи SHA256 — не реализована, не знаем, что именно
+    # хешируется. Определить эмпирически (перебрать гипотезы: api_key+id_i?
+    # api_key+id_i+amount? и т.д.) прежде чем полагаться на неё как на защиту.
+
+    logger.info(
+        "Новая продажа: id_i=%s id_d=%s amount=%s currency=%s email=%s",
+        id_i, payload.get("id_d"), payload.get("amount"), payload.get("currency"),
+        payload.get("email"),
+    )
+
+    # TODO: здесь будет вызов app.orders.order_processor.process_new_order(
+    #     session, fz_client, ggsell_v1, pricing_config, invoice_id=str(id_i)
+    # ) — сначала нужно подтвердить соответствие id_d <-> Listing.ggsell_offer_id
+    # через get_order_info, см. scripts/inspect_order_info.py.
 
     return {"ok": True}
