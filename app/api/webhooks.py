@@ -1,34 +1,39 @@
 """Приёмник вебхука GGSell о новой продаже (notification_settings.url на
 каждом оффере).
 
-ПОДТВЕРЖДЕНО НА ЖИВОМ ЗАКАЗЕ (первый реальный вебхук, 22 сентября):
-метод POST, тело — JSON (НЕ query-параметры, как можно было подумать из
-описания в личном кабинете):
+ПОДТВЕРЖДЕНО НА ЖИВОМ ЗАКАЗЕ (22 сентября): метод POST, тело — JSON:
 
     {"id_i": 51308662, "id_d": 103170287, "amount": "1.0",
      "currency": "RUB", "email": "...", "date": "...", "ip": "...",
      "SHA256": "...", "is_my_product": true}
 
-Имена полей отличаются от текста в личном кабинете GGSell (там было
-curr/sha256/isMyProduct) — реальные имена: currency, SHA256, is_my_product.
+id_i = invoice_id (для get_order_info). id_d = item_id = Listing.ggsell_offer_id
+(оба подтверждены сверкой с get_order_info на реальном заказе).
 
-id_i совпадает с номером заказа, который виден покупателю ("Заказ №
-51308662") — это и есть invoice_id для get_order_info. Значение id_d пока
-не подтверждено (предположительно offer_id) — сверить через get_order_info.
-
-Подпись SHA256 — что именно хешируется, всё ещё не известно (см. TODO
-ниже), пока не проверяем.
+Подпись SHA256 — что именно хешируется, не известно, пока не проверяем
+(см. TODO ниже).
 """
 
 from __future__ import annotations
 
+import json
 import logging
+import os
 
+from dotenv import load_dotenv
 from fastapi import APIRouter, Request
+
+from app.clients.fazercards import FazerCardsClient
+from app.clients.ggsell import GGSellV1Client
+from app.db import SessionLocal
+from app.orders.order_processor import OrderProcessingError, process_new_order
+from app.pricing.calculator import PricingConfig
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+load_dotenv()
 
 
 @router.api_route("/webhooks/ggsell", methods=["GET", "POST"])
@@ -44,8 +49,6 @@ async def ggsell_webhook(request: Request):
     payload = dict(request.query_params)
     if raw_body:
         try:
-            import json
-
             payload.update(json.loads(raw_body))
         except ValueError:
             logger.warning("GGSell webhook: не удалось распарсить JSON-тело: %r", raw_body)
@@ -56,18 +59,31 @@ async def ggsell_webhook(request: Request):
         return {"ok": True}  # отвечаем 200 в любом случае, чтобы GGSell не ретраил бесконечно
 
     # TODO: проверка подписи SHA256 — не реализована, не знаем, что именно
-    # хешируется. Определить эмпирически (перебрать гипотезы: api_key+id_i?
-    # api_key+id_i+amount? и т.д.) прежде чем полагаться на неё как на защиту.
+    # хешируется. Определить эмпирически, прежде чем полагаться на неё как
+    # на защиту от поддельных вебхуков.
 
-    logger.info(
-        "Новая продажа: id_i=%s id_d=%s amount=%s currency=%s email=%s",
-        id_i, payload.get("id_d"), payload.get("amount"), payload.get("currency"),
-        payload.get("email"),
-    )
+    logger.info("Новая продажа: id_i=%s id_d=%s amount=%s", id_i, payload.get("id_d"), payload.get("amount"))
 
-    # TODO: здесь будет вызов app.orders.order_processor.process_new_order(
-    #     session, fz_client, ggsell_v1, pricing_config, invoice_id=str(id_i)
-    # ) — сначала нужно подтвердить соответствие id_d <-> Listing.ggsell_offer_id
-    # через get_order_info, см. scripts/inspect_order_info.py.
+    session = SessionLocal()
+    try:
+        with FazerCardsClient(
+            api_key=os.getenv("FAZERCARDS_API_KEY"),
+            base_url=os.getenv("FAZERCARDS_BASE_URL", "https://api.fzr.cards/api/v2"),
+        ) as fz_client, GGSellV1Client(
+            seller_id=int(os.getenv("GGSELL_V1_SELLER_ID")),
+            api_key=os.getenv("GGSELL_V1_API_KEY"),
+            base_url=os.getenv("GGSELL_BASE_URL", "https://seller.ggsel.com"),
+        ) as ggsell_v1:
+            pricing_config = PricingConfig.from_env()
+            order = process_new_order(
+                session, fz_client, ggsell_v1, pricing_config, invoice_id=str(id_i)
+            )
+            logger.info("Заказ %s обработан, статус=%s", id_i, order.status)
+    except OrderProcessingError as e:
+        logger.error("Заказ %s: ошибка обработки: %s", id_i, e)
+    except Exception:
+        logger.exception("Заказ %s: необработанная ошибка при обработке вебхука", id_i)
+    finally:
+        session.close()
 
     return {"ok": True}

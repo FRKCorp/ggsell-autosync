@@ -20,15 +20,15 @@
   - check_unique_code: GET /api_sellers/api/purchases/unique-code/:unique_code —
     unique_code это НЕ invoice_id, отдельная строковая сущность.
 
-НЕ ПОДТВЕРЖДЕНО ЭМПИРИЧЕСКИ (нет живого заказа для проверки, вебхук ещё
-не поймали — см. статус ngrok/VPS):
-  - Соответствие order_info["item_id"] <-> Listing.ggsell_offer_id.
-  - Источник chat_id для create_message — отдельный ли это вызов
-    list_chats, или id приходит прямо в вебхуке/info_order.
+НЕ ПОДТВЕРЖДЕНО ЭМПИРИЧЕСКИ:
+  - Источник chat_id для create_message — задокументированный list_chats возвращает
+    пустые записи (тот же паттерн, что и с delivery — реальный чат живёт в
+    недокументированном внутреннем API с браузерной авторизацией). Ждём
+    ответа поддержки GGSell, см. architecture-notes.md 3.13.
   - Формат успешного ответа order_topup/order_giftcard/order_steam_gift —
     приходит ли код сразу в ответе или нужен отдельный поллинг.
-  Всё это помечено TODO в коде ниже — исправить на первом реальном заказе,
-  логика вокруг этих точек написана так, чтобы правки были локальными.
+  Всё это помечено TODO в коде ниже — исправить когда придёт ответ поддержки
+  или на первом реальном заказе с товаром.
 """
 
 from __future__ import annotations
@@ -93,8 +93,10 @@ class OrderContext:
 def build_order_context(
     session: Session, order_info: dict[str, Any], invoice_id: str
 ) -> OrderContext:
-    """order_info — content-часть ответа get_order_info (info_order.content)."""
-    # TODO: подтвердить, что item_id — это и есть ggsell_offer_id из Listing.
+    """order_info — content-часть ответа get_order_info (info_order.content).
+    Подтверждено на реальном заказе (22 сентября): item_id действительно
+    равен Listing.ggsell_offer_id.
+    """
     offer_id = order_info["item_id"]
     listing = find_listing_by_offer_id(session, offer_id)
     if listing is None:
