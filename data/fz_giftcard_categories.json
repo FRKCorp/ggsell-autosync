@@ -1,0 +1,2890 @@
+[
+  {
+    "category_id": "acash_my",
+    "name": "A-Cash (MY)",
+    "note": "Region: MY\nA-Cash Malaysia gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "adobe_digital_code",
+    "name": "Adobe Digital Code",
+    "note": "Region: MENA\nAdobe annual digital codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airalo_voucher",
+    "name": "Airalo Voucher",
+    "note": "Airalo voucher codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_at",
+    "name": "Airbnb (AT)",
+    "note": "Region: AT\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_au",
+    "name": "Airbnb (AU)",
+    "note": "Region: AU\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_be",
+    "name": "Airbnb (BE)",
+    "note": "Region: BE\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_br",
+    "name": "Airbnb (BR)",
+    "note": "Region: BR\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_ca",
+    "name": "Airbnb (CA)",
+    "note": "Region: CA\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_de",
+    "name": "Airbnb (DE)",
+    "note": "Region: DE\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_es",
+    "name": "Airbnb (ES)",
+    "note": "Region: ES\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_fr",
+    "name": "Airbnb (FR)",
+    "note": "Region: FR\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_ie",
+    "name": "Airbnb (IE)",
+    "note": "Region: IE\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_it",
+    "name": "Airbnb (IT)",
+    "note": "Region: IT\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_mx",
+    "name": "Airbnb (MX)",
+    "note": "Region: MX\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_nz",
+    "name": "Airbnb (NZ)",
+    "note": "Region: NZ\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_pt",
+    "name": "Airbnb (PT)",
+    "note": "Region: PT\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_se",
+    "name": "Airbnb (SE)",
+    "note": "Region: SE\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_uk",
+    "name": "Airbnb (UK)",
+    "note": "Region: UK\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "airbnb_us",
+    "name": "Airbnb (US)",
+    "note": "Region: US\nAirbnb gift cards.\nAccount must be registered in this region to redeem.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_ae",
+    "name": "Amazon (AE)",
+    "note": "Region: AE\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_au",
+    "name": "Amazon (AU)",
+    "note": "Region: AU\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_be",
+    "name": "Amazon (BE)",
+    "note": "Region: BE\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_ca",
+    "name": "Amazon (CA)",
+    "note": "Region: CA\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_de",
+    "name": "Amazon (DE)",
+    "note": "Region: DE\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_eg",
+    "name": "Amazon (EG)",
+    "note": "Region: EG\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_es",
+    "name": "Amazon (ES)",
+    "note": "Region: ES\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_fr",
+    "name": "Amazon (FR)",
+    "note": "Region: FR\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_in",
+    "name": "Amazon (IN)",
+    "note": "Region: IN\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_it",
+    "name": "Amazon (IT)",
+    "note": "Region: IT\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_jp",
+    "name": "Amazon (JP)",
+    "note": "Region: JP\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_nl",
+    "name": "Amazon (NL)",
+    "note": "Region: NL\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_sa",
+    "name": "Amazon (SA)",
+    "note": "Region: SA\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_sg",
+    "name": "Amazon (SG)",
+    "note": "Region: SG\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_tr",
+    "name": "Amazon (TR)",
+    "note": "Region: TR\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_uk",
+    "name": "Amazon (UK)",
+    "note": "Region: UK\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "amazon_us",
+    "name": "Amazon (US)",
+    "note": "Region: US\nAmazon gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "apex_legends_mobile_id",
+    "name": "Apex Legends Mobile (ID)",
+    "note": "Region: ID\nApex Legends Mobile gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "apex_legends_mobile_ph",
+    "name": "Apex Legends Mobile (PH)",
+    "note": "Region: PH\nApex Legends Mobile gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "apex_legends_mobile_sg",
+    "name": "Apex Legends Mobile (SG)",
+    "note": "Region: SG\nApex Legends Mobile gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "apex_legends_mobile_th",
+    "name": "Apex Legends Mobile (TH)",
+    "note": "Region: TH\nApex Legends Mobile gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "apex_legendstm_ea",
+    "name": "Apex Legends™ (EA)",
+    "note": "Region: Global\nApex Legends EA gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "apex_legendstm_xbox",
+    "name": "Apex Legends™ (Xbox)",
+    "note": "Region: Global\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "appota_vn",
+    "name": "APPOTA (VN)",
+    "note": "APPOTA (VN) gift cards."
+  },
+  {
+    "category_id": "app_store_itunes_ae",
+    "name": "App Store & iTunes (AE)",
+    "note": "Region: AE\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_at",
+    "name": "App Store & iTunes (AT)",
+    "note": "Region: AT\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_au",
+    "name": "App Store & iTunes (AU)",
+    "note": "Region: AU\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_be",
+    "name": "App Store & iTunes (BE)",
+    "note": "Region: BE\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_br",
+    "name": "App Store & iTunes (BR)",
+    "note": "Region: BR\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_ca",
+    "name": "App Store & iTunes (CA)",
+    "note": "Region: CA\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_ch",
+    "name": "App Store & iTunes (CH)",
+    "note": "Region: CH\\nApp Store & iTunes gift cards (same Apple wallet product).\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_cn",
+    "name": "App Store & iTunes (CN)",
+    "note": "Region: CN\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_de",
+    "name": "App Store & iTunes (DE)",
+    "note": "Region: DE\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_es",
+    "name": "App Store & iTunes (ES)",
+    "note": "Region: ES\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_fi",
+    "name": "App Store & iTunes (FI)",
+    "note": "Region: FI\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_fr",
+    "name": "App Store & iTunes (FR)",
+    "note": "Region: FR\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_id",
+    "name": "App Store & iTunes (ID)",
+    "note": "Region: ID\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_ie",
+    "name": "App Store & iTunes (IE)",
+    "note": "Region: IE\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_in",
+    "name": "App Store & iTunes (IN)",
+    "note": "Region: IN\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_it",
+    "name": "App Store & iTunes (IT)",
+    "note": "Region: IT\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_jp",
+    "name": "App Store & iTunes (JP)",
+    "note": "Region: JP\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_lu",
+    "name": "App Store & iTunes (LU)",
+    "note": "Region: LU\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_mx",
+    "name": "App Store & iTunes (MX)",
+    "note": "Region: MX\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_nl",
+    "name": "App Store & iTunes (NL)",
+    "note": "Region: NL\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_no",
+    "name": "App Store & iTunes (NO)",
+    "note": "Region: NO\\nApp Store & iTunes gift cards (same Apple wallet product).\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_nz",
+    "name": "App Store & iTunes (NZ)",
+    "note": "Region: NZ\\nApp Store & iTunes gift cards (same Apple wallet product).\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_pl",
+    "name": "App Store & iTunes (PL)",
+    "note": "Region: PL\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_pt",
+    "name": "App Store & iTunes (PT)",
+    "note": "Region: PT\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_ru",
+    "name": "App Store & iTunes (RU)",
+    "note": "Region: RU\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_sa",
+    "name": "App Store & iTunes (SA)",
+    "note": "Region: SA\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_se",
+    "name": "App Store & iTunes (SE)",
+    "note": "Region: SE\\nApp Store & iTunes gift cards (same Apple wallet product).\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_tr",
+    "name": "App Store & iTunes (TR)",
+    "note": "Region: TR\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "app_store_itunes_uk",
+    "name": "App Store & iTunes (UK)",
+    "note": "Region: UK\r\nApp Store & iTunes gift cards (same Apple wallet product).\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "arena_breakout",
+    "name": "Arena Breakout",
+    "note": "Region: Global\nArena Breakout gift cards for Midasbuy.com.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_bd",
+    "name": "AstroPay (BD)",
+    "note": "Region: BD\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_br",
+    "name": "AstroPay (BR)",
+    "note": "Region: BR\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_cn",
+    "name": "AstroPay (CN)",
+    "note": "Region: CN\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_eg",
+    "name": "AstroPay (EG)",
+    "note": "Region: EG\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_id",
+    "name": "AstroPay (ID)",
+    "note": "Region: ID\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_in",
+    "name": "AstroPay (IN)",
+    "note": "Region: IN\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_jp",
+    "name": "AstroPay (JP)",
+    "note": "Region: JP\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_my",
+    "name": "AstroPay (MY)",
+    "note": "Region: MY\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_ph",
+    "name": "AstroPay (PH)",
+    "note": "Region: PH\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_pk",
+    "name": "AstroPay (PK)",
+    "note": "Region: PK\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_sg",
+    "name": "AstroPay (SG)",
+    "note": "Region: SG\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_th",
+    "name": "AstroPay (TH)",
+    "note": "Region: TH\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "astropay_us",
+    "name": "AstroPay (US)",
+    "note": "Region: US\nAstroPay gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "battlefieldtm_6_bfc",
+    "name": "Battlefield™ 6 (BFC)"
+  },
+  {
+    "category_id": "battle_net_br",
+    "name": "Battle.net Gift Cards (BR)",
+    "note": "Region: BR\nBattle.net gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "battle_net_eu",
+    "name": "Battle.net Gift Cards (EU)",
+    "note": "Region: EU\nBattle.net gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "battle_net_id",
+    "name": "Battle.net Gift Cards (ID)",
+    "note": "Region: ID\nBattle.net gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "battle_net_my",
+    "name": "Battle.net Gift Cards (MY)",
+    "note": "Region: MY\nBattle.net gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "battle_net_pl",
+    "name": "Battle.net Gift Cards (PL)",
+    "note": "Region: PL\nBattle.net gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "battle_net_sg",
+    "name": "Battle.net Gift Cards (SG)",
+    "note": "Region: SG\nBattle.net gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "battle_net_th",
+    "name": "Battle.net Gift Cards (TH)",
+    "note": "Region: TH\nBattle.net gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "battle_net_us",
+    "name": "Battle.net Gift Cards (US)",
+    "note": "Region: US\nBattle.net gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "bigo_live",
+    "name": "Bigo Live (Global)",
+    "note": "Region: Global\nBigo Live vouchers.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "bilibili_id",
+    "name": "Bilibili (ID)",
+    "note": "Region: ID\nBilibili Premium Membership subscriptions.\nKnown locally as Bstation."
+  },
+  {
+    "category_id": "bilibili_my",
+    "name": "Bilibili (MY)",
+    "note": "Region: MY\nBilibili Premium Membership subscriptions."
+  },
+  {
+    "category_id": "bilibili_ph",
+    "name": "Bilibili (PH)",
+    "note": "Region: PH\nBilibili Premium Membership subscriptions."
+  },
+  {
+    "category_id": "bilibili_th",
+    "name": "Bilibili (TH)",
+    "note": "Region: TH\nBilibili Premium Membership subscriptions."
+  },
+  {
+    "category_id": "binance_btc",
+    "name": "Binance (BTC)",
+    "note": "Crypto: BTC\nBinance gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "binance_usdc",
+    "name": "Binance (USDC)",
+    "note": "Crypto: USDC\nBinance gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "binance_usdt",
+    "name": "Binance (USDT)",
+    "note": "Crypto: USDT\nBinance gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "black_clover_m",
+    "name": "Black Clover M Redeem Card",
+    "note": "Black Clover M Redeem Card gift cards."
+  },
+  {
+    "category_id": "blacknut",
+    "name": "Blacknut Gift Card",
+    "note": "Blacknut Gift Card gift cards."
+  },
+  {
+    "category_id": "candy_crush_us",
+    "name": "Candy Crush Gift Card (US)",
+    "note": "Candy Crush Gift Card (US) gift cards."
+  },
+  {
+    "category_id": "carrom_gold",
+    "name": "Carrom Gold",
+    "note": "Carrom Gold gift cards."
+  },
+  {
+    "category_id": "cherry_credits",
+    "name": "Cherry Credits Gift Card",
+    "note": "Cherry Credits Gift Card gift cards."
+  },
+  {
+    "category_id": "delta_force_steam_global",
+    "name": "Delta Force Coins (Steam)",
+    "note": "Region: Global\nDelta Force (Steam) Coins codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "discord_global",
+    "name": "Discord (Global)",
+    "note": "Region: Global\nDiscord Nitro subscription links.\nYou will receive a link to confirm activation of your subscription on your account."
+  },
+  {
+    "category_id": "domino_cafe",
+    "name": "Domino Cafe Gift Card",
+    "note": "Domino Cafe Gift Card gift cards."
+  },
+  {
+    "category_id": "ea_gift_cards_eu",
+    "name": "EA Gift Cards (EU)"
+  },
+  {
+    "category_id": "ea_gift_cards_uk",
+    "name": "EA Gift Cards (UK)"
+  },
+  {
+    "category_id": "ea_gift_cards_us",
+    "name": "EA Gift Cards (US)"
+  },
+  {
+    "category_id": "ea_sports_fctm_24_ea_points",
+    "name": "EA SPORTS FC™ 24 (EA, Points)",
+    "note": "Region: Global\nEA SPORTS FC™ 24 Points EA gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "ea_sports_fctm_26_ea_points",
+    "name": "EA SPORTS FC™ 26 (EA, Points)",
+    "note": "Region: Global\nEA SPORTS FC™ 26 Points EA gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "eneba_ars",
+    "name": "Eneba (ARS)",
+    "note": "Currency: ARS\nEneba marketplace gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "eneba_aud",
+    "name": "Eneba (AUD)",
+    "note": "Currency: AUD\nEneba marketplace gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "eneba_brl",
+    "name": "Eneba (BRL)",
+    "note": "Currency: BRL\nEneba marketplace gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "eneba_cad",
+    "name": "Eneba (CAD)",
+    "note": "Currency: CAD\nEneba marketplace gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "eneba_eur",
+    "name": "Eneba (EUR)",
+    "note": "Currency: EUR\nEneba marketplace gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "eneba_gbp",
+    "name": "Eneba (GBP)",
+    "note": "Currency: GBP\nEneba marketplace gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "eneba_pln",
+    "name": "Eneba (PLN)",
+    "note": "Currency: PLN\nEneba marketplace gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "eneba_usd",
+    "name": "Eneba (USD)",
+    "note": "Currency: USD\nEneba marketplace gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "exitlag_gift_card_tier_1_global",
+    "name": "ExitLag Gift Card Tier 1 (Global)",
+    "note": "Region: Global\nExitLag Gift Card Tier 1.\nWorks in all countries.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "exitlag_gift_card_tier_2_global",
+    "name": "ExitLag Gift Card Tier 2 (Global)",
+    "note": "Region: Global\nExitLag Gift Card Tier 2.\nAvailable in more than 160 regions including CIS, Russia, and Europe.\nFull supported region list can be requested from support."
+  },
+  {
+    "category_id": "exitlag_gift_card_tier_3_global",
+    "name": "ExitLag Gift Card Tier 3 (Global)",
+    "note": "Region: Global\nExitLag Gift Card Tier 3.\nAvailable only in selected regions: BR, MX, PH, ZA, TH."
+  },
+  {
+    "category_id": "fashion_queen",
+    "name": "Fashion Queen",
+    "note": "Fashion Queen gift cards."
+  },
+  {
+    "category_id": "fortnite_ae",
+    "name": "Fortnite (AE)",
+    "note": "Region: AE\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_ch",
+    "name": "Fortnite (CH)",
+    "note": "Region: CH\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_de",
+    "name": "Fortnite (DE)",
+    "note": "Region: DE\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_eu",
+    "name": "Fortnite (EU)",
+    "note": "Region: EU\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_fr",
+    "name": "Fortnite (FR)",
+    "note": "Region: FR\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_ie",
+    "name": "Fortnite (IE)",
+    "note": "Region: IE\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_no",
+    "name": "Fortnite (NO)",
+    "note": "Region: NO\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_sa",
+    "name": "Fortnite (SA)",
+    "note": "Region: SA\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_se",
+    "name": "Fortnite (SE)",
+    "note": "Region: SE\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_uk",
+    "name": "Fortnite (UK)",
+    "note": "Region: UK\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "fortnite_us",
+    "name": "Fortnite (US)",
+    "note": "Region: US\nFortnite gift cards (V-Bucks codes).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "free_fire",
+    "name": "Free Fire (CIS)",
+    "note": "Official FazerCards gift code for Free Fire (CIS). Redeem at reseller.fazercards.com/redeem: enter your Free Fire player ID and the code. Code is valid for 12 months."
+  },
+  {
+    "category_id": "free_fire_diamond_pins_eu_tr",
+    "name": "Free Fire Diamond Pins (EU + TR)",
+    "note": "Free Fire Diamond Pins (EU + TR) gift cards."
+  },
+  {
+    "category_id": "funcard_vn",
+    "name": "Funcard (VN)",
+    "note": "Funcard (VN) gift cards."
+  },
+  {
+    "category_id": "gamestop_us",
+    "name": "GameStop Gift Card (US)",
+    "note": "GameStop Gift Card (US) gift cards."
+  },
+  {
+    "category_id": "garena_free_fire_br",
+    "name": "Garena Free Fire (BR)",
+    "note": "Region: BR\nFree Fire Diamond Pins for Brazil.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "garena_free_fire_global",
+    "name": "Garena Free Fire (Global)",
+    "note": "Region: Global\nFree Fire codes for Shop2Game.com.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "garena_shells_id",
+    "name": "Garena Shells (ID)",
+    "note": "Region/currency: ID\nGarena Shells codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "garena_shells_my",
+    "name": "Garena Shells (MY)",
+    "note": "Region/currency: MY\nGarena Shells codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "garena_shells_us",
+    "name": "Garena Shells (US)",
+    "note": "Region/currency: USD\nGarena Shells codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "garena_shells_vn",
+    "name": "Garena Shells (VN)",
+    "note": "Region/currency: VN\nGarena Shells codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_ae",
+    "name": "Google Play (AE)",
+    "note": "Region: AE\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_at",
+    "name": "Google Play (AT)",
+    "note": "Region: AT\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_be",
+    "name": "Google Play (BE)",
+    "note": "Region: BE\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_br",
+    "name": "Google Play (BR)",
+    "note": "Region: BR\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_de",
+    "name": "Google Play (DE)",
+    "note": "Region: DE\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_es",
+    "name": "Google Play (ES)",
+    "note": "Region: ES\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_fr",
+    "name": "Google Play (FR)",
+    "note": "Region: FR\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_id",
+    "name": "Google Play (ID)",
+    "note": "Region: ID\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_in",
+    "name": "Google Play (IN)",
+    "note": "Region: IN\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_it",
+    "name": "Google Play (IT)",
+    "note": "Region: IT\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_jp",
+    "name": "Google Play (JP)",
+    "note": "Region: JP\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_kr",
+    "name": "Google Play (KR)",
+    "note": "Region: KR\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_nl",
+    "name": "Google Play (NL)",
+    "note": "Region: NL\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_pl",
+    "name": "Google Play (PL)",
+    "note": "Region: PL\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_sa",
+    "name": "Google Play (SA)",
+    "note": "Region: SA\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_tr",
+    "name": "Google Play (TR)",
+    "note": "Region: TR\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_uk",
+    "name": "Google Play (UK)",
+    "note": "Region: UK\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "google_play_us",
+    "name": "Google Play (US)",
+    "note": "Region: US\nGoogle Play gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "hakuna",
+    "name": "Hakuna",
+    "note": "Hakuna gift cards."
+  },
+  {
+    "category_id": "halo_infinite_xbox_halo_credits",
+    "name": "Halo Infinite (Xbox, Halo Credits)"
+  },
+  {
+    "category_id": "hello_yo",
+    "name": "Hello Yo Gift Card",
+    "note": "Hello Yo Gift Card gift cards."
+  },
+  {
+    "category_id": "honor_of_kings_token_global",
+    "name": "Honor of Kings Token Redeem Code (Global)",
+    "note": "Honor of Kings Token Redeem Code (Global) gift cards."
+  },
+  {
+    "category_id": "imo",
+    "name": "IMO",
+    "note": "Region: Global\nIMO gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "imvu_us",
+    "name": "IMVU Gift Card (US)",
+    "note": "IMVU Gift Card (US) gift cards."
+  },
+  {
+    "category_id": "iqiyi_id",
+    "name": "iQIYI (ID)",
+    "note": "Region: ID\niQIYI streaming subscription codes.\nRedeem on the Indonesia iQIYI app store."
+  },
+  {
+    "category_id": "jawaker",
+    "name": "Jawaker Gift Card",
+    "note": "Jawaker Gift Card gift cards."
+  },
+  {
+    "category_id": "jetoncash_eu",
+    "name": "JetonCash (EU)",
+    "note": "Region: EU\nJetonCash vouchers.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "karma_koin_ca",
+    "name": "Karma Koin (CA)",
+    "note": "Region: CA\nKarma Koin prepaid card for online games."
+  },
+  {
+    "category_id": "karma_koin_us",
+    "name": "Karma Koin (US)",
+    "note": "Region: US\nKarma Koin prepaid card for online games."
+  },
+  {
+    "category_id": "kinguin_eu",
+    "name": "Kinguin (EU)",
+    "note": "Region: EU\nKinguin balance codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "kinguin_pl",
+    "name": "Kinguin (PL)",
+    "note": "Region: PL\nKinguin balance codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "kinguin_us",
+    "name": "Kinguin (US)",
+    "note": "Region: US\nKinguin balance codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "kul_vn",
+    "name": "KUL (VN)",
+    "note": "KUL (VN) gift cards."
+  },
+  {
+    "category_id": "league_of_legends_ae",
+    "name": "League of Legends RP (AE)",
+    "note": "Region: AE\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_bh",
+    "name": "League of Legends RP (BH)",
+    "note": "Region: BH\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_br",
+    "name": "League of Legends RP (BR)",
+    "note": "Region: BR\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_by",
+    "name": "League of Legends RP (BY)",
+    "note": "Region: BY\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_eu",
+    "name": "League of Legends RP (EU)",
+    "note": "Region: EU\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_kw",
+    "name": "League of Legends RP (KW)",
+    "note": "Region: KW\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_my",
+    "name": "League of Legends RP (MY)",
+    "note": "Region: MY\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_ph",
+    "name": "League of Legends RP (PH)",
+    "note": "Region: PH\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_sg",
+    "name": "League of Legends RP (SG)",
+    "note": "Region: SG\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_tr",
+    "name": "League of Legends RP (TR)",
+    "note": "Region: TR\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_ua",
+    "name": "League of Legends RP (UA)",
+    "note": "Region: UA\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_uk",
+    "name": "League of Legends RP (UK)",
+    "note": "Region: UK\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "league_of_legends_us",
+    "name": "League of Legends RP (US)",
+    "note": "Region: US\nLeague of Legends Riot Points (RP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "merge_kingdom_warlords",
+    "name": "Merge Kingdom Warlords Gift Card",
+    "note": "Merge Kingdom Warlords Gift Card gift cards."
+  },
+  {
+    "category_id": "meta_quest",
+    "name": "Meta Quest Gift Card",
+    "note": "Meta Quest Gift Card gift cards."
+  },
+  {
+    "category_id": "mico_live_global",
+    "name": "MICO Live (Global)",
+    "note": "Region: Global\nMICO Live gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "microsoft_windows",
+    "name": "Microsoft Windows",
+    "note": "Microsoft Windows license keys.\nCodes are delivered digitally and can be activated at the official Microsoft site."
+  },
+  {
+    "category_id": "minecraft_java_bedrock_global",
+    "name": "Minecraft Java & Bedrock (Global)",
+    "note": "Region: Global\nMinecraft: Java & Bedrock Edition for PC codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "minecraft_minecoins",
+    "name": "Minecraft (Minecoins)",
+    "note": "Region: Global\nMinecraft Minecoins gift codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "mobile_legends_voucher_global",
+    "name": "Mobile Legends Voucher (Global)",
+    "note": "Region: Global\nMobile Legends: Bang Bang diamond vouchers (codes).\nNot a direct top-up — redeem the code in the in-game shop."
+  },
+  {
+    "category_id": "mycard_my",
+    "name": "MyCard (MY)",
+    "note": "Region: MY\nMyCard iPoints. Used for game top-ups in Asian markets."
+  },
+  {
+    "category_id": "mycard_tw",
+    "name": "MyCard (TW)",
+    "note": "Region: TW\nMyCard iPoints for Taiwan online games."
+  },
+  {
+    "category_id": "ncsoft_ncoin_global",
+    "name": "Ncsoft NCoin (Global)",
+    "note": "Ncsoft NCoin (Global) gift cards."
+  },
+  {
+    "category_id": "netease_pay_aed",
+    "name": "NetEase Pay (AED)",
+    "note": "Currency: AED\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_bdt",
+    "name": "NetEase Pay (BDT)",
+    "note": "Currency: BDT\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_brl",
+    "name": "NetEase Pay (BRL)",
+    "note": "Currency: BRL\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_cad",
+    "name": "NetEase Pay (CAD)",
+    "note": "Currency: CAD\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_clp",
+    "name": "NetEase Pay (CLP)",
+    "note": "Currency: CLP\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_cop",
+    "name": "NetEase Pay (COP)",
+    "note": "Currency: COP\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_eur",
+    "name": "NetEase Pay (EUR)",
+    "note": "Currency: EUR\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_idr",
+    "name": "NetEase Pay (IDR)",
+    "note": "Currency: IDR\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_krw",
+    "name": "NetEase Pay (KRW)",
+    "note": "Currency: KRW\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_mmk",
+    "name": "NetEase Pay (MMK)",
+    "note": "Currency: MMK\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_mxn",
+    "name": "NetEase Pay (MXN)",
+    "note": "Currency: MXN\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_myr",
+    "name": "NetEase Pay (MYR)",
+    "note": "Currency: MYR\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_ngn",
+    "name": "NetEase Pay (NGN)",
+    "note": "Currency: NGN\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_rub",
+    "name": "NetEase Pay (RUB)",
+    "note": "Currency: RUB\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_sar",
+    "name": "NetEase Pay (SAR)",
+    "note": "Currency: SAR\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_sgd",
+    "name": "NetEase Pay (SGD)",
+    "note": "Currency: SGD\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_thb",
+    "name": "NetEase Pay (THB)",
+    "note": "Currency: THB\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_try",
+    "name": "NetEase Pay (TRY)",
+    "note": "Currency: TRY\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_usd",
+    "name": "NetEase Pay (USD)",
+    "note": "Currency: USD\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netease_pay_vnd",
+    "name": "NetEase Pay (VND)",
+    "note": "Currency: VND\nNetEase Pay codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_ae",
+    "name": "Netflix (AE)",
+    "note": "Region: AE\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_br",
+    "name": "Netflix (BR)",
+    "note": "Region: BR\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_ch",
+    "name": "Netflix (CH)",
+    "note": "Region: CH\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_co",
+    "name": "Netflix (CO)",
+    "note": "Region: CO\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_eu",
+    "name": "Netflix (EU)",
+    "note": "Region: EU\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_mx",
+    "name": "Netflix (MX)",
+    "note": "Region: MX\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_pl",
+    "name": "Netflix (PL)",
+    "note": "Region: PL\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_sa",
+    "name": "Netflix (SA)",
+    "note": "Region: SA\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_uk",
+    "name": "Netflix (UK)",
+    "note": "Region: UK\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "netflix_us",
+    "name": "Netflix (US)",
+    "note": "Region: US\nNetflix gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "new_state_mobile_global",
+    "name": "New State Mobile (Global)",
+    "note": "Region: Global\nNew State Mobile top-up.\nCurrency is delivered directly to your account after the order is placed."
+  },
+  {
+    "category_id": "nexon_game_card",
+    "name": "Nexon Game Card",
+    "note": "Nexon Game Card gift cards."
+  },
+  {
+    "category_id": "nida_al_harb",
+    "name": "Nida Al Harb Gift Card",
+    "note": "Nida Al Harb Gift Card gift cards."
+  },
+  {
+    "category_id": "nintendo_br",
+    "name": "Nintendo (BR)",
+    "note": "Region: BR\nNintendo gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_ca",
+    "name": "Nintendo (CA)",
+    "note": "Region: CA\nNintendo gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_de",
+    "name": "Nintendo (DE)",
+    "note": "Region: DE\\nNintendo gift cards.\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_eu",
+    "name": "Nintendo (EU)",
+    "note": "Region: EU\nNintendo gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_hk",
+    "name": "Nintendo (HK)",
+    "note": "Region: HK\nNintendo gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_jp",
+    "name": "Nintendo (JP)",
+    "note": "Region: JP\nNintendo gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_pl",
+    "name": "Nintendo (PL)",
+    "note": "Region: PL\nNintendo gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_switch_br",
+    "name": "Nintendo Switch (BR)",
+    "note": "Region: BR\nNintendo Switch Online subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_switch_ch",
+    "name": "Nintendo Switch (CH)",
+    "note": "Region: CH\nNintendo Switch Online subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_switch_eu",
+    "name": "Nintendo Switch (EU)",
+    "note": "Region: EU\nNintendo Switch Online subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_switch_mx",
+    "name": "Nintendo Switch (MX)",
+    "note": "Region: MX\nNintendo Switch Online subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_switch_pl",
+    "name": "Nintendo Switch (PL)",
+    "note": "Region: PL\nNintendo Switch Online subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_switch_us",
+    "name": "Nintendo Switch (US)",
+    "note": "Region: US\nNintendo Switch Online subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_uk",
+    "name": "Nintendo (UK)",
+    "note": "Region: UK\nNintendo gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "nintendo_us",
+    "name": "Nintendo (US)",
+    "note": "Region: US\nNintendo gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "oncash_vn",
+    "name": "OnCash (VN)",
+    "note": "OnCash (VN) gift cards."
+  },
+  {
+    "category_id": "ozon_ru",
+    "name": "OZON.ru (RU)",
+    "note": "Region: RU\nOZON.ru gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "parchis_club",
+    "name": "Parchis Club Gift Card",
+    "note": "Parchis Club Gift Card gift cards."
+  },
+  {
+    "category_id": "plants_vs_zombies_battle_for_neighborvilletm_xbox_rainbow_stars",
+    "name": "Plants vs. Zombies: Battle for Neighborville™ (Xbox, Rainbow Stars)"
+  },
+  {
+    "category_id": "playstation_ae",
+    "name": "PlayStation (AE)",
+    "note": "Region: AE\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_ar",
+    "name": "PlayStation (AR)",
+    "note": "Region: AR\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_at",
+    "name": "PlayStation (AT)",
+    "note": "Region: AT\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_au",
+    "name": "PlayStation (AU)",
+    "note": "Region: AU\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_be",
+    "name": "PlayStation (BE)",
+    "note": "Region: BE\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_bh",
+    "name": "PlayStation (BH)",
+    "note": "Region: BH\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_br",
+    "name": "PlayStation (BR)",
+    "note": "Region: BR\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_ca",
+    "name": "PlayStation (CA)",
+    "note": "Region: CA\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_ch",
+    "name": "PlayStation (CH)",
+    "note": "Region: CH\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_cz",
+    "name": "PlayStation (CZ)",
+    "note": "Region: CZ\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_de",
+    "name": "PlayStation (DE)",
+    "note": "Region: DE\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_dk",
+    "name": "PlayStation (DK)",
+    "note": "Region: DK\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_es",
+    "name": "PlayStation (ES)",
+    "note": "Region: ES\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_fi",
+    "name": "PlayStation (FI)",
+    "note": "Region: FI\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_fr",
+    "name": "PlayStation (FR)",
+    "note": "Region: FR\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_hk",
+    "name": "PlayStation (HK)",
+    "note": "Region: HK\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_hr",
+    "name": "PlayStation (HR)",
+    "note": "Region: HR\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_hu",
+    "name": "PlayStation (HU)",
+    "note": "Region: HU\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_id",
+    "name": "PlayStation (ID)",
+    "note": "Region: ID\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_ie",
+    "name": "PlayStation (IE)",
+    "note": "Region: IE\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_it",
+    "name": "PlayStation (IT)",
+    "note": "Region: IT\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_jp",
+    "name": "PlayStation (JP)",
+    "note": "Region: JP\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_kw",
+    "name": "PlayStation (KW)",
+    "note": "Region: KW\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_lb",
+    "name": "PlayStation (LB)",
+    "note": "Region: LB\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_lu",
+    "name": "PlayStation (LU)",
+    "note": "Region: LU\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_my",
+    "name": "PlayStation (MY)",
+    "note": "Region: MY\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_nl",
+    "name": "PlayStation (NL)",
+    "note": "Region: NL\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_no",
+    "name": "PlayStation (NO)",
+    "note": "Region: NO\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_nz",
+    "name": "PlayStation (NZ)",
+    "note": "Region: NZ\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_om",
+    "name": "PlayStation (OM)",
+    "note": "Region: OM\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_pl",
+    "name": "PlayStation (PL)",
+    "note": "Region: PL\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_pt",
+    "name": "PlayStation (PT)",
+    "note": "Region: PT\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_qa",
+    "name": "PlayStation (QA)",
+    "note": "Region: QA\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_ro",
+    "name": "PlayStation (RO)",
+    "note": "Region: RO\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_sa",
+    "name": "PlayStation (SA)",
+    "note": "Region: SA\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_sg",
+    "name": "PlayStation (SG)",
+    "note": "Region: SG\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_sk",
+    "name": "PlayStation (SK)",
+    "note": "Region: SK\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_th",
+    "name": "PlayStation (TH)",
+    "note": "Region: TH\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_tr",
+    "name": "PlayStation (TR)",
+    "note": "Region: TR\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_uk",
+    "name": "PlayStation (UK)",
+    "note": "Region: UK\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_us",
+    "name": "PlayStation (US)",
+    "note": "Region: US\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "playstation_za",
+    "name": "PlayStation (ZA)",
+    "note": "Region: ZA\nPlayStation gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "podu",
+    "name": "podU",
+    "note": "podU gift cards."
+  },
+  {
+    "category_id": "pubg_battlegrounds_global",
+    "name": "PUBG: BATTLEGROUNDS (Global)",
+    "note": "Region: Global\nPUBG: BATTLEGROUNDS gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "pubg_mobile",
+    "name": "PUBG Mobile",
+    "note": "Region: Global\nPUBG Mobile codes for Midasbuy.com.\nCodes can be safely stored for up to 1 year before redemption."
+  },
+  {
+    "category_id": "razer_gold_au",
+    "name": "Razer Gold (AU)",
+    "note": "Region: AU\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_br",
+    "name": "Razer Gold (BR)",
+    "note": "Region: BR\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_ca",
+    "name": "Razer Gold (CA)",
+    "note": "Region: CA\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_cl",
+    "name": "Razer Gold (CL)",
+    "note": "Region: CL\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_co",
+    "name": "Razer Gold (CO)",
+    "note": "Region: CO\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_cz",
+    "name": "Razer Gold (CZ)",
+    "note": "Region: CZ\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_dk",
+    "name": "Razer Gold (DK)",
+    "note": "Region: DK\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_eu",
+    "name": "Razer Gold (EU)",
+    "note": "Region: EU\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_global",
+    "name": "Razer Gold (Global)",
+    "note": "Region: CN / Other / US / VN\nRazer Gold gift cards (Global PIN).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_hk",
+    "name": "Razer Gold (HK)",
+    "note": "Region: HK\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_id",
+    "name": "Razer Gold (ID)",
+    "note": "Region: ID\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_in",
+    "name": "Razer Gold (IN)",
+    "note": "Region: IN\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_mx",
+    "name": "Razer Gold (MX)",
+    "note": "Region: MX\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_my",
+    "name": "Razer Gold (MY)",
+    "note": "Region: MY\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_no",
+    "name": "Razer Gold (NO)",
+    "note": "Region: NO\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_ph",
+    "name": "Razer Gold (PH)",
+    "note": "Region: PH\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_pl",
+    "name": "Razer Gold (PL)",
+    "note": "Region: PL\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_ro",
+    "name": "Razer Gold (RO)",
+    "note": "Region: RO\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_se",
+    "name": "Razer Gold (SE)",
+    "note": "Region: SE\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_sg",
+    "name": "Razer Gold (SG)",
+    "note": "Region: SG\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_th",
+    "name": "Razer Gold (TH)",
+    "note": "Region: TH\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_tr",
+    "name": "Razer Gold (TR)",
+    "note": "Region: TR\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_tw",
+    "name": "Razer Gold (TW)",
+    "note": "Region: TW\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_us",
+    "name": "Razer Gold (US)",
+    "note": "Region: US\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "razer_gold_vn",
+    "name": "Razer Gold (VN)",
+    "note": "Region: VN\nRazer Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "rewarble_eur",
+    "name": "Rewarble (EUR)",
+    "note": "Currency: EUR\nRewarble gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "rewarble_usd",
+    "name": "Rewarble (USD)",
+    "note": "Currency: USD\nRewarble gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_ae",
+    "name": "Riot Access Code (AE)",
+    "note": "Region: AE\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_au",
+    "name": "Riot Access Code (AU)",
+    "note": "Region: AU\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_bh",
+    "name": "Riot Access Code (BH)",
+    "note": "Region: BH\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_br",
+    "name": "Riot Access Code (BR)",
+    "note": "Region: BR\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_ca",
+    "name": "Riot Access Code (CA)",
+    "note": "Region: CA\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_ch",
+    "name": "Riot Access Code (CH)",
+    "note": "Region: CH\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_dk",
+    "name": "Riot Access Code (DK)",
+    "note": "Region: DK\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_eu",
+    "name": "Riot Access Code (EU)",
+    "note": "Region: EU\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_hk",
+    "name": "Riot Access Code (HK)",
+    "note": "Region: HK\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_kw",
+    "name": "Riot Access Code (KW)",
+    "note": "Region: KW\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_my",
+    "name": "Riot Access Code (MY)",
+    "note": "Region: MY\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_no",
+    "name": "Riot Access Code (NO)",
+    "note": "Region: NO\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_nz",
+    "name": "Riot Access Code (NZ)",
+    "note": "Region: NZ\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_ph",
+    "name": "Riot Access Code (PH)",
+    "note": "Region: PH\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_pl",
+    "name": "Riot Access Code (PL)",
+    "note": "Region: PL\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_sa",
+    "name": "Riot Access Code (SA)",
+    "note": "Region: SA\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_se",
+    "name": "Riot Access Code (SE)",
+    "note": "Region: SE\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_sg",
+    "name": "Riot Access Code (SG)",
+    "note": "Region: SG\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_th",
+    "name": "Riot Access Code (TH)",
+    "note": "Region: TH\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_tr",
+    "name": "Riot Access Code (TR)",
+    "note": "Region: TR\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_uk",
+    "name": "Riot Access Code (UK)",
+    "note": "Region: UK\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "riot_access_code_us",
+    "name": "Riot Access Code (US)",
+    "note": "Region: US\nRiot Access Code (Valorant, League of Legends, Wild Rift, etc.).\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_ae",
+    "name": "Roblox (AE)",
+    "note": "Region: AE\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_at",
+    "name": "Roblox (AT)",
+    "note": "Region: AT\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_au",
+    "name": "Roblox (AU)",
+    "note": "Region: AU\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_br",
+    "name": "Roblox (BR)",
+    "note": "Region: BR\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_ca",
+    "name": "Roblox (CA)",
+    "note": "Region: CA\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_ch",
+    "name": "Roblox (CH)",
+    "note": "Region: CH\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_dk",
+    "name": "Roblox (DK)",
+    "note": "Region: DK\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_eu",
+    "name": "Roblox (EU)",
+    "note": "Region: EU\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_fr",
+    "name": "Roblox (FR)",
+    "note": "Region: FR\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_global",
+    "name": "Roblox (Global)",
+    "note": "Region: Global\nRoblox Robux gift cards.\nCodes can be redeemed worldwide and safely stored for later use."
+  },
+  {
+    "category_id": "roblox_hk",
+    "name": "Roblox (HK)",
+    "note": "Region: HK\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_id",
+    "name": "Roblox (ID)",
+    "note": "Region: ID\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_jp",
+    "name": "Roblox (JP)",
+    "note": "Region: JP\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_mx",
+    "name": "Roblox (MX)",
+    "note": "Region: MX\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_my",
+    "name": "Roblox (MY)",
+    "note": "Region: MY\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_no",
+    "name": "Roblox (NO)",
+    "note": "Region: NO\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_nz",
+    "name": "Roblox (NZ)",
+    "note": "Region: NZ\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_pl",
+    "name": "Roblox (PL)",
+    "note": "Region: PL\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_robux_us",
+    "name": "Roblox Robux (US)",
+    "note": "Region: US\nRoblox currency gift cards.\nGift cards are automatically converted into Robux and local currency balance after redemption"
+  },
+  {
+    "category_id": "roblox_ru",
+    "name": "Roblox (RU)",
+    "note": "Region: RU\nRoblox currency gift cards.\nGift cards are automatically converted into Robux and local currency balance after redemption."
+  },
+  {
+    "category_id": "roblox_sa",
+    "name": "Roblox (SA)",
+    "note": "Region: SA\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_se",
+    "name": "Roblox (SE)",
+    "note": "Region: SE\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_sg",
+    "name": "Roblox (SG)",
+    "note": "Region: SG\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_th",
+    "name": "Roblox (TH)",
+    "note": "Region: TH\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_uk",
+    "name": "Roblox (UK)",
+    "note": "Region: UK\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_us",
+    "name": "Roblox (US)",
+    "note": "Region: US\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "roblox_za",
+    "name": "Roblox (ZA)",
+    "note": "Region: ZA\nRoblox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "scoin_vn",
+    "name": "SCoin (VN)",
+    "note": "SCoin (VN) gift cards."
+  },
+  {
+    "category_id": "seagm_global",
+    "name": "SEAGM (Global)",
+    "note": "Region: Global\nSEAGM gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "sea_of_thieves_xbox_coins",
+    "name": "Sea of Thieves (Xbox Coins)",
+    "note": "Region: Global\nSea of Thieves Ancient Coins Xbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "sohacoin_vn",
+    "name": "SohaCoin (VN)",
+    "note": "SohaCoin (VN) gift cards."
+  },
+  {
+    "category_id": "soho_101_okey",
+    "name": "Soho 101 Okey (Global)",
+    "note": "Region: Global\nSoho 101 Okey gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "soulchill",
+    "name": "Soulchill (Global)",
+    "note": "Region: Global\nSoulchill gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "stablekey",
+    "name": "StableKey (Global)",
+    "note": "Region: Global\nStableKey gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "standoff_2_global",
+    "name": "Standoff 2 (Global)",
+    "note": "Region: Global\nStandoff 2 gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "starmaker_global",
+    "name": "StarMaker (Global)",
+    "note": "Region: Global\nStarMaker gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_cis",
+    "name": "Steam (CIS)",
+    "note": "Official FazerCards gift code for Steam wallet top-up (CIS). Redeem at reseller.fazercards.com/redeem: enter your Steam login and the code. USD nominal is credited to your Steam wallet. Code is valid for 12 months."
+  },
+  {
+    "category_id": "steam_wallet_ae",
+    "name": "Steam Wallet (AE)",
+    "note": "Region: AE\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_ar",
+    "name": "Steam Wallet (AR)",
+    "note": "Region: AR\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_br",
+    "name": "Steam Wallet (BR)",
+    "note": "Region: BR\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_cl",
+    "name": "Steam Wallet (CL)",
+    "note": "Region: CL\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_co",
+    "name": "Steam Wallet (CO)",
+    "note": "Region: CO\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_cr",
+    "name": "Steam Wallet (CR)",
+    "note": "Region: CR\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_eu",
+    "name": "Steam Wallet (EU)",
+    "note": "Region: EU\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_global",
+    "name": "Steam Wallet (Global)",
+    "note": "Region: Global\\nSteam Wallet gift cards.\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_hk",
+    "name": "Steam Wallet (HK)",
+    "note": "Region: HK\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_id",
+    "name": "Steam Wallet (ID)",
+    "note": "Region: ID\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_in",
+    "name": "Steam Wallet (IN)",
+    "note": "Region: IN\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_kr",
+    "name": "Steam Wallet (KR)",
+    "note": "Region: KR\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_kw",
+    "name": "Steam Wallet (KW)",
+    "note": "Region: KW\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_mx",
+    "name": "Steam Wallet (MX)",
+    "note": "Region: MX\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_my",
+    "name": "Steam Wallet (MY)",
+    "note": "Region: MY\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_pe",
+    "name": "Steam Wallet (PE)",
+    "note": "Region: PE\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_ph",
+    "name": "Steam Wallet (PH)",
+    "note": "Region: PH\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_pl",
+    "name": "Steam Wallet (PL)",
+    "note": "Region: PL\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_qa",
+    "name": "Steam Wallet (QA)",
+    "note": "Region: QA\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_sa",
+    "name": "Steam Wallet (SA)",
+    "note": "Region: SA\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_sg",
+    "name": "Steam Wallet (SG)",
+    "note": "Region: SG\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_th",
+    "name": "Steam Wallet (TH)",
+    "note": "Region: TH\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_tr",
+    "name": "Steam Wallet (TR)",
+    "note": "Region: TR\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_tw",
+    "name": "Steam Wallet (TW)",
+    "note": "Region: TW\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_us",
+    "name": "Steam Wallet (US)",
+    "note": "Region: US\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_uy",
+    "name": "Steam Wallet (UY)",
+    "note": "Region: UY\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_vn",
+    "name": "Steam Wallet (VN)",
+    "note": "Region: VN\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "steam_wallet_za",
+    "name": "Steam Wallet (ZA)",
+    "note": "Region: ZA\r\nSteam Wallet gift codes.\r\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "surfshark",
+    "name": "Surfshark",
+    "note": "Surfshark gift cards."
+  },
+  {
+    "category_id": "tango",
+    "name": "Tango",
+    "note": "Tango Live coins top-up. USD-denominated."
+  },
+  {
+    "category_id": "telegram_premium",
+    "name": "Telegram Premium",
+    "note": "Official FazerCards gift code for Telegram Premium (gift subscription). Redeem at reseller.fazercards.com/redeem: enter the recipient Telegram @username and the code. Code is valid for 12 months."
+  },
+  {
+    "category_id": "telegram_stars",
+    "name": "Telegram Stars",
+    "note": "Official FazerCards gift code for Telegram Stars. Redeem at reseller.fazercards.com/redeem: enter the recipient Telegram @username and the code. Code is valid for 12 months."
+  },
+  {
+    "category_id": "tiktok_ae",
+    "name": "TikTok (AE)",
+    "note": "Region: AE\\nTikTok gift card (Coins).\\nEnter your TikTok username; region-locked to AE."
+  },
+  {
+    "category_id": "tiktok_de",
+    "name": "TikTok (DE)",
+    "note": "Region: DE\\nTikTok gift card (Coins).\\nEnter your TikTok username; region-locked to DE."
+  },
+  {
+    "category_id": "tiktok_cn",
+    "name": "TikTok Douyin (CN)",
+    "note": "Region: CN\\nTikTok gift card (Diamonds).\\nEnter your TikTok username; region-locked to CN."
+  },
+  {
+    "category_id": "tiktok_id",
+    "name": "TikTok (ID)",
+    "note": "Region: ID\\nTikTok gift card (IDR).\\nEnter your TikTok username; region-locked to ID."
+  },
+  {
+    "category_id": "tiktok_it",
+    "name": "TikTok (IT)",
+    "note": "Region: IT\\nTikTok gift card (Coins).\\nEnter your TikTok username; region-locked to IT."
+  },
+  {
+    "category_id": "tiktok_jp",
+    "name": "TikTok (JP)",
+    "note": "Region: JP\\nTikTok gift card (Coins).\\nEnter your TikTok username; region-locked to JP."
+  },
+  {
+    "category_id": "tinder_ad",
+    "name": "Tinder (AD)",
+    "note": "Region: AD\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_ae",
+    "name": "Tinder (AE)",
+    "note": "Region: AE\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_at",
+    "name": "Tinder (AT)",
+    "note": "Region: AT\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_az",
+    "name": "Tinder (AZ)",
+    "note": "Region: AZ\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_be",
+    "name": "Tinder (BE)",
+    "note": "Region: BE\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_bg",
+    "name": "Tinder (BG)",
+    "note": "Region: BG\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_bh",
+    "name": "Tinder (BH)",
+    "note": "Region: BH\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_br",
+    "name": "Tinder (BR)",
+    "note": "Region: BR\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_ca",
+    "name": "Tinder (CA)",
+    "note": "Region: CA\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_ch",
+    "name": "Tinder (CH)",
+    "note": "Region: CH\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_cl",
+    "name": "Tinder (CL)",
+    "note": "Region: CL\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_co",
+    "name": "Tinder (CO)",
+    "note": "Region: CO\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_cy",
+    "name": "Tinder (CY)",
+    "note": "Region: CY\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_cz",
+    "name": "Tinder (CZ)",
+    "note": "Region: CZ\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_dk",
+    "name": "Tinder (DK)",
+    "note": "Region: DK\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_dz",
+    "name": "Tinder (DZ)",
+    "note": "Region: DZ\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_ee",
+    "name": "Tinder (EE)",
+    "note": "Region: EE\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_eg",
+    "name": "Tinder (EG)",
+    "note": "Region: EG\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_es",
+    "name": "Tinder (ES)",
+    "note": "Region: ES\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_fi",
+    "name": "Tinder (FI)",
+    "note": "Region: FI\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_fr",
+    "name": "Tinder (FR)",
+    "note": "Region: FR\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_gr",
+    "name": "Tinder (GR)",
+    "note": "Region: GR\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_hk",
+    "name": "Tinder (HK)",
+    "note": "Region: HK\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_hr",
+    "name": "Tinder (HR)",
+    "note": "Region: HR\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_hu",
+    "name": "Tinder (HU)",
+    "note": "Region: HU\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_id",
+    "name": "Tinder (ID)",
+    "note": "Region: ID\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_ie",
+    "name": "Tinder (IE)",
+    "note": "Region: IE\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_in",
+    "name": "Tinder (IN)",
+    "note": "Region: IN\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_iq",
+    "name": "Tinder (IQ)",
+    "note": "Region: IQ\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_it",
+    "name": "Tinder (IT)",
+    "note": "Region: IT\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_jo",
+    "name": "Tinder (JO)",
+    "note": "Region: JO\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_kr",
+    "name": "Tinder (KR)",
+    "note": "Region: KR\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_kw",
+    "name": "Tinder (KW)",
+    "note": "Region: KW\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_kz",
+    "name": "Tinder (KZ)",
+    "note": "Region: KZ\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_lb",
+    "name": "Tinder (LB)",
+    "note": "Region: LB\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_lu",
+    "name": "Tinder (LU)",
+    "note": "Region: LU\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_lv",
+    "name": "Tinder (LV)",
+    "note": "Region: LV\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_ma",
+    "name": "Tinder (MA)",
+    "note": "Region: MA\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_mv",
+    "name": "Tinder (MV)",
+    "note": "Region: MV\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_mx",
+    "name": "Tinder (MX)",
+    "note": "Region: MX\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_my",
+    "name": "Tinder (MY)",
+    "note": "Region: MY\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_ng",
+    "name": "Tinder (NG)",
+    "note": "Region: NG\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_nl",
+    "name": "Tinder (NL)",
+    "note": "Region: NL\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_no",
+    "name": "Tinder (NO)",
+    "note": "Region: NO\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_nz",
+    "name": "Tinder (NZ)",
+    "note": "Region: NZ\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_om",
+    "name": "Tinder (OM)",
+    "note": "Region: OM\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_pe",
+    "name": "Tinder (PE)",
+    "note": "Region: PE\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_ph",
+    "name": "Tinder (PH)",
+    "note": "Region: PH\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_pl",
+    "name": "Tinder (PL)",
+    "note": "Region: PL\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_pt",
+    "name": "Tinder (PT)",
+    "note": "Region: PT\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_qa",
+    "name": "Tinder (QA)",
+    "note": "Region: QA\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_ro",
+    "name": "Tinder (RO)",
+    "note": "Region: RO\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_sa",
+    "name": "Tinder (SA)",
+    "note": "Region: SA\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_sg",
+    "name": "Tinder (SG)",
+    "note": "Region: SG\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_sk",
+    "name": "Tinder (SK)",
+    "note": "Region: SK\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_th",
+    "name": "Tinder (TH)",
+    "note": "Region: TH\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_tn",
+    "name": "Tinder (TN)",
+    "note": "Region: TN\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_uy",
+    "name": "Tinder (UY)",
+    "note": "Region: UY\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_uz",
+    "name": "Tinder (UZ)",
+    "note": "Region: UZ\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_vn",
+    "name": "Tinder (VN)",
+    "note": "Region: VN\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tinder_za",
+    "name": "Tinder (ZA)",
+    "note": "Region: ZA\nTinder gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "tng_reload_pin_my",
+    "name": "TNG Reload Pin (MY)",
+    "note": "TNG Reload Pin (MY) gift cards."
+  },
+  {
+    "category_id": "tom_clancy_s_rainbow_six_extraction_xbox_react_credits",
+    "name": "Tom Clancy’s Rainbow Six® Extraction (Xbox, REACT Credits)"
+  },
+  {
+    "category_id": "tq_point_cards",
+    "name": "TQ Point Cards (Conqueror)",
+    "note": "Conqueror Online / Conquer 3D TQ Point Cards. USD-denominated."
+  },
+  {
+    "category_id": "twitch_at",
+    "name": "Twitch (AT)",
+    "note": "Region: AT\nTwitch gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "twitch_au",
+    "name": "Twitch (AU)",
+    "note": "Region: AU\nTwitch gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "twitch_be",
+    "name": "Twitch (BE)",
+    "note": "Region: BE\nTwitch gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "twitch_ca",
+    "name": "Twitch (CA)",
+    "note": "Region: CA\nTwitch gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "twitch_es",
+    "name": "Twitch (ES)",
+    "note": "Region: ES\nTwitch gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "twitch_eu",
+    "name": "Twitch (EU)",
+    "note": "Region: EU\nTwitch gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "twitch_usd",
+    "name": "Twitch Gift Card (USD)",
+    "note": "Twitch Gift Card (USD) gift cards."
+  },
+  {
+    "category_id": "twitch_nl",
+    "name": "Twitch (NL)",
+    "note": "Region: NL\nTwitch gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "twitch_uk",
+    "name": "Twitch (UK)",
+    "note": "Region: UK\nTwitch gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "uber_us",
+    "name": "Uber Gift Card (US)",
+    "note": "Region: US\nUber gift cards. Can be used for rides and Uber Eats.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "undawn",
+    "name": "Undawn",
+    "note": "Region: Global\nUndawn codes for Midasbuy.com.\nCodes can be safely stored for up to 1 year before redemption."
+  },
+  {
+    "category_id": "uni_in",
+    "name": "UniPin Voucher Gift Card (IN)",
+    "note": "UniPin Voucher Gift Card (IN) gift cards."
+  },
+  {
+    "category_id": "unipin_in",
+    "name": "UniPin Voucher (IN)",
+    "note": "Region: IN\nUniPin Voucher (IN) gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_ae",
+    "name": "Valorant VP (AE)",
+    "note": "Region: AE\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_au",
+    "name": "Valorant VP (AU)",
+    "note": "Region: AU\\nValorant gift cards (VP).\\nEnter your Riot ID; codes are region-locked to AU."
+  },
+  {
+    "category_id": "valorant_bh",
+    "name": "Valorant VP (BH)",
+    "note": "Region: BH\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_br",
+    "name": "Valorant VP (BR)",
+    "note": "Region: BR\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_by",
+    "name": "Valorant VP (BY)"
+  },
+  {
+    "category_id": "valorant_ca",
+    "name": "Valorant VP (CA)",
+    "note": "Region: CA\\nValorant gift cards.\\nEnter your Riot ID; codes are region-locked to CA."
+  },
+  {
+    "category_id": "valorant_eu",
+    "name": "Valorant VP (EU)"
+  },
+  {
+    "category_id": "valorant_hk",
+    "name": "Valorant VP (HK)",
+    "note": "Region: HK\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_id",
+    "name": "Valorant VP (ID)",
+    "note": "Region: ID\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_in",
+    "name": "Valorant VP (IN)",
+    "note": "Region: IN\\nValorant gift cards.\\nEnter your Riot ID; codes are region-locked to IN."
+  },
+  {
+    "category_id": "valorant_kw",
+    "name": "Valorant VP (KW)",
+    "note": "Region: KW\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_my",
+    "name": "Valorant VP (MY)",
+    "note": "Region: MY\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_nz",
+    "name": "Valorant VP (NZ)",
+    "note": "Region: NZ\\nValorant gift cards (VP).\\nEnter your Riot ID; codes are region-locked to NZ."
+  },
+  {
+    "category_id": "valorant_ph",
+    "name": "Valorant VP (PH)",
+    "note": "Region: PH\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_ru",
+    "name": "Valorant VP (RU)"
+  },
+  {
+    "category_id": "valorant_sg",
+    "name": "Valorant VP (SG)",
+    "note": "Region: SG\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_th",
+    "name": "Valorant VP (TH)",
+    "note": "Region: TH\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_tr",
+    "name": "Valorant VP (TR)",
+    "note": "Region: TR\\nValorant gift cards (VP).\\nEnter your Riot ID; codes are region-locked to TR."
+  },
+  {
+    "category_id": "valorant_ua",
+    "name": "Valorant VP (UA)"
+  },
+  {
+    "category_id": "valorant_uk",
+    "name": "Valorant VP (UK)",
+    "note": "Region: UK\nValorant Points (VP) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "valorant_us",
+    "name": "Valorant VP (US)"
+  },
+  {
+    "category_id": "vip_jalsat",
+    "name": "VIP Jalsat",
+    "note": "VIP Jalsat gift cards."
+  },
+  {
+    "category_id": "vision_plus_id",
+    "name": "Vision Plus (ID)",
+    "note": "Region: ID\nVision Plus vouchers.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "vtc_vcoin",
+    "name": "VTC VCoin",
+    "note": "VTC VCoin gift cards."
+  },
+  {
+    "category_id": "weyyak",
+    "name": "Weyyak",
+    "note": "Weyyak gift cards."
+  },
+  {
+    "category_id": "wild_rift_ae",
+    "name": "Wild Rift WC (AE)",
+    "note": "Region: AE\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_bh",
+    "name": "Wild Rift WC (BH)",
+    "note": "Region: BH\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_br",
+    "name": "Wild Rift WC (BR)",
+    "note": "Region: BR\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_by",
+    "name": "Wild Rift WC (BY)",
+    "note": "Region: BY\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_eu",
+    "name": "Wild Rift WC (EU)",
+    "note": "Region: EU\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_kw",
+    "name": "Wild Rift WC (KW)",
+    "note": "Region: KW\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_my",
+    "name": "Wild Rift WC (MY)",
+    "note": "Region: MY\nLeague of Legends: Wild Rift Wild Cores direct top-up.\nMobile version of League of Legends.\nRequires player Riot ID."
+  },
+  {
+    "category_id": "wild_rift_ph",
+    "name": "Wild Rift WC (PH)",
+    "note": "Region: PH\nLeague of Legends: Wild Rift Wild Cores direct top-up.\nMobile version of League of Legends.\nRequires player Riot ID."
+  },
+  {
+    "category_id": "wild_rift_ru",
+    "name": "Wild Rift WC (RU)",
+    "note": "Region: RU\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_sa",
+    "name": "Wild Rift WC (SA)",
+    "note": "Region: SA\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_sg",
+    "name": "Wild Rift WC (SG)",
+    "note": "Region: SG\nLeague of Legends: Wild Rift Wild Cores direct top-up.\nMobile version of League of Legends.\nRequires player Riot ID."
+  },
+  {
+    "category_id": "wild_rift_tr",
+    "name": "Wild Rift WC (TR)",
+    "note": "Region: TR\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_ua",
+    "name": "Wild Rift WC (UA)",
+    "note": "Region: UA\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_uk",
+    "name": "Wild Rift WC (UK)",
+    "note": "Region: UK\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "wild_rift_us",
+    "name": "Wild Rift WC (US)",
+    "note": "Region: US\nWild Rift Wild Cores (WC) codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "world_of_warcraft",
+    "name": "World of Warcraft",
+    "note": "World of Warcraft 60 Day TimeCard code.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_au",
+    "name": "Xbox Game Pass (AU)",
+    "note": "Region: AU\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_br",
+    "name": "Xbox Game Pass (BR)",
+    "note": "Region: BR\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_eu",
+    "name": "Xbox Game Pass (EU)",
+    "note": "Region: EU\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_hk",
+    "name": "Xbox Game Pass (HK)",
+    "note": "Region: HK\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_in",
+    "name": "Xbox Game Pass (IN)",
+    "note": "Region: IN\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_jp",
+    "name": "Xbox Game Pass (JP)",
+    "note": "Region: JP\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_mena",
+    "name": "Xbox Game Pass (MENA)",
+    "note": "Region: MENA\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_mx",
+    "name": "Xbox Game Pass (MX)",
+    "note": "Region: MX\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_sg",
+    "name": "Xbox Game Pass (SG)",
+    "note": "Region: SG\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_game_pass_us",
+    "name": "Xbox Game Pass (US)",
+    "note": "Region: US\nXbox Game Pass subscription codes.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_ae",
+    "name": "Xbox Gift Cards (AE)",
+    "note": "Region: AE\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_au",
+    "name": "Xbox Gift Cards (AU)",
+    "note": "Region: AU\\nXbox Gift Cards gift cards.\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_br",
+    "name": "Xbox Gift Cards (BR)",
+    "note": "Region: BR\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_ca",
+    "name": "Xbox Gift Cards (CA)",
+    "note": "Region: CA\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_co",
+    "name": "Xbox Gift Cards (CO)",
+    "note": "Region: CO\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_cz",
+    "name": "Xbox Gift Cards (CZ)",
+    "note": "Region: CZ\\nXbox Gift Cards gift cards.\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_de",
+    "name": "Xbox Gift Cards (DE)",
+    "note": "Region: DE\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_dk",
+    "name": "Xbox Gift Cards (DK)",
+    "note": "Region: DK\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_es",
+    "name": "Xbox Gift Cards (ES)",
+    "note": "Region: ES\\nXbox Gift Cards gift cards.\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_eu",
+    "name": "Xbox Gift Cards (EU)",
+    "note": "Region: EU\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_hk",
+    "name": "Xbox Gift Cards (HK)",
+    "note": "Region: HK\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_hu",
+    "name": "Xbox Gift Cards (HU)",
+    "note": "Region: HU\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_it",
+    "name": "Xbox Gift Cards (IT)",
+    "note": "Region: IT\\nXbox Gift Cards gift cards.\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_jp",
+    "name": "Xbox Gift Cards (JP)",
+    "note": "Region: JP\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_mx",
+    "name": "Xbox Gift Cards (MX)",
+    "note": "Region: MX\\nXbox Gift Cards gift cards.\\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_no",
+    "name": "Xbox Gift Cards (NO)",
+    "note": "Region: NO\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_pl",
+    "name": "Xbox Gift Cards (PL)",
+    "note": "Region: PL\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_sa",
+    "name": "Xbox Gift Cards (SA)",
+    "note": "Region: SA\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_tr",
+    "name": "Xbox Gift Cards (TR)",
+    "note": "Region: TR\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_uk",
+    "name": "Xbox Gift Cards (UK)",
+    "note": "Region: UK\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_us",
+    "name": "Xbox Gift Cards (US)",
+    "note": "Region: US\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "xbox_za",
+    "name": "Xbox Gift Cards (ZA)",
+    "note": "Region: ZA\nXbox gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "yalla_live",
+    "name": "Yalla Live",
+    "note": "Yalla Live gift cards."
+  },
+  {
+    "category_id": "yalla_ludo_diamond",
+    "name": "Yalla Ludo (Diamond)",
+    "note": "Region: Global\nYalla Ludo Diamond gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "yalla_ludo_gold",
+    "name": "Yalla Ludo (Gold)",
+    "note": "Region: Global\nYalla Ludo Gold gift cards.\nCodes can be safely stored and redeemed later."
+  },
+  {
+    "category_id": "zing_card_vn",
+    "name": "Zing Card (VN)",
+    "note": "Region: VN\nVTC Zing Card for Vietnamese online games."
+  }
+]
