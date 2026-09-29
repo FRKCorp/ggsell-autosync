@@ -30,7 +30,7 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 - `app/pricing/calculator.py` — курс+наценка+защита от убытка, чистые функции, 11 тестов.
 - `app/orders/order_processor.py` — вся логика заказа end-to-end, включая `create_message(invoice_id)` покупателю, 5 тестов.
 - `app/api/webhooks.py` — реальный вебхук пойман и разобран, подключён к order_processor.
-- Прод-БД: 526 позиций топапов (импорт 29 сентября). Giftcards (236 категорий в `data/selected_giftcard_categories.json`) — ещё не импортированы, roadmap этап 1.
+- Прод-БД: 526 топапов + 1918 giftcards = 2444 позиции (импорт 29–30 сентября). Полный цикл синхронизации цен ~2 мин, ~270 запросов к FZ. Локальная БД — `docker compose up -d db`, плюс 2 тестовые позиции от `seed_test_positions.py`, которых на проде нет.
 
 ## Что ждём от клиента
 
