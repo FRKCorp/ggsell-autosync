@@ -59,12 +59,23 @@ def position_and_listing(session):
     return position, listing
 
 
+def _topup_offers(price_usd: str) -> dict:
+    """Ответ get_topup_offers в реальном формате FZ (с fields категории)."""
+    return {
+        "name": "8 Ball Pool",
+        "fields": [{"key": "user_id", "label": "Unique ID", "type": "text"}],
+        "offers": [{"offer_id": "golden_spin", "name": "Golden Spin", "price_usd": price_usd}],
+    }
+
+
 def _order_info_response(item_id: int, user_data: str = "player123") -> dict:
+    # name — название опции на GGSell, как её создаёт build_topup_options
+    # (для подписи FZ "Unique ID" перевода нет, название совпадает).
     return {
         "content": {
             "item_id": item_id,
             "options": [
-                {"id": 1, "name": "user_id", "user_data": user_data, "user_data_id": 1}
+                {"id": 1, "name": "Unique ID", "user_data": user_data, "user_data_id": 1}
             ],
         }
     }
@@ -74,10 +85,7 @@ def test_happy_path_delivers_order(session, config, position_and_listing):
     position, listing = position_and_listing
 
     fz_client = MagicMock()
-    fz_client.get_topup_offers.return_value = {
-        "name": "8 Ball Pool",
-        "offers": [{"offer_id": "golden_spin", "name": "Golden Spin", "price_usd": "0.7450"}],
-    }
+    fz_client.get_topup_offers.return_value = _topup_offers("0.7450")
     fz_client.order_topup.return_value = {"order_id": "fz-order-1", "status": "completed"}
 
     ggsell_v1 = MagicMock()
@@ -87,7 +95,10 @@ def test_happy_path_delivers_order(session, config, position_and_listing):
 
     assert order.fz_order_id == "fz-order-1"
     assert order.status == OrderStatus.DELIVERED
-    fz_client.order_topup.assert_called_once()
+    # Название опции GGSell переведено в ключ FZ.
+    fz_client.order_topup.assert_called_once_with(
+        "8_ball_pool", "golden_spin", {"user_id": "player123"}, idempotency_key="1001"
+    )
     # id_i у create_message — это ПРОСТО invoice_id (подтверждено поддержкой
     # GGSell 27 сентября), не отдельный chat_id.
     ggsell_v1.create_message.assert_called_once_with(1001, order.delivered_message)
@@ -98,10 +109,7 @@ def test_price_deviation_rejects_order(session, config, position_and_listing):
 
     fz_client = MagicMock()
     # Живая цена на 20% выше кэшированной 0.7450 -> превышает порог 5%.
-    fz_client.get_topup_offers.return_value = {
-        "name": "8 Ball Pool",
-        "offers": [{"offer_id": "golden_spin", "name": "Golden Spin", "price_usd": "0.8940"}],
-    }
+    fz_client.get_topup_offers.return_value = _topup_offers("0.8940")
 
     ggsell_v1 = MagicMock()
     ggsell_v1.get_order_info.return_value = _order_info_response(listing.ggsell_offer_id)
@@ -116,10 +124,7 @@ def test_fz_failure_after_retries_goes_manual_review(session, config, position_a
     position, listing = position_and_listing
 
     fz_client = MagicMock()
-    fz_client.get_topup_offers.return_value = {
-        "name": "8 Ball Pool",
-        "offers": [{"offer_id": "golden_spin", "name": "Golden Spin", "price_usd": "0.7450"}],
-    }
+    fz_client.get_topup_offers.return_value = _topup_offers("0.7450")
     fz_client.order_topup.side_effect = FazerCardsError(503, {"error": "upstream_unavailable"})
 
     ggsell_v1 = MagicMock()
@@ -139,10 +144,7 @@ def test_idempotent_on_repeat_call(session, config, position_and_listing):
     position, listing = position_and_listing
 
     fz_client = MagicMock()
-    fz_client.get_topup_offers.return_value = {
-        "name": "8 Ball Pool",
-        "offers": [{"offer_id": "golden_spin", "name": "Golden Spin", "price_usd": "0.7450"}],
-    }
+    fz_client.get_topup_offers.return_value = _topup_offers("0.7450")
     fz_client.order_topup.return_value = {"order_id": "fz-order-2"}
 
     ggsell_v1 = MagicMock()
@@ -167,3 +169,25 @@ def test_listing_not_found_raises(session, config, position_and_listing):
 
     with pytest.raises(OrderProcessingError):
         process_new_order(session, fz_client, ggsell_v1, config, invoice_id="1005")
+
+
+def test_unmappable_buyer_data_goes_manual_review(session, config, position_and_listing):
+    """Покупатель не заполнил поле, которое ждёт FZ (или опция называется
+    иначе) — заказ у FZ не отправляем, уходим в ручной режим."""
+    position, listing = position_and_listing
+
+    fz_client = MagicMock()
+    fz_client.get_topup_offers.return_value = _topup_offers("0.7450")
+
+    ggsell_v1 = MagicMock()
+    ggsell_v1.get_order_info.return_value = {
+        "content": {"item_id": listing.ggsell_offer_id, "options": []}
+    }
+
+    with patch("app.orders.order_processor.notify_admin") as notify:
+        order = process_new_order(session, fz_client, ggsell_v1, config, invoice_id="1006")
+
+    assert order.status == OrderStatus.MANUAL_REVIEW
+    assert "Unique ID" in order.error_message
+    fz_client.order_topup.assert_not_called()
+    notify.assert_called_once()

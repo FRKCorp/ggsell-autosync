@@ -8,7 +8,9 @@
      разошлась больше MAX_PRICE_DEVIATION_PERCENT, уходим в ручной режим,
      заказ не отправляется автоматически.
   5. Заказать у FazerCards (topup/giftcard/steam_gift — по source_type
-     позиции), с ретраями и детерминированным Idempotency-Key.
+     позиции), с ретраями и детерминированным Idempotency-Key. Для топапа
+     данные покупателя сначала переводятся из названий опций GGSell в ключи и
+     значения FZ (app/offers/options.py); не удалось — ручной режим.
   6. Сформировать сообщение из ответа поставщика.
   7. Отправить сообщение в чат заказа (create_message) — это и есть финал
      happy path; отдельного "закрытия" заказа на GGSell не существует
@@ -47,6 +49,7 @@ from app.clients.ggsell import GGSellError, GGSellV1Client
 from app.models.listing import Listing
 from app.models.order import Order, OrderStatus
 from app.models.position import Position, SourceType
+from app.offers.options import BuyerDataError, map_buyer_data_to_fz_fields
 from app.orders.notifications import notify_admin
 from app.pricing.calculator import PricingConfig, check_price_deviation
 
@@ -130,15 +133,19 @@ def get_or_create_order(session: Session, ctx: OrderContext) -> Order:
 
 def verify_price_before_charge(
     fz_client: FazerCardsClient, position: Position, config: PricingConfig
-) -> tuple[bool, Decimal]:
+) -> tuple[bool, Decimal, list[dict[str, Any]]]:
     """Повторно запрашивает актуальную цену у FazerCards прямо перед
     списанием и сверяет с ценой на момент последней синхронизации
-    (position.last_known_price_usd). Возвращает (ok, live_price_usd).
+    (position.last_known_price_usd). Возвращает (ok, live_price_usd,
+    fz_fields) — fields из того же ответа (только у топапов, иначе []),
+    чтобы перевести данные покупателя в формат FZ без лишнего запроса.
     """
+    fz_fields: list[dict[str, Any]] = []
     if position.source_type == SourceType.TOPUP:
         data = fz_client.get_topup_offers(position.fz_category_id)
         offer = next(o for o in data["offers"] if o["offer_id"] == position.fz_offer_id)
         live_price = Decimal(offer["price_usd"])
+        fz_fields = data.get("fields", [])
     elif position.source_type == SourceType.GIFTCARD:
         data = fz_client.get_giftcard_offers(position.fz_category_id)
         offer = next(o for o in data["offers"] if o["card_id"] == position.fz_offer_id)
@@ -152,7 +159,7 @@ def verify_price_before_charge(
         raise OrderProcessingError(f"Неизвестный source_type: {position.source_type}")
 
     check = check_price_deviation(position.last_known_price_usd, live_price, config)
-    return check.within_threshold, live_price
+    return check.within_threshold, live_price, fz_fields
 
 
 def place_fz_order(
@@ -160,16 +167,21 @@ def place_fz_order(
     position: Position,
     buyer_data: dict[str, str],
     idempotency_key: str,
+    topup_fields: Optional[dict[str, str]] = None,
 ) -> dict[str, Any]:
     """Заказывает товар у FazerCards, метод зависит от source_type.
     idempotency_key должен быть детерминированным (используем invoice_id)
     — чтобы повторная попытка после таймаута не задвоила заказ/списание.
+    topup_fields — данные покупателя, уже переведённые в ключи/значения FZ
+    (map_buyer_data_to_fz_fields); для топапа обязательны.
     """
     if position.source_type == SourceType.TOPUP:
+        if topup_fields is None:
+            raise OrderProcessingError("Для топапа не переданы поля покупателя в формате FZ")
         return fz_client.order_topup(
             position.fz_category_id,
             position.fz_offer_id,
-            buyer_data,
+            topup_fields,
             idempotency_key=idempotency_key,
         )
     if position.source_type == SourceType.GIFTCARD:
@@ -229,7 +241,9 @@ def process_new_order(
         )
         return order
 
-    price_ok, live_price_usd = verify_price_before_charge(fz_client, ctx.position, pricing_config)
+    price_ok, live_price_usd, fz_fields = verify_price_before_charge(
+        fz_client, ctx.position, pricing_config
+    )
     if not price_ok:
         order.status = OrderStatus.PRICE_REJECTED
         order.error_message = (
@@ -243,12 +257,30 @@ def process_new_order(
         )
         return order
 
+    topup_fields = None
+    if ctx.position.source_type == SourceType.TOPUP:
+        try:
+            topup_fields = map_buyer_data_to_fz_fields(fz_fields, ctx.buyer_data)
+        except BuyerDataError as e:
+            order.status = OrderStatus.MANUAL_REVIEW
+            order.error_message = f"Данные покупателя не подходят для заказа у FZ: {e}"
+            session.commit()
+            notify_admin(
+                f"Заказ {invoice_id}: {order.error_message}. Данные покупателя: {ctx.buyer_data}. "
+                f"Требуется ручная обработка."
+            )
+            return order
+
     fz_result = None
     last_error: Optional[str] = None
     for attempt in range(1, MAX_FZ_ORDER_RETRIES + 1):
         try:
             fz_result = place_fz_order(
-                fz_client, ctx.position, ctx.buyer_data, idempotency_key=invoice_id
+                fz_client,
+                ctx.position,
+                ctx.buyer_data,
+                idempotency_key=invoice_id,
+                topup_fields=topup_fields,
             )
             break
         except FazerCardsError as e:

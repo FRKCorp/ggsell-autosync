@@ -91,14 +91,31 @@ class GGSellV2Client:
         return self._request("GET", f"/api_sellers/v2/options/{option_id}")
 
     def create_or_update_options(self, offer_id: int, options: list[dict[str, Any]]) -> Any:
-        """options: список вида {type, status, title_ru, title_en, is_required, ...}
-        (см. option_object / option_regular_* примеры в схеме). Для radio_button
-        с номиналами каждый элемент options дополнительно несёт "variants": [...].
+        """options: список {type, status, title_ru, title_en, comment_ru,
+        comment_en, is_required, position} (bulk_options_request_object; с
+        "id" — обновление существующей). Вариантов в этом запросе НЕТ — для
+        radio_button они создаются отдельно через create_or_update_variants.
         """
         return self._request(
             "POST",
             f"/api_sellers/v2/offers/{offer_id}/options",
             json_body={"options": options},
+        )
+
+    def list_offer_options(self, offer_id: int) -> Any:
+        """Опции оффера вместе с вариантами (option_list_object) — отсюда
+        берём id созданных опций для create_or_update_variants."""
+        return self._request("GET", f"/api_sellers/v2/offers/{offer_id}/options")
+
+    def create_or_update_variants(
+        self, offer_id: int, option_id: int, variants: list[dict[str, Any]]
+    ) -> Any:
+        """variants: список {title_ru, title_en, price, discount_type,
+        impact_type, is_default, status, position} (bulk_variants_request_object)."""
+        return self._request(
+            "POST",
+            f"/api_sellers/v2/offers/{offer_id}/options/{option_id}/variants",
+            json_body={"variants": variants},
         )
 
     # ------------------------------------------------------------------
@@ -147,19 +164,31 @@ class GGSellV2Client:
         """
         return self._request("PATCH", f"/api_sellers/v2/offers/{offer_id}", json_body=payload)
 
+    # Пути batch-методов — через подчёркивание (batch_activate), а не дефис:
+    # дефисный вариант отдаёт 404 (проверено 30 сентября). Не больше 100 id
+    # за один вызов (batch_offer_ids_request_object).
+    BATCH_LIMIT = 100
+
     def batch_activate_offers(self, offer_ids: list[int]) -> Any:
-        return self._request(
-            "POST", "/api_sellers/v2/offers/batch-activate", json_body={"offer_ids": offer_ids}
-        )
+        return self._batch("batch_activate", offer_ids)
 
     def batch_pause_offers(self, offer_ids: list[int]) -> Any:
-        return self._request(
-            "POST", "/api_sellers/v2/offers/batch-pause", json_body={"offer_ids": offer_ids}
-        )
+        return self._batch("batch_pause", offer_ids)
 
     def batch_delete_offers(self, offer_ids: list[int]) -> Any:
+        return self._batch("batch_delete", offer_ids)
+
+    def get_async_job_result(self, job_id: str) -> Any:
+        """Batch-методы выполняются асинхронно: отвечают {"success": true,
+        "job_id": ...}, результат — здесь. batch_delete переводит оффер в
+        status="archived" за несколько секунд (проверено 30 сентября)."""
+        return self._request("GET", f"/api_sellers/v2/async_job_results/{job_id}")
+
+    def _batch(self, action: str, offer_ids: list[int]) -> Any:
+        if len(offer_ids) > self.BATCH_LIMIT:
+            raise ValueError(f"{action}: не больше {self.BATCH_LIMIT} офферов за вызов, передано {len(offer_ids)}")
         return self._request(
-            "POST", "/api_sellers/v2/offers/batch-delete", json_body={"offer_ids": offer_ids}
+            "POST", f"/api_sellers/v2/offers/{action}", json_body={"offer_ids": offer_ids}
         )
 
 
