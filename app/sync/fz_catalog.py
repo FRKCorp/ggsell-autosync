@@ -188,6 +188,17 @@ def _apply_price(
 # ----------------------------------------------------------------------
 
 
+def _display_category_name(category_name: str, region_label: Optional[str]) -> str:
+    """Название категории с пометкой региона/варианта. FazerCards часто сам
+    уже включает регион в имя (например, mobile_legends_ru отдаёт
+    name="Mobile Legends (RU)", google_play_us — "Google Play (US)") — не
+    дублируем пометку, если она уже есть в исходном названии.
+    """
+    if region_label and region_label.lower() not in category_name.lower():
+        return f"{category_name} ({region_label})"
+    return category_name
+
+
 def import_all_topup_offers(
     session: Session,
     client: FazerCardsClient,
@@ -203,14 +214,7 @@ def import_all_topup_offers(
     игры (клиент явно попросил такие пометки в названии/описании товара).
     """
     data = client.get_topup_offers(category_id)
-    category_name = data.get("name", category_id)
-    # FazerCards иногда сам уже включает регион в имя (например, категория
-    # mobile_legends_ru отдаёт name="Mobile Legends (RU)") — не дублируем пометку,
-    # если она уже в исходном названии.
-    if region_label and region_label.lower() not in category_name.lower():
-        display_name = f"{category_name} ({region_label})"
-    else:
-        display_name = category_name
+    display_name = _display_category_name(data.get("name", category_id), region_label)
 
     results = []
     for offer in data.get("offers", []):
@@ -226,6 +230,38 @@ def import_all_topup_offers(
             price_usd=Decimal(offer["price_usd"]),
             fz_category_id=category_id,
             fz_offer_id=offer["offer_id"],
+            raw_payload=offer,
+        )
+        results.append(result)
+    return results
+
+
+def import_all_giftcard_offers(
+    session: Session,
+    client: FazerCardsClient,
+    category_id: str,
+    region_label: Optional[str] = None,
+) -> list["ImportResult"]:
+    """Импортирует ВСЕ карты (номиналы) внутри одной категории giftcards
+    одним вызовом get_giftcard_offers — аналог import_all_topup_offers.
+    region_label — пометка региона/тарифа в названии, как у топапов.
+    """
+    data = client.get_giftcard_offers(category_id)
+    display_name = _display_category_name(data.get("name", category_id), region_label)
+
+    results = []
+    for offer in data.get("offers", []):
+        external_id = make_external_id(
+            SourceType.GIFTCARD, category_id=category_id, offer_id=offer["card_id"]
+        )
+        result = _apply_price(
+            session,
+            external_id=external_id,
+            source_type=SourceType.GIFTCARD,
+            name=f"{display_name} — {offer['name']}",
+            price_usd=Decimal(offer["price_usd"]),
+            fz_category_id=category_id,
+            fz_offer_id=offer["card_id"],
             raw_payload=offer,
         )
         results.append(result)
