@@ -85,11 +85,12 @@ def test_happy_path_delivers_order(session, config, position_and_listing):
 
     order = process_new_order(session, fz_client, ggsell_v1, config, invoice_id="1001")
 
-    # chat_id сейчас всегда None (TODO не решён) -> ожидаем MANUAL_REVIEW,
-    # но товар должен быть УЖЕ заказан у FZ (ORDERED_UPSTREAM пройден).
     assert order.fz_order_id == "fz-order-1"
-    assert order.status == OrderStatus.MANUAL_REVIEW
+    assert order.status == OrderStatus.DELIVERED
     fz_client.order_topup.assert_called_once()
+    # id_i у create_message — это ПРОСТО invoice_id (подтверждено поддержкой
+    # GGSell 27 сентября), не отдельный chat_id.
+    ggsell_v1.create_message.assert_called_once_with(1001, order.delivered_message)
 
 
 def test_price_deviation_rejects_order(session, config, position_and_listing):

@@ -246,11 +246,13 @@
     { "category_id": "wild_rift_tr", "region_label": "TR" },
     { "category_id": "wild_rift_ua", "region_label": "UA" },
     { "category_id": "wild_rift_uk", "region_label": "UK" },
-    { "category_id": "wild_rift_us", "region_label": "US" }
+    { "category_id": "wild_rift_us", "region_label": "US" },
+
+    { "category_id": "exitlag_gift_card_tier_1_global", "region_label": "Tier 1" },
+    { "category_id": "exitlag_gift_card_tier_2_global", "region_label": "Tier 2" },
+    { "category_id": "exitlag_gift_card_tier_3_global", "region_label": "Tier 3" }
   ],
-  "pending_clarification": [
-    { "issue": "Exit Lag: у FZ три отдельных тарифа (Tier 1/2/3), клиент сказал просто 'Global' — какой(ие) взять?" }
-  ],
+  "pending_clarification": [],
   "not_available_at_supplier": [
     "Overwatch 2", "GearUP Booster PC", "Spotify"
   ],

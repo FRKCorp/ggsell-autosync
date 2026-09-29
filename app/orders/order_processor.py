@@ -20,11 +20,9 @@
   - check_unique_code: GET /api_sellers/api/purchases/unique-code/:unique_code —
     unique_code это НЕ invoice_id, отдельная строковая сущность.
 
+ПОДТВЕРЖДЕНО (ответ поддержки GGSell, 27 сентября): `id_i` в create-message-without-file — это ПРОСТО номер заказа (invoice_id), не отдельная сущность чата. `list_chats` возвращает `id_i: null` — это признанная поддержкой особенность/баг метода, никак не связана с тем, что нам нужно — его вообще не нужно вызывать.
+
 НЕ ПОДТВЕРЖДЕНО ЭМПИРИЧЕСКИ:
-  - Источник chat_id для create_message — задокументированный list_chats возвращает
-    пустые записи (тот же паттерн, что и с delivery — реальный чат живёт в
-    недокументированном внутреннем API с браузерной авторизацией). Ждём
-    ответа поддержки GGSell, см. architecture-notes.md 3.13.
   - Формат успешного ответа order_topup/order_giftcard/order_steam_gift —
     приходит ли код сразу в ответе или нужен отдельный поллинг.
   Всё это помечено TODO в коде ниже — исправить когда придёт ответ поддержки
@@ -87,7 +85,6 @@ class OrderContext:
     position: Position
     buyer_data: dict[str, str]
     price_at_sale_rub: Decimal
-    chat_id: Optional[int] = None  # TODO: подтвердить источник (см. docstring модуля)
 
 
 def build_order_context(
@@ -279,18 +276,8 @@ def process_new_order(
 
     message = format_delivery_message(fz_result)
 
-    if ctx.chat_id is None:
-        order.status = OrderStatus.MANUAL_REVIEW
-        order.error_message = "Товар получен у FZ, но не найден chat_id для отправки покупателю"
-        session.commit()
-        notify_admin(
-            f"Заказ {invoice_id}: товар получен у поставщика, но не удалось определить чат для "
-            f"выдачи покупателю. Выдать вручную! Данные: {message}"
-        )
-        return order
-
     try:
-        ggsell_v1.create_message(ctx.chat_id, message)
+        ggsell_v1.create_message(int(ctx.invoice_id), message)
     except GGSellError as e:
         order.status = OrderStatus.MANUAL_REVIEW
         order.error_message = f"Товар получен у FZ, но не отправлен в чат: {e.status_code} {e.payload}"
