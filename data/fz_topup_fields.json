@@ -1,0 +1,638 @@
+{
+  "8_ball_pool": {
+    "name": "8 Ball Pool",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "Unique ID",
+        "type": "text"
+      }
+    ]
+  },
+  "afk_journey": {
+    "name": "AFK Journey",
+    "fields": [
+      {
+        "key": "account_id",
+        "label": "Account ID",
+        "type": "text"
+      }
+    ]
+  },
+  "bullet_echo": {
+    "name": "Bullet Echo",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "capcut": {
+    "name": "CapCut",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text",
+        "required": true
+      }
+    ]
+  },
+  "delta_force": {
+    "name": "Delta Force",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "eve_echoes": {
+    "name": "EVE Echoes",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "farlight_84": {
+    "name": "Farlight 84",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "honor_of_kings": {
+    "name": "Honor of Kings",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "likee": {
+    "name": "Likee",
+    "fields": [
+      {
+        "key": "likee_id",
+        "label": "Likee ID",
+        "type": "text"
+      }
+    ]
+  },
+  "lords_mobile": {
+    "name": "Lords Mobile",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "marvel_rivals": {
+    "name": "Marvel Rivals",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "punishing_gray_raven": {
+    "name": "Punishing: Gray Raven",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      },
+      {
+        "key": "server",
+        "label": "Server",
+        "type": "select",
+        "options": [
+          {
+            "label": "Asia-Pacific",
+            "value": "Asia-Pacific"
+          },
+          {
+            "label": "Europe",
+            "value": "Europe"
+          },
+          {
+            "label": "North America",
+            "value": "North America"
+          }
+        ]
+      }
+    ]
+  },
+  "silver_and_blood": {
+    "name": "Silver and Blood",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      },
+      {
+        "key": "server_id",
+        "label": "Server ID",
+        "type": "text"
+      }
+    ]
+  },
+  "stumble_guys": {
+    "name": "Stumble Guys",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "super_sus": {
+    "name": "Super Sus",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "wuthering_waves": {
+    "name": "Wuthering Waves",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      },
+      {
+        "key": "server",
+        "label": "Server",
+        "type": "select",
+        "options": [
+          {
+            "label": "Asia",
+            "value": "os_asia"
+          },
+          {
+            "label": "America",
+            "value": "os_usa"
+          },
+          {
+            "label": "Europe",
+            "value": "os_euro"
+          },
+          {
+            "label": "SEA",
+            "value": "os_sea"
+          },
+          {
+            "label": "TW/HK/MO",
+            "value": "os_cht"
+          }
+        ]
+      }
+    ]
+  },
+  "zepeto": {
+    "name": "Zepeto",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "bigo_live": {
+    "name": "Bigo Live",
+    "fields": [
+      {
+        "key": "bigo_id",
+        "label": "Bigo ID",
+        "type": "text"
+      }
+    ]
+  },
+  "acecraft": {
+    "name": "Acecraft",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "ace_racer": {
+    "name": "Ace Racer",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      },
+      {
+        "key": "server_id",
+        "label": "Server ID",
+        "type": "text"
+      }
+    ]
+  },
+  "crossout_mobile": {
+    "name": "Crossout Mobile",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "free_fire_cis": {
+    "name": "Free Fire (CIS)",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "pubg_mobile_auto": {
+    "name": "PUBG Mobile (Auto)",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "mobile_legends_ru": {
+    "name": "Mobile Legends (RU)",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      },
+      {
+        "key": "server_id",
+        "label": "Server ID",
+        "type": "text"
+      }
+    ]
+  },
+  "mobile_legends_global": {
+    "name": "Mobile Legends (Global)",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      },
+      {
+        "key": "server_id",
+        "label": "Server ID",
+        "type": "text"
+      }
+    ]
+  },
+  "codm_activision_in": {
+    "name": "Call of Duty Mobile - Activision (IN)",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "codm_activision_kz": {
+    "name": "Call of Duty Mobile - Activision (KZ)",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "codm_activision_us": {
+    "name": "Call of Duty Mobile - Activision (US)",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "r6_mobile_global": {
+    "name": "Rainbow Six Mobile (Global)",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      }
+    ]
+  },
+  "genshin_impact_global": {
+    "name": "Genshin Impact (Global)",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      },
+      {
+        "key": "server",
+        "label": "Server",
+        "type": "select",
+        "options": [
+          {
+            "label": "America",
+            "value": "america"
+          },
+          {
+            "label": "Asia",
+            "value": "asia"
+          },
+          {
+            "label": "Europe",
+            "value": "europe"
+          },
+          {
+            "label": "TW HK MO",
+            "value": "tw_hk_mo"
+          }
+        ]
+      }
+    ]
+  },
+  "honkai_star_rail_global": {
+    "name": "Honkai: Star Rail (Global)",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      },
+      {
+        "key": "server",
+        "label": "Server",
+        "type": "select",
+        "options": [
+          {
+            "label": "Asia",
+            "value": "asia"
+          },
+          {
+            "label": "America",
+            "value": "america"
+          },
+          {
+            "label": "Europe",
+            "value": "europe"
+          },
+          {
+            "label": "TW,HK,MO",
+            "value": "tw_hk_mo"
+          }
+        ]
+      }
+    ]
+  },
+  "zenless_zone_zero_global": {
+    "name": "Zenless Zone Zero (Global)",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      },
+      {
+        "key": "server",
+        "label": "Server",
+        "type": "select",
+        "options": [
+          {
+            "label": "Asia",
+            "value": "asia"
+          },
+          {
+            "label": "America",
+            "value": "america"
+          },
+          {
+            "label": "Europe",
+            "value": "europe"
+          },
+          {
+            "label": "TW,HK,MO",
+            "value": "tw_hk_mo"
+          }
+        ]
+      }
+    ]
+  },
+  "love_and_deepspace": {
+    "name": "Love and Deepspace",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      },
+      {
+        "key": "server",
+        "label": "Server",
+        "type": "select",
+        "options": [
+          {
+            "label": "asia",
+            "value": "Asia"
+          },
+          {
+            "label": "america",
+            "value": "America"
+          },
+          {
+            "label": "europe",
+            "value": "Europe"
+          }
+        ]
+      }
+    ]
+  },
+  "arena_breakout": {
+    "name": "Arena Breakout",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "arena_breakout_infinite": {
+    "name": "Arena Breakout: Infinite",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "blood_strike": {
+    "name": "Blood Strike",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      }
+    ]
+  },
+  "undawn_global": {
+    "name": "Undawn Global",
+    "fields": [
+      {
+        "key": "user_id",
+        "label": "User ID",
+        "type": "text"
+      },
+      {
+        "key": "server",
+        "label": "Server",
+        "type": "select",
+        "options": [
+          {
+            "label": "Eurasia: Anadolu",
+            "value": "Anadolu"
+          },
+          {
+            "label": "Europe: Astral Tower",
+            "value": "Astral Tower"
+          },
+          {
+            "label": "Eurasia: Batı Karakolu",
+            "value": "Batı Karakolu"
+          },
+          {
+            "label": "Europe: Blockade",
+            "value": "Blockade"
+          },
+          {
+            "label": "Europe: Camp Patrol",
+            "value": "Camp Patrol"
+          },
+          {
+            "label": "Europe: District 13",
+            "value": "District 13"
+          },
+          {
+            "label": "Eurasia: Galata",
+            "value": "Galata"
+          },
+          {
+            "label": "Eurasia: Kayıp Şehir",
+            "value": "Kayıp Şehir"
+          },
+          {
+            "label": "Eurasia: Kuğu Gölü",
+            "value": "Kuğu Gölü"
+          },
+          {
+            "label": "Eurasia: Owl Gang",
+            "value": "Owl Gang"
+          },
+          {
+            "label": "Eurasia: Scavenger",
+            "value": "Scavenger"
+          },
+          {
+            "label": "Eurasia: The Clowns",
+            "value": "The Clowns"
+          },
+          {
+            "label": "Eurasia: Сэндскорн",
+            "value": "Сэндскорн"
+          },
+          {
+            "label": "Eurasia: город кожи",
+            "value": "город кожи"
+          },
+          {
+            "label": "Korea: 레드우드 숲",
+            "value": "레드우드 숲"
+          },
+          {
+            "label": "Korea: 잃어버린 도시",
+            "value": "잃어버린 도시"
+          }
+        ]
+      }
+    ]
+  },
+  "magic_chess_gogo_global": {
+    "name": "Magic Chess Go Go (Global)",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      },
+      {
+        "key": "server_id",
+        "label": "Server ID",
+        "type": "text"
+      }
+    ]
+  },
+  "magic_chess_gogo_ru": {
+    "name": "Magic Chess Go Go (RU)",
+    "fields": [
+      {
+        "key": "player_id",
+        "label": "Player ID",
+        "type": "text"
+      },
+      {
+        "key": "server_id",
+        "label": "Server ID",
+        "type": "text"
+      }
+    ]
+  },
+  "pubg_new_state": {
+    "name": "PUBG: New State",
+    "fields": [
+      {
+        "key": "account_id",
+        "label": "Account ID",
+        "type": "text"
+      }
+    ]
+  }
+}
