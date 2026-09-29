@@ -14,19 +14,21 @@
      happy path; отдельного "закрытия" заказа на GGSell не существует
      (см. 3.6/3.8 в заметках — подтверждено поддержкой GGSell).
 
-ПОДТВЕРЖДЕНО (Swagger V1, страницы Get order info / check unique code):
+ПОДТВЕРЖДЕНО:
   - get_order_info: GET /api_sellers/api/purchase/info/:invoice_id,
-    query token, header locale: ru.
+    query token, header locale: ru — отработал на реальном заказе
+    (22 сентября), структура ответа совпадает с info_order из Swagger.
   - check_unique_code: GET /api_sellers/api/purchases/unique-code/:unique_code —
     unique_code это НЕ invoice_id, отдельная строковая сущность.
-
-ПОДТВЕРЖДЕНО (ответ поддержки GGSell, 27 сентября): `id_i` в create-message-without-file — это ПРОСТО номер заказа (invoice_id), не отдельная сущность чата. `list_chats` возвращает `id_i: null` — это признанная поддержкой особенность/баг метода, никак не связана с тем, что нам нужно — его вообще не нужно вызывать.
+  - create_message: id_i — это просто номер заказа (invoice_id), отдельной
+    сущности чата нет (ответ поддержки GGSell, 27 сентября). list_chats для
+    этого не нужен.
 
 НЕ ПОДТВЕРЖДЕНО ЭМПИРИЧЕСКИ:
   - Формат успешного ответа order_topup/order_giftcard/order_steam_gift —
-    приходит ли код сразу в ответе или нужен отдельный поллинг.
-  Всё это помечено TODO в коде ниже — исправить когда придёт ответ поддержки
-  или на первом реальном заказе с товаром.
+    приходит ли код сразу в ответе или нужен отдельный поллинг. Помечено
+    TODO в format_delivery_message — разобрать на первом реальном заказе
+    у FazerCards (docs/roadmap.md, 5.1).
 """
 
 from __future__ import annotations
@@ -214,7 +216,6 @@ def process_new_order(
     Идемпотентна на уровне БД: повторный вызов с тем же invoice_id для
     уже обработанного заказа не запускает обработку заново.
     """
-    # TODO: путь get_order_info не подтверждён (см. GGSellV1Client.get_order_info).
     order_info_response = ggsell_v1.get_order_info(int(invoice_id))
     order_info = order_info_response["content"]
 

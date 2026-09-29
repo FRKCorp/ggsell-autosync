@@ -9,9 +9,10 @@
                    ограниченным сроком жизни. Заказы и чат: последние продажи,
                    детали заказа, отправка сообщения покупателю.
 
-Важно (зафиксировано в architecture-notes.md, 3.6): у GGSell нет API-вызова
-для "подтверждения/закрытия" заказа при delivery=manual — этот шаг закрывать
-не нужно, happy path заканчивается отправкой сообщения в чат.
+Важно (architecture-notes.md, 3.6/3.8): у GGSell нет API-вызова для
+"подтверждения/закрытия" заказа — happy path заканчивается отправкой
+сообщения в чат заказа. Все наши офферы создаются с delivery="auto": сменить
+delivery через API нельзя (подтверждено поддержкой GGSell).
 """
 
 from __future__ import annotations
@@ -63,9 +64,8 @@ class GGSellV2Client:
         params: Optional[dict[str, Any]] = None,
         json_body: Optional[dict[str, Any]] = None,
     ) -> Any:
-        # Схема auth в доках: "Security Scheme Type: apiKey, Header parameter
-        # name: Authorization". Не уточнено, нужен ли префикс вроде "Bearer" —
-        # если первый же вызов вернёт 401, попробовать добавить префикс.
+        # Ключ передаётся в Authorization как есть, без префикса "Bearer" —
+        # подтверждено на живых вызовах.
         headers = {"Authorization": self._api_key, "locale": "ru"}
         response = self._client.request(
             method, path, params=params, json=json_body, headers=headers
@@ -119,10 +119,8 @@ class GGSellV2Client:
     # ------------------------------------------------------------------
 
     def list_offers(self, page: int = 1, **extra_params: Any) -> Any:
-        # TODO: узнать точное имя параметра размера страницы — "per_page"
-        # отклонён бэкендом как unpermitted parameter (422). Пока передаём
-        # только "page"; extra_params — для эксперимента после того, как
-        # узнаем реальное имя (limit? page_size?) из Swagger.
+        # Размер страницы задать нельзя: "per_page" бэкенд отклоняет как
+        # unpermitted parameter (422), вопреки документации. Работает только "page".
         return self._request("GET", "/api_sellers/v2/offers", params={"page": page, **extra_params})
 
     def create_offer(self, payload: dict[str, Any]) -> Any:
@@ -130,12 +128,12 @@ class GGSellV2Client:
         description_ru/en, instructions_ru/en, cover_image_ru (base64!),
         price, category_id, delivery ("auto"/"manual"), и т.д.
 
-        Для нашего сценария: delivery="manual", is_autoselling=False,
-        notification_settings={"type": "url", "url": <наш вебхук>,
-        "http_method": "POST", "is_disabled": False, "is_default": False}.
+        Для нашего сценария: delivery="auto" (сменить потом через PATCH нельзя),
+        is_autoselling=False, notification_settings={"type": "url",
+        "url": <наш вебхук>, "http_method": "POST", "is_disabled": False,
+        "is_default": False}.
 
-        TODO подтвердить на первом реальном вызове: создаётся ли оффер сразу
-        в status="draft" (нужно для требования клиента "заливать в черновик").
+        Подтверждено: оффер создаётся в status="draft".
         """
         return self._request("POST", "/api_sellers/v2/offers", json_body=payload)
 
@@ -143,10 +141,9 @@ class GGSellV2Client:
         return self._request("GET", f"/api_sellers/v2/offers/{offer_id}")
 
     def patch_offer(self, offer_id: int, payload: dict[str, Any]) -> Any:
-        """TODO подтвердить на первом реальном вызове: принимает ли PATCH
-        частичный объект (например, только {"price": ...}) или требует
-        пересылать весь update_offer_request_object целиком — от этого
-        зависит, как sync/ будет собирать запрос при обновлении цены.
+        """Частичный PATCH работает: достаточно передать только изменённые
+        поля (подтверждено на {"price": ...}). Исключение — delivery: через
+        PATCH не меняется вообще.
         """
         return self._request("PATCH", f"/api_sellers/v2/offers/{offer_id}", json_body=payload)
 
@@ -283,23 +280,23 @@ class GGSellV1Client:
         return self._request("GET", f"/api_sellers/api/purchases/unique-code/{unique_code}")
 
     # ------------------------------------------------------------------
-    # Chats — механизм выдачи товара при delivery="manual"
+    # Chats — механизм выдачи товара покупателю
     # ------------------------------------------------------------------
 
-    def create_message(self, chat_id: int, message: str) -> Any:
-        """chat_id — это id_i из chats_object, не id заказа напрямую.
-        Если у заказа нет готового id_i — сначала найти чат через list_chats.
+    def create_message(self, invoice_id: int, message: str) -> Any:
+        """id_i в запросе — это номер заказа (invoice_id), отдельной сущности
+        чата нет (подтверждено поддержкой GGSell 27 сентября).
         """
         return self._request(
             "POST",
             "/api_sellers/api/debates/v2",
-            params={"id_i": chat_id},
+            params={"id_i": invoice_id},
             json_body={"message": message},
         )
 
-    def list_messages(self, chat_id: int) -> Any:
+    def list_messages(self, invoice_id: int) -> Any:
         return self._request(
-            "GET", "/api_sellers/api/debates/messages", params={"id_i": chat_id}
+            "GET", "/api_sellers/api/debates/messages", params={"id_i": invoice_id}
         )
 
     def list_chats(
@@ -311,11 +308,10 @@ class GGSellV1Client:
         pagesize: Optional[int] = None,
         page: Optional[int] = None,
     ) -> Any:
-        """Список чатов. Каждый элемент: {id_i (это CHAT id, не invoice_id
-        заказа — совпадение имени поля чисто случайное на стороне GGSell), email,
-        product (offer_id), last_message, cnt_msg, cnt_new}. Фильтруй по email
-        покупателя (из get_order_info.content.buyer_info.email) и сверяй
-        product == item_id заказа, чтобы найти нужный чат для create_message.
+        """Список чатов. НЕ ИСПОЛЬЗУЕТСЯ: возвращает записи с id_i: null —
+        признанная поддержкой GGSell недоработка метода. Для create_message
+        id чата не нужен, там передаётся invoice_id. Оставлен на случай, если
+        GGSell починит метод.
         """
         params = {
             "filter_new": filter_new,

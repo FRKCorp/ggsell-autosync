@@ -20,10 +20,10 @@
 
 - [x] 0.1. Закоммитить `.gitignore` (исключение `.claude/settings.local.json`) и этот roadmap. — 2026-09-29
   - Готово когда: `git status` чистый, коммит в `origin/main`.
-- [ ] 0.2. Убрать устаревшие комментарии в `app/clients/ggsell.py`: `create_message`/`list_messages` (id_i = invoice_id, а не id чата), `list_chats` (метод не используем, баг GGSell), `create_offer` (draft подтверждён, delivery), `patch_offer` (частичный PATCH подтверждён), докстринг модуля (про `delivery=manual`).
+- [x] 0.2. Убрать устаревшие комментарии в `app/clients/ggsell.py`: `create_message`/`list_messages` (id_i = invoice_id, а не id чата), `list_chats` (метод не используем, баг GGSell), `create_offer` (draft подтверждён, delivery), `patch_offer` (частичный PATCH подтверждён), докстринг модуля (про `delivery=manual`). — 2026-09-29
   - Готово когда: в `ggsell.py` нет TODO/утверждений, противоречащих `architecture-notes.md`.
-- [ ] 0.3. Убрать устаревшее в `app/orders/order_processor.py`: TODO «путь get_order_info не подтверждён», фраза «исправить когда придёт ответ поддержки».
-- [ ] 0.4. Зафиксировать `delivery: "auto"` как стандарт для всех офферов (решение из 3.8) — в коде, докстрингах и `scripts/create_test_offer.py`.
+- [x] 0.3. Убрать устаревшее в `app/orders/order_processor.py`: TODO «путь get_order_info не подтверждён», фраза «исправить когда придёт ответ поддержки». — 2026-09-29
+- [x] 0.4. Зафиксировать `delivery: "auto"` как стандарт для всех офферов (решение из 3.8) — в коде, докстрингах и `scripts/create_test_offer.py`. — 2026-09-29
 - [ ] 0.5. Актуализировать `docs/architecture-notes.md`: раздел 1 «Статус», 3.6 (id_i), 5 (Telegram больше не заблокирован chat_id).
 - [ ] 0.6. Актуализировать `CLAUDE.md`: состояние прод-БД, как деплоить (`git pull` + `docker compose up -d --build app scheduler`), ссылка на этот roadmap.
 - [ ] 0.7. Тесты зелёные: `venv/Scripts/python -m pytest`.

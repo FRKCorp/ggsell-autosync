@@ -78,7 +78,9 @@ def main() -> None:
             "min_quantity": 1,
             "max_quantity": 1,
             "is_unlimited_quantity": True,
-            "delivery": "manual",
+            # Стандарт для всех наших офферов (architecture-notes.md, 3.8):
+            # delivery через PATCH потом не меняется.
+            "delivery": "auto",
         }
         if webhook_url:
             payload["notification_settings"] = {
@@ -107,23 +109,7 @@ def main() -> None:
         print()
         print(f"id оффера: {offer_id}")
         print(f"статус: {status}  {'✅ (черновик, как надо)' if status == 'draft' else '⚠️ — проверь, ожидали draft'}")
-        print(f"delivery: {delivery}  {'✅' if delivery == 'manual' else '⚠️ отправляли manual, пришло другое — пробую PATCHом'}")
-
-        if delivery != "manual" and offer_id:
-            print()
-            print(f"→ Пробую PATCH /offers/{offer_id} с только {{'delivery': 'manual'}} (частичный patch)...")
-            try:
-                patch_result = v2.patch_offer(offer_id, {"delivery": "manual"})
-                print("  Ответ:")
-                print(f"  {patch_result}")
-                patched_offer = patch_result.get("data", patch_result) if isinstance(patch_result, dict) else patch_result
-                new_delivery = patched_offer.get("delivery") if isinstance(patched_offer, dict) else None
-                if new_delivery == "manual":
-                    print("  ✅ Частичный PATCH сработал — достаточно отправлять только изменённое поле, не весь объект.")
-                else:
-                    print(f"  ⚠️ delivery после PATCH всё ещё '{new_delivery}' — частичный PATCH не сработал как ожидалось.")
-            except GGSellError as e:
-                print(f"  ❌ PATCH вернул ошибку: status={e.status_code} payload={e.payload}")
+        print(f"delivery: {delivery}  {'✅' if delivery == 'auto' else '⚠️ отправляли auto, пришло другое — через PATCH это не исправить, удали оффер'}")
 
         print()
         print("Дальше: загляни в личный кабинет GGSell — появилась ли карточка в списке")
