@@ -24,8 +24,8 @@
   - Готово когда: в `ggsell.py` нет TODO/утверждений, противоречащих `architecture-notes.md`.
 - [x] 0.3. Убрать устаревшее в `app/orders/order_processor.py`: TODO «путь get_order_info не подтверждён», фраза «исправить когда придёт ответ поддержки». — 2026-09-29
 - [x] 0.4. Зафиксировать `delivery: "auto"` как стандарт для всех офферов (решение из 3.8) — в коде, докстрингах и `scripts/create_test_offer.py`. — 2026-09-29
-- [ ] 0.5. Актуализировать `docs/architecture-notes.md`: раздел 1 «Статус», 3.6 (id_i), 5 (Telegram больше не заблокирован chat_id).
-- [ ] 0.6. Актуализировать `CLAUDE.md`: состояние прод-БД, как деплоить (`git pull` + `docker compose up -d --build app scheduler`), ссылка на этот roadmap.
+- [x] 0.5. Актуализировать `docs/architecture-notes.md`: раздел 1 «Статус», 3.6 (id_i), 5 (Telegram больше не заблокирован chat_id). — 2026-09-29
+- [x] 0.6. Актуализировать `CLAUDE.md`: состояние прод-БД, как деплоить (`git pull` + `docker compose up -d --build app scheduler`), ссылка на этот roadmap. — 2026-09-29
 - [ ] 0.7. Тесты зелёные: `venv/Scripts/python -m pytest`.
 
 ## Этап 1. Импорт giftcards
