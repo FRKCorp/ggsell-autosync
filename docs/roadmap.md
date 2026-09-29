@@ -33,8 +33,8 @@
 
 - [x] 1.1. `import_all_giftcard_offers(session, client, category_id, region_label)` в `app/sync/fz_catalog.py` — один запрос на категорию, по аналогии с топапами, с той же логикой пометки региона в названии. — 2026-09-29
 - [x] 1.2. Тесты на новую функцию (мок клиента FZ): создание, повторный запуск = обновление без дублей, пометка региона. — 2026-09-29
-- [ ] 1.3. `scripts/bulk_import_giftcards.py` по образцу `bulk_import_topups.py`, читает `data/selected_giftcard_categories.json`.
-- [ ] 1.4. Прогон локально: все 236 категорий без ошибок (или каждая ошибка разобрана и записана).
+- [x] 1.3. `scripts/bulk_import_giftcards.py` по образцу `bulk_import_topups.py`, читает `data/selected_giftcard_categories.json`. — 2026-09-30
+- [x] 1.4. Прогон локально: все 236 категорий без ошибок (или каждая ошибка разобрана и записана). — 2026-09-30: 236/236 категорий, 1918 позиций, 0 ошибок, 0 пустых
 - [ ] 1.5. **[прод]** Деплой + прогон на сервере.
   - Готово когда: `select source_type, count(*) from positions` на проде показывает topup=526 и giftcard=N (N записать сюда).
 - [ ] 1.6. Следующий цикл `scheduler` на проде прошёл с `ошибок=0` (или ошибки разобраны) — проверка через `docker compose logs scheduler`.
