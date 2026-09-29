@@ -35,15 +35,15 @@
     { "category_id": "apex_legends_mobile_ph", "region_label": "PH" },
     { "category_id": "apex_legends_mobile_sg", "region_label": "SG" },
     { "category_id": "apex_legends_mobile_th", "region_label": "TH" },
-    { "category_id": "apex_legendstm_ea", "region_label": null },
-    { "category_id": "apex_legendstm_xbox", "region_label": null },
+    { "category_id": "apex_legendstm_ea", "region_label": "Global" },
+    { "category_id": "apex_legendstm_xbox", "region_label": "Global" },
 
     { "category_id": "ea_gift_cards_eu", "region_label": "EU" },
     { "category_id": "ea_gift_cards_uk", "region_label": "UK" },
     { "category_id": "ea_gift_cards_us", "region_label": "US" },
 
-    { "category_id": "pubg_mobile", "region_label": null },
-    { "category_id": "pubg_battlegrounds_global", "region_label": null },
+    { "category_id": "pubg_mobile", "region_label": "Global" },
+    { "category_id": "pubg_battlegrounds_global", "region_label": "Global" },
 
     { "category_id": "steam_cis", "region_label": "CIS" },
     { "category_id": "steam_wallet_ae", "region_label": "AE" },
