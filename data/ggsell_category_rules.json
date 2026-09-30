@@ -1,0 +1,163 @@
+{
+  "_comment": "Подбор категории GGSell для позиций FZ (app/offers/categories.py). Ключ — category_id FZ или шаблон с * (для giftcards по сервису). Правила проверяются по порядку, первое подходящее (match — регулярка по названию оффера FZ, без match — всё) выигрывает. node — ветка GGSell, by — как от неё спускаться к листу (region — по стране из region_label позиции, nominal — по номиналу из названия). node: null — подходящей категории на GGSell нет, позиция уходит в отчёт на решение. review: true — выбор неочевиден, показать в отчёте на проверку. Дерево — data/ggsell_category_tree.json, собрано 30.09.",
+
+  "8_ball_pool": [
+    {"match": "Coins", "node": 62697},
+    {"match": "Cash", "node": 62698},
+    {"node": null, "note": "Спины/скретчеры/Golden Shots/наборы: у GGSell в 8 Ball Pool только Монеты, Деньги, Кии, Кольца"}
+  ],
+  "afk_journey": [
+    {"match": "Dragon Crystals", "node": 120343},
+    {"match": "Gazette", "node": 120344},
+    {"node": null, "note": "Growth Bundle: подходящей ветки нет (только Валюта и BattlePass)"}
+  ],
+  "ace_racer": [{"node": 113625}],
+  "acecraft": [
+    {"match": "Diamonds", "node": 100303855},
+    {"match": "M-cash", "node": 100303857},
+    {"node": null, "note": "Recruit Ticket: подходящей ветки нет (только Алмазы и M-cash)"}
+  ],
+  "arena_breakout": [
+    {"match": "Bonds", "node": 140865, "by": ["nominal"]},
+    {"match": "Advanced Battle Pass", "node": 183409},
+    {"match": "Premium Battle Pass", "node": 140873},
+    {"node": 140874, "review": true, "note": "Кейсы, Beginner Select — в Наборы"}
+  ],
+  "arena_breakout_infinite": [
+    {"match": "Bonds", "node": 140940, "by": ["nominal"]},
+    {"match": "Advanced Battle Pass", "node": 115976},
+    {"match": "Premium Battle Pass", "node": 100317465}
+  ],
+  "bigo_live": [{"node": 182857}],
+  "blood_strike": [
+    {"match": "\\bBC\\b", "node": 113629},
+    {"match": "Pass", "node": 202600},
+    {"node": null, "note": "DEAL-наборы, Lucky Bag, Ultra Skin Lucky Chest: у GGSell только Золото и Пропуска"}
+  ],
+  "bullet_echo": [
+    {"match": "Bucks", "node": 113649},
+    {"node": null, "note": "Наборы/карты/сундуки: у GGSell в Bullet Echo только ветка Баксы"}
+  ],
+  "capcut": [
+    {"match": "Standard", "node": 197752, "by": ["nominal"]},
+    {"match": "Pro", "node": 197758, "by": ["nominal"]}
+  ],
+  "codm_activision_in": [{"node": 36350}],
+  "codm_activision_kz": [{"node": 36350}],
+  "codm_activision_us": [{"node": 36350}],
+  "crossout_mobile": [
+    {"match": "pack", "node": 144124},
+    {"match": "shards", "node": 144128, "review": true, "note": "Осколки (shards) — положил в Хрониты, проверить соответствие валюты"}
+  ],
+  "delta_force": [
+    {"match": "Delta Coins", "node": 140954, "by": ["nominal"]},
+    {"match": "Season Pass", "node": 133634}
+  ],
+  "eve_echoes": [
+    {"match": "AUR", "node": 124291},
+    {"match": "Tech Leap", "node": 128838, "review": true, "note": "Tech Leap Program — в Фонд развития пилотов (service)"}
+  ],
+  "farlight_84": [{"node": 110276}],
+  "free_fire_cis": [
+    {"match": "Diamonds", "node": 62699, "review": true, "note": "CIS-алмазы — в ветку Россия (CIS-пополнение работает для аккаунтов СНГ)"},
+    {"node": 140830, "review": true, "note": "Membership/Level Up/Evo Access/Newbie Bundle — в Пропуска"}
+  ],
+  "genshin_impact_global": [
+    {"match": "Welkin", "node": 100404013},
+    {"match": "Genesis Crystals", "node": 100398879, "by": ["nominal"]}
+  ],
+  "honkai_star_rail_global": [
+    {"match": "Express Supply Pass", "node": 98578},
+    {"match": "Oneiric Shard", "node": 100404179, "by": ["nominal"]}
+  ],
+  "honor_of_kings": [
+    {"match": "Tokens", "node": 113623, "by": ["nominal"]},
+    {"match": "Weekly Card", "node": 183178},
+    {"node": null, "note": "Паки (Honor Point Value Pack, Rebate Pack, Lucky Bag): у GGSell только Жетоны и Недельная карта"}
+  ],
+  "likee": [{"node": 100312645}],
+  "lords_mobile": [
+    {"match": "Pass", "node": 184249},
+    {"match": "Diamonds", "node": 63018}
+  ],
+  "love_and_deepspace": [
+    {"match": "Aurum Pass", "node": 100326551},
+    {"match": "Companionship", "node": 100326559},
+    {"match": "Crystals", "node": 100326543}
+  ],
+  "magic_chess_gogo_global": [
+    {"match": "Weekly|Bounty|Discounts", "node": 100411979},
+    {"node": 139884}
+  ],
+  "magic_chess_gogo_ru": [
+    {"match": "Weekly|Bounty|Discounts", "node": 100411979},
+    {"node": 139884}
+  ],
+  "marvel_rivals": [{"node": 139910, "by": ["nominal"]}],
+  "mobile_legends_global": [
+    {"match": "Diamonds", "node": 100319135, "by": ["nominal"]},
+    {"match": "^Weekly Pass$", "node": 111655},
+    {"match": "Twilight Pass", "node": 91382},
+    {"node": null, "note": "Weekly/Monthly Elite Pack: подходящей ветки нет (у MLBB — Алмазы, Подарки, Алмазный и Сумеречный пропуски)"}
+  ],
+  "mobile_legends_ru": [
+    {"match": "Diamonds", "node": 100319005, "by": ["nominal"]},
+    {"match": "Weekly Pass", "node": 100318681}
+  ],
+  "pubg_mobile_auto": [
+    {"match": "\\bUC\\b", "node": 100321877, "by": ["nominal"]},
+    {"match": "Elite Pass", "node": 147291},
+    {"match": "Pack|Deal|Prime", "node": 100320189, "review": true, "note": "Prime/Prime Plus и паки — в Наборы/Акции"},
+    {"node": null, "note": "WOW Coins: подходящей ветки нет"}
+  ],
+  "pubg_new_state": [{"node": 113619}],
+  "punishing_gray_raven": [{"node": 128842}],
+  "r6_mobile_global": [{"node": 100314031}],
+  "silver_and_blood": [{"node": 180547}],
+  "stumble_guys": [{"node": 102345}],
+  "super_sus": [
+    {"match": "Goldstar", "node": 105563},
+    {"node": 100400381, "review": true, "note": "Weekly/Monthly Card, Super Pass, Super VIP Card — в Пропуски"}
+  ],
+  "undawn_global": [
+    {"match": "\\bRC\\b", "node": 105549},
+    {"node": null, "note": "Паки/пропуски/карты: у GGSell в Undawn только ветка RC"}
+  ],
+  "wuthering_waves": [
+    {"match": "Subscription", "node": 116322},
+    {"match": "Lunite", "node": 134214, "by": ["nominal"]}
+  ],
+  "zenless_zone_zero_global": [
+    {"match": "Inter-Knot", "node": 118823},
+    {"match": "Monochromes", "node": 100404035, "by": ["nominal"]}
+  ],
+  "zepeto": [
+    {"match": "ZEMS", "node": 113647},
+    {"match": "Coins", "node": 123052},
+    {"node": null, "note": "Premium (1M): подходящей ветки нет"}
+  ],
+
+  "google_play_*": [{"node": 76234, "by": ["region"]}],
+  "netflix_*": [{"node": 83267, "by": ["region"]}],
+  "app_store_itunes_*": [{"node": 34955, "by": ["region"]}],
+  "playstation_*": [{"node": 106812, "by": ["region"]}],
+  "nintendo_*": [{"node": 51270, "by": ["region"]}],
+  "steam_wallet_*": [{"node": 128113, "by": ["region"]}],
+  "steam_cis": [{"node": 128113, "by": ["region"]}],
+  "steam_wallet_us": [{"node": 128240, "review": true, "note": "Отдельной ветки США у карт Steam Wallet на GGSell нет — в Global"}],
+  "roblox_*": [{"node": 28145}],
+  "wild_rift_*": [{"node": 62715}],
+  "league_of_legends_*": [{"node": 120502, "by": ["region", "nominal"], "region_map": {"US": "NA", "CA": "NA", "UK": "EU", "DK": "EU", "NO": "EU", "SE": "EU", "CH": "EU", "PL": "EU"}, "note": "RP делится по серверам: US/CA → Северная Америка, UK и европейские страны → Европа (EU)"}],
+  "xbox_game_pass_*": [
+    {"match": "Core", "node": 107295, "review": true, "note": "Game Pass Core переименован Microsoft в Essential — в Ключи > Essential"},
+    {"match": "Ultimate|Essential|Premium|PC", "node": 107289, "by": ["title"]},
+    {"node": null, "note": "Game Pass без указания тарифа (MENA): непонятно, в какой лист — Ultimate/Essential/Premium/PC"}
+  ],
+  "ea_gift_cards_*": [{"node": 155015, "by": ["region"]}],
+  "exitlag_*": [{"node": 86103}],
+  "apex_legends_mobile_*": [{"node": 62681}],
+  "apex_legendstm_*": [{"node": 98124, "by": ["nominal"]}],
+  "pubg_mobile": [{"node": 100321879, "by": ["nominal"]}],
+  "pubg_battlegrounds_global": [{"node": 100402101, "by": ["nominal"]}],
+  "razer_gold_*": [{"node": null, "note": "У Razer Gold на GGSell есть только подкатегория «Аккаунты» — листа под подарочные карты нет, а в корень лот не создать. Вариант: спросить поддержку GGSell / клиента."}]
+}
