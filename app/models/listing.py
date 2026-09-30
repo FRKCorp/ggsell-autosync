@@ -45,4 +45,14 @@ class Listing(TimestampMixin, Base):
     # не заглядывая каждый раз в Position (она могла обновиться позже).
     price_source_usd_at_sync: Mapped[Decimal] = mapped_column(Numeric(12, 4))
 
+    # Категория GGSell лота и её комиссии на момент выставления (доли: 0.02 =
+    # 2%) — удерживаются из цены, поэтому входят в расчёт price_rub
+    # (app/pricing/calculator.py, GGSellFees). GGSell может менять комиссии —
+    # храним, из каких считали.
+    ggsell_category_id: Mapped[Optional[int]] = mapped_column(nullable=True)
+    ggsell_fee: Mapped[Decimal] = mapped_column(Numeric(6, 4), default=Decimal(0), server_default="0")
+    ggsell_payment_fee: Mapped[Decimal] = mapped_column(
+        Numeric(6, 4), default=Decimal(0), server_default="0"
+    )
+
     orders: Mapped[list["Order"]] = relationship(back_populates="listing")  # noqa: F821

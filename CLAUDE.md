@@ -29,7 +29,7 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 - `app/clients/ggsell.py` — `GGSellV2Client` (каталог, статичный ключ) + `GGSellV1Client` (заказы/чат, логин по подписи).
 - `app/models/` — `Position` (кэш каталога FZ), `Listing` (лот на GGSell), `Order` (жизненный цикл заказа).
 - `app/sync/` — парсер FZ → `Position`, группировка запросов по категориям, APScheduler-job каждые 12ч (`app.sync.main`).
-- `app/pricing/calculator.py` — курс+наценка+защита от убытка, чистые функции, 11 тестов.
+- `app/pricing/calculator.py` — курс+наценка+комиссия GGSell (`GGSellFees`: fee категории + 2.7% за оплату, удерживаются из цены лота)+защита от убытка, чистые функции.
 - `app/orders/order_processor.py` — вся логика заказа end-to-end, включая `create_message(invoice_id)` покупателю, 5 тестов.
 - `app/api/webhooks.py` — реальный вебхук пойман и разобран, подключён к order_processor.
 - Прод-БД: 597 топапов (40 категорий) + 1918 giftcards (236 категорий) = 2515 позиций, у всех регион в названии. Полный цикл синхронизации цен ~2 мин, ~280 запросов к FZ. Локальная БД — `docker compose up -d db`, плюс 2 тестовые позиции от `seed_test_positions.py`, которых на проде нет.

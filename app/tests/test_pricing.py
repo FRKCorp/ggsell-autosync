@@ -92,3 +92,87 @@ def test_check_price_deviation_handles_price_drop_too(config):
     result = check_price_deviation(Decimal("10.00"), Decimal("9.00"), config)
     assert result.deviation_percent == Decimal("10.00")
     assert result.within_threshold is False
+
+
+# ----------------------------------------------------------------------
+# Комиссия GGSell (roadmap 3.4a)
+# ----------------------------------------------------------------------
+
+from app.pricing.calculator import NO_FEES, GGSellFees, net_payout_rub  # noqa: E402
+
+# Категория валюты: fee 2% + payment_fee 2.7% (как у тестовой продажи 22.09).
+CURRENCY_FEES = GGSellFees(fee=Decimal("0.02"), payment_fee=Decimal("0.027"))
+
+
+def test_net_payout_matches_real_sale():
+    """Реальная продажа 22.09 (заказ 51308662): лот 1.00 ₽, категория с
+    fee 2% + 2.7% — GGSell выплатил продавцу 0.95 ₽ (profit)."""
+    payout = net_payout_rub(Decimal("1.00"), CURRENCY_FEES)
+    assert payout == Decimal("0.953")
+    assert payout.quantize(Decimal("0.01")) == Decimal("0.95")
+
+
+def test_price_with_fees_keeps_full_markup_after_payout(config):
+    price_usd = Decimal("10.00")
+    price_rub = calculate_price_rub(price_usd, config, CURRENCY_FEES)
+
+    # 10 * 95 * 1.15 / (1 − 0.047) = 1146.3798…, округление вверх
+    assert price_rub == Decimal("1146.38")
+    cost = base_cost_rub(price_usd, config.exchange_rate_usd_to_rub)
+    assert net_payout_rub(price_rub, CURRENCY_FEES) >= cost * Decimal("1.15")
+
+
+def test_price_without_fees_unchanged(config):
+    """Вызовы без комиссий (старое поведение) не изменились."""
+    assert calculate_price_rub(Decimal("1.00"), config) == Decimal("109.25")
+    assert calculate_price_rub(Decimal("1.00"), config, NO_FEES) == Decimal("109.25")
+
+
+def test_old_price_is_loss_making_in_high_fee_category(config):
+    """Ради чего всё это: цена без учёта комиссии в категории с 15% + 2.7%
+    не проходит даже минимальную маржу 3%."""
+    fees = GGSellFees(fee=Decimal("0.15"), payment_fee=Decimal("0.027"))
+    price_usd = Decimal("10.00")
+    old_price = calculate_price_rub(price_usd, config)  # без комиссии
+    assert not is_margin_safe(old_price, price_usd, config.exchange_rate_usd_to_rub, config, fees)
+    new_price = calculate_price_rub(price_usd, config, fees)
+    assert is_margin_safe(new_price, price_usd, config.exchange_rate_usd_to_rub, config, fees)
+
+
+def test_margin_is_computed_from_payout(config):
+    price_usd = Decimal("2.60")
+    price_rub = calculate_price_rub(price_usd, config, CURRENCY_FEES)
+    margin = actual_margin_percent(price_rub, price_usd, config.exchange_rate_usd_to_rub, CURRENCY_FEES)
+    assert config.markup_percent <= margin < config.markup_percent + Decimal("0.1")
+
+
+def test_fees_from_category_floats():
+    fees = GGSellFees.from_category(0.07, 0.027)
+    assert fees.fee == Decimal("0.07") and fees.payment_fee == Decimal("0.027")
+    assert GGSellFees.from_category(0.02, None).total == Decimal("0.02")
+
+
+@pytest.mark.parametrize("fee, payment_fee", [("-0.01", "0"), ("0.9", "0.1"), ("1", "0")])
+def test_invalid_fees_rejected(fee, payment_fee):
+    with pytest.raises(ValueError):
+        GGSellFees(fee=Decimal(fee), payment_fee=Decimal(payment_fee))
+
+
+def test_all_mapped_categories_give_full_markup(config):
+    """Для каждой из подобранных категорий (реальные fee из
+    data/ggsell_category_map.json) выплата продавцу покрывает наценку."""
+    import json
+    from pathlib import Path
+
+    mapping = json.loads(
+        (Path(__file__).resolve().parents[2] / "data" / "ggsell_category_map.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert len(mapping) > 2000
+    price_usd = Decimal("3.33")
+    cost = base_cost_rub(price_usd, config.exchange_rate_usd_to_rub)
+    for external_id, category in mapping.items():
+        fees = GGSellFees.from_category(category["fee"], category["payment_fee"])
+        price_rub = calculate_price_rub(price_usd, config, fees)
+        assert net_payout_rub(price_rub, fees) >= cost * Decimal("1.15"), external_id
