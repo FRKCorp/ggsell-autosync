@@ -1,0 +1,158 @@
+{
+  "_comment": "Тексты карточек GGSell (roadmap 3.5). По образцу клиента от 01.10 (notes 6.11), вариант 1 инструкции — ID и сервер в отдельных полях. Можно править формулировки, не трогая код. Подстановки: {game} — игра/сервис без региона, {region} — код региона (Global, RU, US…), {item} — товар («Алмазы 275 (250+25)»), {tag} — «по ID» / «Код», {fields} — что вводит покупатель («ID игрока и ID сервера»), {region_text} — строка о регионе (regions ниже), {service} — игра/сервис для активации кода. Пустые строки в списках — пустые строки в тексте. Сборщик: app/offers/builder.py.",
+  "title": {
+    "ru": "{game} {region}* {item} | {tag} | Автодоставка",
+    "en": "{game} {region}* {item} | {tag} | Auto delivery"
+  },
+  "tag": {
+    "topup": {
+      "ru": "по ID",
+      "en": "by ID"
+    },
+    "giftcard": {
+      "ru": "Код",
+      "en": "Code"
+    }
+  },
+  "topup": {
+    "description_ru": [
+      "🎮 {item} — пополнение по {fields}.",
+      "🚀 Автодоставка обычно занимает 2-10 минут.",
+      "🌎 {region_text}",
+      "",
+      "{rule}",
+      "{select_rule}",
+      "⚙️ После оплаты бот выдаст вам товар. Товар выдаётся автоматически 24/7, но если у вас будут вопросы по заказу, то получить поддержку можно с 11 до 01:00 по мск.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ ВАЖНО ПРО АВТОВЫДАЧУ:",
+      "Пополнение выполняется напрямую через API провайдера и работает автоматически 24/7. Сразу после оплаты система мгновенно покупает и зачисляет донат на игровой аккаунт.",
+      "Поэтому изменить данные, отменить заказ или вернуть средства невозможно. Пожалуйста, внимательно проверяйте данные перед оплатой!",
+      "❗ В случае успешной отправки на неверно указанный ID или сервер услуга также считается исполненной, поэтому внимательно проверяйте ID и сервер.",
+      "❗ Любой возврат, инициированный по вашей вине (вы проигнорировали требования предоставления товара, например у вашего аккаунта не подходит регион), идёт с удержанием до 20% суммы. Если же вдруг вина на нас, то вы получите назад средства полностью."
+    ],
+    "description_en": [
+      "🎮 {item} — top-up by {fields}.",
+      "🚀 Auto delivery usually takes 2-10 minutes.",
+      "🌎 {region_text}",
+      "",
+      "{rule}",
+      "{select_rule}",
+      "⚙️ After payment the bot delivers the item automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ IMPORTANT ABOUT AUTO DELIVERY:",
+      "The top-up is made directly through the provider's API and works automatically 24/7. Right after payment the system buys and credits the item to the game account.",
+      "Therefore the data cannot be changed, and the order cannot be cancelled or refunded. Please check your data carefully before paying!",
+      "❗ If the top-up is successfully sent to an incorrectly entered ID or server, the service is considered fulfilled, so check your ID and server carefully.",
+      "❗ Any refund caused by your mistake (for example, your account's region does not match) is made with a deduction of up to 20%. If the fault is ours, you will get a full refund."
+    ],
+    "rule_one_field_ru": "❗️ Пожалуйста, вводите {fields} в соответствующее поле без лишних символов! СКОБКИ ПИСАТЬ НЕ НУЖНО!",
+    "rule_many_fields_ru": "❗️ Пожалуйста, вводите {fields} каждый в соответствующее поле без лишних символов! СКОБКИ ПИСАТЬ НЕ НУЖНО!",
+    "rule_one_field_en": "❗️ Please enter your {fields} in the corresponding field without extra characters! NO BRACKETS!",
+    "rule_many_fields_en": "❗️ Please enter {fields} each in its own field without extra characters! NO BRACKETS!",
+    "instructions_ru": "Товар будет зачислен на указанный аккаунт автоматически, обычно в течение 2-10 минут после оплаты. Если возникнут вопросы по заказу — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
+    "instructions_en": "The item will be credited to the specified account automatically, usually within 2-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time.",
+    "select_rule_ru": "❗️ Сервер выберите из списка при оформлении заказа — по умолчанию там стоит «— выберите сервер —».",
+    "select_rule_en": "❗️ Choose your server from the list when placing the order — by default it says «— choose a server —»."
+  },
+  "giftcard": {
+    "description_ru": [
+      "🎁 {item} — цифровой код, приходит в чат заказа.",
+      "🚀 Автодоставка обычно занимает 1-5 минут.",
+      "🌎 {region_text}",
+      "",
+      "⚙️ После оплаты бот пришлёт код в чат заказа автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 01:00 по мск.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ ВАЖНО ПРО АВТОВЫДАЧУ:",
+      "Код покупается у провайдера и выдаётся автоматически сразу после оплаты. Поэтому после выдачи кода отменить заказ или вернуть средства невозможно.",
+      "❗ Перед покупкой убедитесь, что регион вашего аккаунта совпадает с регионом карты — карта другого региона не активируется.",
+      "❗ Любой возврат, инициированный по вашей вине (например, у вашего аккаунта не подходит регион), идёт с удержанием до 20% суммы. Если же вдруг вина на нас, то вы получите назад средства полностью."
+    ],
+    "description_en": [
+      "🎁 {item} — digital code, delivered to the order chat.",
+      "🚀 Auto delivery usually takes 1-5 minutes.",
+      "🌎 {region_text}",
+      "",
+      "⚙️ After payment the bot sends the code to the order chat automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ IMPORTANT ABOUT AUTO DELIVERY:",
+      "The code is bought from the provider and delivered automatically right after payment. Therefore the order cannot be cancelled or refunded once the code is delivered.",
+      "❗ Before buying, make sure your account region matches the card region — a card of another region will not activate.",
+      "❗ Any refund caused by your mistake (for example, your account's region does not match) is made with a deduction of up to 20%. If the fault is ours, you will get a full refund."
+    ],
+    "instructions_ru": "Код придёт в чат заказа сразу после оплаты. Активируйте его в {service} на аккаунте нужного региона. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
+    "instructions_en": "The code will arrive in the order chat right after payment. Redeem it in {service} on an account of the matching region. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time."
+  },
+  "regions": {
+    "topup": {
+      "ru": {
+        "RU": "Для России, Украины, Казахстана и Беларуси",
+        "CIS": "Для России и стран СНГ",
+        "Global": "Для аккаунтов любого региона (Global)",
+        "_default": "Для аккаунтов региона: {region_name}"
+      },
+      "en": {
+        "RU": "For Russia, Ukraine, Kazakhstan and Belarus",
+        "CIS": "For Russia and CIS countries",
+        "Global": "For accounts of any region (Global)",
+        "_default": "For accounts of the region: {region_name}"
+      }
+    },
+    "giftcard": {
+      "ru": {
+        "Global": "Глобальная карта — подходит для аккаунтов любого региона",
+        "_default": "Только для аккаунтов региона {region_name}"
+      },
+      "en": {
+        "Global": "Global card — works for accounts of any region",
+        "_default": "Only for accounts of the region: {region_name}"
+      }
+    }
+  },
+  "fields": {
+    "_comment": "Как поле FZ называется в описании. by_* — после «пополнение по…» («по ID игрока и серверу»), enter_* — в правиле ввода («вводите ID игрока и ID сервера»; поля-списки сюда не входят — для них select_rule). Нет в списке — берётся подпись поля FZ.",
+    "by_ru": {
+      "player_id": "ID игрока",
+      "user_id": "ID игрока",
+      "account_id": "ID аккаунта",
+      "likee_id": "Likee ID",
+      "bigo_id": "Bigo ID",
+      "server_id": "ID сервера",
+      "server": "серверу"
+    },
+    "by_en": {
+      "player_id": "player ID",
+      "user_id": "user ID",
+      "account_id": "account ID",
+      "likee_id": "Likee ID",
+      "bigo_id": "Bigo ID",
+      "server_id": "server ID",
+      "server": "server"
+    },
+    "enter_ru": {
+      "player_id": "ID игрока",
+      "user_id": "ID игрока",
+      "account_id": "ID аккаунта",
+      "likee_id": "Likee ID",
+      "bigo_id": "Bigo ID",
+      "server_id": "ID сервера"
+    },
+    "enter_en": {
+      "player_id": "player ID",
+      "user_id": "user ID",
+      "account_id": "account ID",
+      "likee_id": "Likee ID",
+      "bigo_id": "Bigo ID",
+      "server_id": "server ID"
+    },
+    "and_ru": " и ",
+    "and_en": " and "
+  }
+}
