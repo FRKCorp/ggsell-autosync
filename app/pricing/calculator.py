@@ -87,15 +87,16 @@ def calculate_price_rub(
     config: PricingConfig,
     fees: GGSellFees = NO_FEES,
     *,
-    round_to: Decimal = Decimal("0.01"),
+    round_to: Decimal = Decimal("1"),
 ) -> Decimal:
     """Цена на GGSell = себестоимость * (1 + наценка%) / (1 − комиссии GGSell)
     — чтобы после удержания комиссий у продавца осталась ровно наценка.
     Без fees — как раньше, себестоимость * (1 + наценка%).
 
-    Округление ВВЕРХ (ROUND_CEILING), а не по банковским/школьным правилам —
-    округление вниз тихо съедало бы часть наценки на каждой отдельной
-    позиции, а таких позиций сотни.
+    Округление ВВЕРХ до целого рубля (решение клиента 01.10, roadmap 3.4b:
+    81.40 → 82). Вверх, а не по банковским/школьным правилам — округление
+    вниз тихо съедало бы часть наценки на каждой позиции, а их тысячи.
+    round_to=Decimal("0.01") — до копеек (для расчётов, не для витрины).
     """
     cost = base_cost_rub(price_usd, config.exchange_rate_usd_to_rub)
     price = cost * (Decimal(1) + config.markup_percent / Decimal(100)) / (Decimal(1) - fees.total)

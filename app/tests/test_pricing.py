@@ -27,10 +27,9 @@ def test_base_cost_rub():
 
 
 def test_calculate_price_rub_applies_markup(config):
-    # 1 USD * 95 RUB * 1.15 = 109.25 RUB — ровное число, округление вверх
-    # не должно ничего изменить.
-    price = calculate_price_rub(Decimal("1.00"), config)
-    assert price == Decimal("109.25")
+    # 1 USD * 95 RUB * 1.15 = 109.25 RUB — до копеек ровно, до рубля — вверх.
+    assert calculate_price_rub(Decimal("1.00"), config, round_to=Decimal("0.01")) == Decimal("109.25")
+    assert calculate_price_rub(Decimal("1.00"), config) == Decimal("110")
 
 
 def test_calculate_price_rub_rounds_up_not_down(config):
@@ -38,8 +37,17 @@ def test_calculate_price_rub_rounds_up_not_down(config):
     # с большим количеством знаков — например 0.7450 USD:
     # 0.7450 * 95 * 1.15 = 81.394625 -> округление вверх должно дать 81.40,
     # а не 81.39 (что дало бы школьное round-half-up).
-    price = calculate_price_rub(Decimal("0.7450"), config)
+    price = calculate_price_rub(Decimal("0.7450"), config, round_to=Decimal("0.01"))
     assert price == Decimal("81.40")
+
+
+def test_calculate_price_rub_rounds_up_to_whole_ruble_by_default(config):
+    """Решение клиента 01.10: цена на витрине — вверх до целого рубля
+    (его же пример: 81.40 → 82)."""
+    assert calculate_price_rub(Decimal("0.7450"), config) == Decimal("82")
+    # Ровно целое не трогаем.
+    exact = PricingConfig(Decimal("100"), Decimal("0"), Decimal("3"), Decimal("5"))
+    assert calculate_price_rub(Decimal("1.00"), exact) == Decimal("100")
 
 
 def test_actual_margin_percent_matches_configured_markup(config):
@@ -116,16 +124,16 @@ def test_price_with_fees_keeps_full_markup_after_payout(config):
     price_usd = Decimal("10.00")
     price_rub = calculate_price_rub(price_usd, config, CURRENCY_FEES)
 
-    # 10 * 95 * 1.15 / (1 − 0.047) = 1146.3798…, округление вверх
-    assert price_rub == Decimal("1146.38")
+    # 10 * 95 * 1.15 / (1 − 0.047) = 1146.3798…, вверх до рубля
+    assert price_rub == Decimal("1147")
     cost = base_cost_rub(price_usd, config.exchange_rate_usd_to_rub)
     assert net_payout_rub(price_rub, CURRENCY_FEES) >= cost * Decimal("1.15")
 
 
 def test_price_without_fees_unchanged(config):
-    """Вызовы без комиссий (старое поведение) не изменились."""
-    assert calculate_price_rub(Decimal("1.00"), config) == Decimal("109.25")
-    assert calculate_price_rub(Decimal("1.00"), config, NO_FEES) == Decimal("109.25")
+    """Без комиссий — себестоимость * (1 + наценка), как и раньше."""
+    assert calculate_price_rub(Decimal("1.00"), config, round_to=Decimal("0.01")) == Decimal("109.25")
+    assert calculate_price_rub(Decimal("1.00"), config, NO_FEES, round_to=Decimal("0.01")) == Decimal("109.25")
 
 
 def test_old_price_is_loss_making_in_high_fee_category(config):
@@ -141,7 +149,7 @@ def test_old_price_is_loss_making_in_high_fee_category(config):
 
 def test_margin_is_computed_from_payout(config):
     price_usd = Decimal("2.60")
-    price_rub = calculate_price_rub(price_usd, config, CURRENCY_FEES)
+    price_rub = calculate_price_rub(price_usd, config, CURRENCY_FEES, round_to=Decimal("0.01"))
     margin = actual_margin_percent(price_rub, price_usd, config.exchange_rate_usd_to_rub, CURRENCY_FEES)
     assert config.markup_percent <= margin < config.markup_percent + Decimal("0.1")
 

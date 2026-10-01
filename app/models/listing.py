@@ -55,4 +55,8 @@ class Listing(TimestampMixin, Base):
         Numeric(6, 4), default=Decimal(0), server_default="0"
     )
 
+    # Индивидуальная наценка лота, % (решение клиента 2.5, roadmap 3.4b):
+    # пусто — действует глобальная наценка из настроек (app/settings.py).
+    markup_percent: Mapped[Optional[Decimal]] = mapped_column(Numeric(7, 2), nullable=True)
+
     orders: Mapped[list["Order"]] = relationship(back_populates="listing")  # noqa: F821
