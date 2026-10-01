@@ -33,7 +33,7 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 - `app/pricing/exchange_rate.py` — курс USD→RUB = ЦБ + надбавка (5%), обновляется перед каждой синхронизацией; `app/settings.py` (таблица `settings`) — глобальная наценка, надбавка, курс — меняются из панели, не из `.env`; `app/pricing/listing_price.py` — цена лота (индивидуальная наценка `Listing.markup_percent` или глобальная), вверх до рубля.
 - `app/orders/order_processor.py` — вся логика заказа end-to-end, включая `create_message(invoice_id)` покупателю, 5 тестов.
 - `app/api/webhooks.py` — реальный вебхук пойман и разобран, подключён к order_processor.
-- `app/offers/` — всё для лота GGSell: `categories.py` (подбор листовой категории, карта `data/ggsell_category_map.json`), `options.py` (поля покупателя ⇄ опции), `builder.py` (карточка по образцу клиента; тексты в `data/offer_templates.json`, словарь — `data/offer_terms.json`).
+- `app/offers/` — всё для лота GGSell: `categories.py` (подбор листовой категории, карта `data/ggsell_category_map.json`), `options.py` (поля покупателя ⇄ опции), `builder.py` (карточка по образцу клиента; тексты в `data/offer_templates.json`, словарь — `data/offer_terms.json`). `uploader.py` + `scripts/upload_offers.py` — автозалив черновиков (повторный запуск безопасен; `--dry-run`, `--limit`, `--only`).
 - Прод-БД: 597 топапов (40 категорий) + 1918 giftcards (236 категорий) = 2515 позиций, у всех регион в названии. Полный цикл синхронизации цен ~2 мин, ~280 запросов к FZ. Локальная БД — `docker compose up -d db`, плюс 2 тестовые позиции от `seed_test_positions.py`, которых на проде нет.
 
 ## Решения клиента (этап 2 закрыт 01.10, подробно — notes 6.11)
