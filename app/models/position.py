@@ -41,7 +41,13 @@ class Position(TimestampMixin, Base):
     fz_offer_id: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     fz_appid: Mapped[Optional[int]] = mapped_column(nullable=True)
     fz_sub_id: Mapped[Optional[int]] = mapped_column(nullable=True)
+    # Регион товара кодом (US, RU, EU, CIS, Global…) — у всех типов позиций:
+    # клиент требует регион в названии и описании каждого лота (roadmap 1.9,
+    # app/regions.py). У steam_gift — регион цены FZ.
     region: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)
+    # Вариант товара, если у игры их несколько и это не регион: Auto у PUBG
+    # Mobile, Mobile / PC у Arena Breakout, Tier 1/2/3 у ExitLag.
+    variant_label: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
 
     name: Mapped[str] = mapped_column(String(500))
 

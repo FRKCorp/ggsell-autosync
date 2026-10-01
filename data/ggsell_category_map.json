@@ -1394,15 +1394,6 @@
   "review": false,
   "note": null
  },
- "giftcard:app_store_itunes_ca:200_cad": {
-  "category_id": 100404355,
-  "tree": "Сервисы и соцсети > Apple ID > Подарочные карты > Канада (CAD)",
-  "fee": 0.06,
-  "payment_fee": 0.027,
-  "via_fallback": false,
-  "review": false,
-  "note": null
- },
  "giftcard:app_store_itunes_ch:2_chf": {
   "category_id": 100404377,
   "tree": "Сервисы и соцсети > Apple ID > Подарочные карты > Швейцария (CHF)",
@@ -1593,15 +1584,6 @@
   "note": null
  },
  "giftcard:app_store_itunes_cn:1000_cny": {
-  "category_id": 100404357,
-  "tree": "Сервисы и соцсети > Apple ID > Подарочные карты > Китай (CNY)",
-  "fee": 0.06,
-  "payment_fee": 0.027,
-  "via_fallback": false,
-  "review": false,
-  "note": null
- },
- "giftcard:app_store_itunes_cn:30_cny": {
   "category_id": 100404357,
   "tree": "Сервисы и соцсети > Apple ID > Подарочные карты > Китай (CNY)",
   "fee": 0.06,
@@ -3618,15 +3600,6 @@
   "note": null
  },
  "giftcard:app_store_itunes_ru:900_rub": {
-  "category_id": 110397,
-  "tree": "Сервисы и соцсети > Apple ID > Подарочные карты > Россия (RUB)",
-  "fee": 0.09,
-  "payment_fee": 0.027,
-  "via_fallback": false,
-  "review": false,
-  "note": null
- },
- "giftcard:app_store_itunes_ru:800_rub": {
   "category_id": 110397,
   "tree": "Сервисы и соцсети > Apple ID > Подарочные карты > Россия (RUB)",
   "fee": 0.09,
@@ -9827,24 +9800,6 @@
   "review": false,
   "note": null
  },
- "giftcard:netflix_us:16_usd": {
-  "category_id": 114317,
-  "tree": "Сервисы и соцсети > Netflix > Карты оплаты > США",
-  "fee": 0.05,
-  "payment_fee": 0.027,
-  "via_fallback": false,
-  "review": false,
-  "note": null
- },
- "giftcard:netflix_us:15_usd": {
-  "category_id": 114317,
-  "tree": "Сервисы и соцсети > Netflix > Карты оплаты > США",
-  "fee": 0.05,
-  "payment_fee": 0.027,
-  "via_fallback": false,
-  "review": false,
-  "note": null
- },
  "giftcard:netflix_us:20_usd": {
   "category_id": 114317,
   "tree": "Сервисы и соцсети > Netflix > Карты оплаты > США",
@@ -9891,6 +9846,15 @@
   "note": null
  },
  "giftcard:netflix_us:75_usd": {
+  "category_id": 114317,
+  "tree": "Сервисы и соцсети > Netflix > Карты оплаты > США",
+  "fee": 0.05,
+  "payment_fee": 0.027,
+  "via_fallback": false,
+  "review": false,
+  "note": null
+ },
+ "giftcard:netflix_us:30_usd": {
   "category_id": 114317,
   "tree": "Сервисы и соцсети > Netflix > Карты оплаты > США",
   "fee": 0.05,
@@ -13095,15 +13059,6 @@
   "note": null
  },
  "giftcard:playstation_us:250_usd": {
-  "category_id": 106821,
-  "tree": "Сервисы и соцсети > PlayStation Network (PSN) > Карты пополнения > США",
-  "fee": 0.06,
-  "payment_fee": 0.027,
-  "via_fallback": false,
-  "review": false,
-  "note": null
- },
- "giftcard:playstation_us:20_usd": {
   "category_id": 106821,
   "tree": "Сервисы и соцсети > PlayStation Network (PSN) > Карты пополнения > США",
   "fee": 0.06,
@@ -17414,6 +17369,15 @@
   "review": false,
   "note": null
  },
+ "giftcard:steam_wallet_global:10_usd": {
+  "category_id": 128240,
+  "tree": "Сервисы и соцсети > Steam Wallet > Подарочные карты > Global",
+  "fee": 0.06,
+  "payment_fee": 0.027,
+  "via_fallback": false,
+  "review": false,
+  "note": null
+ },
  "giftcard:steam_wallet_hk:100_hkd": {
   "category_id": 128378,
   "tree": "Сервисы и соцсети > Steam Wallet > Подарочные карты > Гонконг",
@@ -19124,6 +19088,15 @@
   "review": false,
   "note": null
  },
+ "giftcard:wild_rift_br:425_wc": {
+  "category_id": 62715,
+  "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
+  "fee": 0.025,
+  "payment_fee": 0.027,
+  "via_fallback": false,
+  "review": false,
+  "note": null
+ },
  "giftcard:wild_rift_by:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
@@ -19692,6 +19665,15 @@
   "note": null
  },
  "giftcard:xbox_game_pass_eu:ultimate_3month": {
+  "category_id": 107293,
+  "tree": "Сервисы и соцсети > Xbox Live > Xbox Game Pass > Ключи > Ultimate",
+  "fee": 0.04,
+  "payment_fee": 0.027,
+  "via_fallback": false,
+  "review": false,
+  "note": null
+ },
+ "giftcard:xbox_game_pass_eu:ultimate_1month": {
   "category_id": 107293,
   "tree": "Сервисы и соцсети > Xbox Live > Xbox Game Pass > Ключи > Ultimate",
   "fee": 0.04,

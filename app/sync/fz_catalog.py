@@ -10,6 +10,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from decimal import Decimal
 from typing import Optional
@@ -19,6 +20,7 @@ from sqlalchemy.orm import Session
 
 from app.clients.fazercards import FazerCardsClient, FazerCardsError
 from app.models.position import Position, SourceType
+from app.regions import resolve_region
 
 DEFAULT_STEAM_REGION = "RU"
 
@@ -156,6 +158,7 @@ def _apply_price(
     fz_appid: Optional[int] = None,
     fz_sub_id: Optional[int] = None,
     region: Optional[str] = None,
+    variant_label: Optional[str] = None,
     raw_payload: Optional[dict] = None,
 ) -> ImportResult:
     position, created = _get_or_create(session, external_id)
@@ -168,6 +171,7 @@ def _apply_price(
     position.fz_appid = fz_appid
     position.fz_sub_id = fz_sub_id
     position.region = region
+    position.variant_label = variant_label
     position.last_known_price_usd = price_usd
     position.raw_payload = raw_payload or {}
 
@@ -188,48 +192,66 @@ def _apply_price(
 # ----------------------------------------------------------------------
 
 
-def _display_category_name(category_name: str, region_label: Optional[str]) -> str:
-    """Название категории с пометкой региона/варианта. FazerCards часто сам
-    уже включает регион в имя (например, mobile_legends_ru отдаёт
-    name="Mobile Legends (RU)", google_play_us — "Google Play (US)") — не
-    дублируем пометку, если она уже есть в исходном названии.
-    """
-    if region_label and region_label.lower() not in category_name.lower():
-        return f"{category_name} ({region_label})"
-    return category_name
+def position_name(
+    category_name: str, offer_name: str, region: Optional[str], variant_label: Optional[str] = None
+) -> str:
+    """«Категория (вариант, регион) — номинал». Пометки, которые уже есть в
+    названии категории или номинала, не дублируем: FZ часто сам пишет регион
+    («Google Play (US)», «1 Month (UK) Standard» у CapCut). Клиент требует
+    регион в названии каждого товара (roadmap 1.9)."""
+    labels = [
+        label
+        for label in (variant_label, region)
+        if label
+        and not any(
+            re.search(rf"(?<!\w){re.escape(label)}(?!\w)", text, re.IGNORECASE)
+            for text in (category_name, offer_name)
+        )
+    ]
+    if not labels:
+        return f"{category_name} — {offer_name}"
+    # «PUBG Mobile (Auto)» + Global → «PUBG Mobile (Auto, Global)», а не две пары скобок.
+    bracketed = re.match(r"^(.*\S)\s*\(([^()]*)\)\s*$", category_name)
+    if bracketed:
+        return f"{bracketed.group(1)} ({bracketed.group(2)}, {', '.join(labels)}) — {offer_name}"
+    return f"{category_name} ({', '.join(labels)}) — {offer_name}"
 
 
 def import_all_topup_offers(
     session: Session,
     client: FazerCardsClient,
     category_id: str,
-    region_label: Optional[str] = None,
+    region: Optional[str] = None,
+    variant_label: Optional[str] = None,
 ) -> list["ImportResult"]:
     """Импортирует ВСЕ офферы (номиналы) внутри одной категории
     топапов разом — один вызов get_topup_offers вместо N вызовов import_topup.
 
-    region_label: если у игры несколько вариантов по региону/типу (Free
-    Fire, PUBG, MLBB и т.п.), передаём явную пометку — она попадёт в
-    название позиции, чтобы не перепутать с другим вариантом той же
-    игры (клиент явно попросил такие пометки в названии/описании товара).
+    region — регион категории из конфига (может не быть); регион каждого
+    номинала определяет resolve_region: из названия номинала → region →
+    «Region:» в примечании категории FZ → Global. variant_label — вариант
+    товара, если у игры их несколько (Auto у PUBG Mobile, Mobile / PC у
+    Arena Breakout). Оба попадают в название позиции.
     """
     data = client.get_topup_offers(category_id)
-    display_name = _display_category_name(data.get("name", category_id), region_label)
+    category_name = data.get("name", category_id)
 
     results = []
     for offer in data.get("offers", []):
         external_id = make_external_id(
             SourceType.TOPUP, category_id=category_id, offer_id=offer["offer_id"]
         )
-        name = f"{display_name} — {offer['name']}"
+        offer_region = resolve_region(offer["name"], region, data.get("note"))
         result = _apply_price(
             session,
             external_id=external_id,
             source_type=SourceType.TOPUP,
-            name=name,
+            name=position_name(category_name, offer["name"], offer_region, variant_label),
             price_usd=Decimal(offer["price_usd"]),
             fz_category_id=category_id,
             fz_offer_id=offer["offer_id"],
+            region=offer_region,
+            variant_label=variant_label,
             raw_payload=offer,
         )
         results.append(result)
@@ -240,28 +262,31 @@ def import_all_giftcard_offers(
     session: Session,
     client: FazerCardsClient,
     category_id: str,
-    region_label: Optional[str] = None,
+    region: Optional[str] = None,
+    variant_label: Optional[str] = None,
 ) -> list["ImportResult"]:
     """Импортирует ВСЕ карты (номиналы) внутри одной категории giftcards
-    одним вызовом get_giftcard_offers — аналог import_all_topup_offers.
-    region_label — пометка региона/тарифа в названии, как у топапов.
-    """
+    одним вызовом get_giftcard_offers — аналог import_all_topup_offers
+    (регион и вариант — так же)."""
     data = client.get_giftcard_offers(category_id)
-    display_name = _display_category_name(data.get("name", category_id), region_label)
+    category_name = data.get("name", category_id)
 
     results = []
     for offer in data.get("offers", []):
         external_id = make_external_id(
             SourceType.GIFTCARD, category_id=category_id, offer_id=offer["card_id"]
         )
+        offer_region = resolve_region(offer["name"], region, data.get("note"))
         result = _apply_price(
             session,
             external_id=external_id,
             source_type=SourceType.GIFTCARD,
-            name=f"{display_name} — {offer['name']}",
+            name=position_name(category_name, offer["name"], offer_region, variant_label),
             price_usd=Decimal(offer["price_usd"]),
             fz_category_id=category_id,
             fz_offer_id=offer["card_id"],
+            region=offer_region,
+            variant_label=variant_label,
             raw_payload=offer,
         )
         results.append(result)
@@ -281,10 +306,21 @@ def refresh_position(session: Session, client: FazerCardsClient, position: Posit
     Listing, звать администратора и т.п.), сам этот модуль решения не
     принимает.
     """
+    # Для топапов и карт обновляем ТОЛЬКО цену: import_topup/import_giftcard
+    # пересобирают название без региона и варианта (они знают только FZ, не
+    # конфиг) и затёрли бы их.
     if position.source_type == SourceType.TOPUP:
-        return import_topup(session, client, position.fz_category_id, position.fz_offer_id)
+        data = client.get_topup_offers(position.fz_category_id)
+        offer = next((o for o in data.get("offers", []) if o.get("offer_id") == position.fz_offer_id), None)
+        if offer is None:
+            raise ValueError(f"offer_id={position.fz_offer_id!r} не найден в категории {position.fz_category_id!r}")
+        return _apply_price_to_position(session, position, Decimal(offer["price_usd"]), offer)
     if position.source_type == SourceType.GIFTCARD:
-        return import_giftcard(session, client, position.fz_category_id, position.fz_offer_id)
+        data = client.get_giftcard_offers(position.fz_category_id)
+        offer = next((o for o in data.get("offers", []) if o.get("card_id") == position.fz_offer_id), None)
+        if offer is None:
+            raise ValueError(f"card_id={position.fz_offer_id!r} не найден в категории {position.fz_category_id!r}")
+        return _apply_price_to_position(session, position, Decimal(offer["price_usd"]), offer)
     if position.source_type == SourceType.STEAM_GIFT:
         return import_steam_gift(
             session, client, position.fz_appid, position.fz_sub_id, position.region

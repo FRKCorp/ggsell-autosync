@@ -44,17 +44,19 @@ def main() -> None:
         with FazerCardsClient(api_key=api_key, base_url=base_url) as client:
             for entry in items:
                 category_id = entry["category_id"]
-                region_label = entry.get("region_label")
+                region = entry.get("region")
+                variant_label = entry.get("variant_label")
+                label = ", ".join(x for x in (variant_label, region) if x) or "—"
                 try:
                     results = import_all_topup_offers(
-                        session, client, category_id, region_label=region_label
+                        session, client, category_id, region=region, variant_label=variant_label
                     )
                     created = sum(1 for r in results if r.created)
                     updated = len(results) - created
                     total_created += created
                     total_updated += updated
                     print(
-                        f"  ✅ {category_id} ({region_label or '—'}): "
+                        f"  ✅ {category_id} ({label}): "
                         f"{len(results)} офферов (создано={created}, обновлено={updated})"
                     )
                 except FazerCardsError as e:

@@ -44,10 +44,10 @@ def main() -> None:
 
     rules = load("ggsell_category_rules.json")
     tree_data = load("ggsell_category_tree.json")
-    region_by_category = {}
+    selected_categories = set()
     for config in ("selected_topup_categories.json", "selected_giftcard_categories.json"):
         for item in load(config)["items"]:
-            region_by_category[item["category_id"]] = item.get("region_label")
+            selected_categories.add(item["category_id"])
 
     fetched: dict[int, list] = {}
     with GGSellV2Client(
@@ -73,7 +73,7 @@ def main() -> None:
         skipped = []
 
         for p in positions:
-            if p.fz_category_id not in region_by_category:
+            if p.fz_category_id not in selected_categories:
                 skipped.append(p.external_id)  # тестовые позиции вне конфигов
                 continue
             category_rules = rules_for(rules, p.fz_category_id)
@@ -82,9 +82,9 @@ def main() -> None:
                 unresolved[f"{p.fz_category_id}: нет правил"].append(offer_name)
                 continue
             try:
-                choice = resolve_category(
-                    tree, category_rules, offer_name, region_by_category[p.fz_category_id]
-                )
+                # Регион — у самой позиции (app/regions.py, roadmap 1.9): у CapCut
+                # он свой у каждого номинала, у остальных — регион категории.
+                choice = resolve_category(tree, category_rules, offer_name, p.region)
             except CategoryNotResolved as e:
                 unresolved[f"{p.fz_category_id}: {e}"].append(offer_name)
                 continue

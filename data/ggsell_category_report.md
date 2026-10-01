@@ -1,17 +1,23 @@
 # Подбор категорий GGSell — отчёт
 
-Позиций: 2515. Подобрано: 2244. Не подобрано: 271. Через «Другое количество»/«Другие страны»: 149. На проверку: 58.
+Позиций: 2519. Подобрано: 2242. Не подобрано: 277. Через «Другое количество»/«Другие страны»: 149. На проверку: 58.
 
-Комиссия GGSell (fee) по подобранным: 2.0% — 382, 2.5% — 107, 3.0% — 2, 3.5% — 6, 4.0% — 281, 5.0% — 105, 6.0% — 1254, 7.0% — 24, 9.0% — 20, 12.0% — 63
+Комиссия GGSell (fee) по подобранным: 2.0% — 382, 2.5% — 108, 3.0% — 2, 3.5% — 6, 4.0% — 282, 5.0% — 104, 6.0% — 1252, 7.0% — 24, 9.0% — 19, 12.0% — 63
 
 ## Не подобрано (нет подходящего листа на GGSell — нужно решение)
 - **8_ball_pool: Спины/скретчеры/Golden Shots/наборы: у GGSell в 8 Ball Pool только Монеты, Деньги, Кии, Кольца** (5): Golden Spin, 5 Scratchers, 3  Golden Shots, 15 Scratchers, Pool Coda Bundle
 - **acecraft: Recruit Ticket: подходящей ветки нет (только Алмазы и M-cash)** (1): Recruit Ticket * 5
 - **afk_journey: Growth Bundle: подходящей ветки нет (только Валюта и BattlePass)** (1): Growth Bundle
+- **app_store_itunes_ca: правило требует регион, а у позиции '200 CAD' его нет** (1): 200 CAD
+- **app_store_itunes_cn: правило требует регион, а у позиции '30 CNY' его нет** (1): 30 CNY
+- **app_store_itunes_ru: правило требует регион, а у позиции '800 RUB' его нет** (1): 800 RUB
 - **blood_strike: DEAL-наборы, Lucky Bag, Ultra Skin Lucky Chest: у GGSell только Золото и Пропуска** (13): 0.99 DEAL, 0.49 DEAL, 1.99 DEAL, 2.99 DEAL, 3.99 DEAL, 4.99 DEAL, 6.99 DEAL, 5.99 DEAL, 7.99 DEAL, 8.99 DEAL, 9.99 DEAL, Ultra Skin Lucky Chest, Lucky Bag Week
 - **bullet_echo: Наборы/карты/сундуки: у GGSell в Bullet Echo только ветка Баксы** (33): Hero Cards, Cube Supply, Joker Cards, Plugin Supply, Smugglers Supply, Weaponry Bundle, Cubes + Plugins, Squad Gears Bundle, Gear Grab, Handful of Coils, Handful of Nuts, Civil Pack, Bounty Strike, Corporate Pack, Prototype A Generator, Prototype D Exploder, Prototype H Injector, Scouts Bundle, Case of Coils, Case of Nuts, Enforcers Bundle, Gunners Bundle, Snipers Bundle, Troopers Bundle, Military Pack, Big Pack, Experimental Pack, Drones Pack, Legendary Pack, Box of Coils, Box of Nuts, Crate of Coils, Crate of Nuts
 - **honor_of_kings: Паки (Honor Point Value Pack, Rebate Pack, Lucky Bag): у GGSell только Жетоны и Недельная карта** (4): Double Token Lucky Bag, Honor Point Value Pack, Standard Purchase Rebate Pack, Premium Purchase Rebate Pack
 - **mobile_legends_global: Weekly/Monthly Elite Pack: подходящей ветки нет (у MLBB — Алмазы, Подарки, Алмазный и Сумеречный пропуски)** (2): Weekly Elite Pack, Monthly Elite Pack
+- **netflix_us: правило требует регион, а у позиции '15 USD' его нет** (1): 15 USD
+- **netflix_us: правило требует регион, а у позиции '16 USD' его нет** (1): 16 USD
+- **playstation_us: правило требует регион, а у позиции '20 USD' его нет** (1): 20 USD
 - **pubg_mobile_auto: WOW Coins: подходящей ветки нет** (6): 60 WOW Coins, 325 WOW Coins, 660 WOW Coins, 1800 WOW Coins, 3850 WOW Coins, 8100 WOW Coins
 - **razer_gold_au: У Razer Gold на GGSell есть только подкатегория «Аккаунты» — листа под подарочные карты нет, а в корень лот не создать. Вариант: спросить поддержку GGSell / клиента.** (4): 10 AUD, 20 AUD, 50 AUD, 100 AUD
 - **razer_gold_br: У Razer Gold на GGSell есть только подкатегория «Аккаунты» — листа под подарочные карты нет, а в корень лот не создать. Вариант: спросить поддержку GGSell / клиента.** (11): 5 BRL, 10 BRL, 20 BRL, 25 BRL, 28 BRL, 30 BRL, 50 BRL, 75 BRL, 100 BRL, 150 BRL, 200 BRL
