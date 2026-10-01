@@ -366,6 +366,19 @@ class GGSellV1Client:
         )
 
 
+def call_with_retry(call, *args, retries: int = 4, sleep=time.sleep, **kwargs) -> Any:
+    """Вызов метода клиента с повторами на 429 и 5xx: GGSell под нагрузкой
+    отвечает 504 Gateway Time-out (проверено при выгрузке категорий 30.09).
+    Остальные ошибки (4xx) не повторяются."""
+    for attempt in range(1, retries + 1):
+        try:
+            return call(*args, **kwargs)
+        except GGSellError as e:
+            if not (e.status_code == 429 or e.status_code >= 500) or attempt == retries:
+                raise
+            sleep(2 * attempt)
+
+
 def _safe_json(response: httpx.Response) -> Any:
     try:
         return response.json()

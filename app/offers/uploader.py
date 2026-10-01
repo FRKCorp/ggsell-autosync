@@ -30,7 +30,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.clients.fazercards import FazerCardsClient, FazerCardsError
-from app.clients.ggsell import GGSellError, GGSellV2Client
+from app.clients.ggsell import GGSellError, GGSellV2Client, call_with_retry
 from app.models.listing import Listing, ListingStatus
 from app.models.position import Position, SourceType
 from app.offers.builder import build_offer
@@ -38,8 +38,6 @@ from app.offers.options import attach_topup_options
 from app.pricing.calculator import PricingConfig
 
 logger = logging.getLogger(__name__)
-
-RETRIES = 4  # на 429/5xx GGSell (под нагрузкой бывает 504)
 
 
 @dataclass
@@ -56,16 +54,6 @@ class UploadReport:
             f"уже были={self.skipped_existing}, без категории={self.skipped_no_category}, "
             f"ошибок={len(self.errors)}"
         )
-
-
-def _with_retry(call: Callable, *args, sleep: Callable[[float], None] = time.sleep, **kwargs):
-    for attempt in range(1, RETRIES + 1):
-        try:
-            return call(*args, **kwargs)
-        except GGSellError as e:
-            if not (e.status_code == 429 or e.status_code >= 500) or attempt == RETRIES:
-                raise
-            sleep(2 * attempt)
 
 
 class FieldsSource:
@@ -127,7 +115,7 @@ def upload_positions(
                 report.options_fixed.append(position.external_id)
                 continue
             try:
-                _with_retry(
+                call_with_retry(
                     attach_topup_options, v2, listing.ggsell_offer_id,
                     fields.get(position.fz_category_id), sleep=sleep,
                 )
@@ -152,7 +140,7 @@ def upload_positions(
             continue
 
         try:
-            offer = _with_retry(v2.create_offer, draft.payload, sleep=sleep)
+            offer = call_with_retry(v2.create_offer, draft.payload, sleep=sleep)
         except GGSellError as e:
             report.errors[position.external_id] = f"create_offer {e.status_code}: {e.payload}"
             say(f"❌ {position.external_id}: create_offer {e.status_code}")
@@ -176,7 +164,7 @@ def upload_positions(
 
         if draft.fz_fields:
             try:
-                _with_retry(attach_topup_options, v2, offer_id, draft.fz_fields, sleep=sleep)
+                call_with_retry(attach_topup_options, v2, offer_id, draft.fz_fields, sleep=sleep)
                 listing.options_attached = True
                 session.commit()
             except Exception as e:  # noqa: BLE001

@@ -24,12 +24,14 @@ USD_RUB_CBR = "usd_rub_cbr"  # последний полученный курс 
 USD_RUB_RATE = "usd_rub_rate"  # итоговый курс для расчёта цен (ЦБ + надбавка)
 RATE_UPDATED_AT = "rate_updated_at"  # когда курс ЦБ последний раз удалось получить
 PRICES_UPDATED_AT = "prices_updated_at"  # последнее обновление цен (для панели)
+PRICER_ENABLED = "pricer_enabled"  # выключатель прайсера: false — цены на витрину не отправляются (6.8)
 
 _ENV_DEFAULTS = {
     GLOBAL_MARKUP_PERCENT: ("MARKUP_PERCENT", "15.0"),
     RATE_PREMIUM_PERCENT: ("EXCHANGE_RATE_PREMIUM_PERCENT", "5.0"),
     # Запасной курс — только если ЦБ ни разу не удалось получить.
     USD_RUB_RATE: ("EXCHANGE_RATE_USD_TO_RUB", "95.0"),
+    PRICER_ENABLED: ("PRICER_ENABLED", "true"),
 }
 
 
@@ -75,3 +77,15 @@ def set_global_markup_percent(session: Session, percent: Decimal) -> None:
     if percent < 0 or percent > 1000:
         raise ValueError(f"Наценка должна быть от 0 до 1000%, получено {percent}")
     set_value(session, GLOBAL_MARKUP_PERCENT, percent)
+
+
+def get_bool(session: Session, key: str) -> bool:
+    return str(get(session, key)).strip().lower() in ("1", "true", "yes", "on")
+
+
+def pricer_enabled(session: Session) -> bool:
+    return get_bool(session, PRICER_ENABLED)
+
+
+def set_pricer_enabled(session: Session, enabled: bool) -> None:
+    set_value(session, PRICER_ENABLED, "true" if enabled else "false")

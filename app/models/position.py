@@ -7,10 +7,11 @@
 from __future__ import annotations
 
 import enum
+from datetime import datetime
 from decimal import Decimal
 from typing import Any, Optional
 
-from sqlalchemy import JSON, Numeric, String
+from sqlalchemy import JSON, DateTime, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin
@@ -48,6 +49,13 @@ class Position(TimestampMixin, Base):
     # Вариант товара, если у игры их несколько и это не регион: Auto у PUBG
     # Mobile, Mobile / PC у Arena Breakout, Tier 1/2/3 у ExitLag.
     variant_label: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+
+    # С какого момента позиции нет у FZ (номинал/категория пропали) и когда
+    # закончился остаток (stock = 0). Решение клиента — только алерт, лот не
+    # трогаем; даты нужны, чтобы алертить один раз, а не каждую синхронизацию
+    # (roadmap 4.3, 4.5). None — всё в порядке.
+    fz_missing_since: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    fz_out_of_stock_since: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
 
     name: Mapped[str] = mapped_column(String(500))
 

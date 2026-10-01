@@ -349,6 +349,16 @@ def _apply_price_to_position(
     )
 
 
+GONE_MARKER = "больше не найден"
+
+
+def is_gone_error(error: Optional[str]) -> bool:
+    """Ошибка refresh_all_positions означает «позиции у FZ больше нет»
+    (номинал пропал из категории или вся категория отвечает 404), а не
+    временный сбой (5xx, 429, сеть) — по временным алертить нельзя."""
+    return bool(error) and (GONE_MARKER in error or error.startswith("FazerCards error 404"))
+
+
 def refresh_all_positions(
     session: Session, client: FazerCardsClient
 ) -> list[tuple[Position, Optional[ImportResult], Optional[str]]]:
