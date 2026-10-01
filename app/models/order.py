@@ -3,9 +3,18 @@
 Жизненный цикл status (см. architecture-notes.md, раздел про сценарий
 "оплатил, а FZ не отвечает"):
 
-    PENDING -> ORDERED_UPSTREAM -> DELIVERED
-                    |
-                    +-> FAILED -> MANUAL_REVIEW (после исчерпания ретраев)
+    PENDING -> PROCESSING -> ORDERED_UPSTREAM -> DELIVERED
+                   |               |
+                   |               +-> MANUAL_REVIEW (FZ failed/refund,
+                   |                   таймаут, нет кода, сбой выдачи в чат)
+                   +-> MANUAL_REVIEW (отказ FZ, данные покупателя не подошли)
+
+PROCESSING — заказ «захвачен» одним обработчиком (атомарный переход из
+PENDING, roadmap 5.5): второй вебхук или страховочная джоба его не тронут.
+ORDERED_UPSTREAM — заказ у FZ создан и ещё выполняется (FZ асинхронный:
+processing → completed / failed / refund), результат забирает джоба
+опроса (roadmap 5.2). FAILED не используется: отказы сразу идут в
+MANUAL_REVIEW с текстом ответа FZ.
 
 PRICE_REJECTED — отдельная ветка: цена разошлась с поставщиком больше
 MAX_PRICE_DEVIATION_PERCENT на повторной проверке перед списанием — заказ
@@ -15,10 +24,11 @@ MAX_PRICE_DEVIATION_PERCENT на повторной проверке перед 
 from __future__ import annotations
 
 import enum
+from datetime import datetime
 from decimal import Decimal
 from typing import Any, Optional
 
-from sqlalchemy import JSON, ForeignKey, Numeric, String, Text
+from sqlalchemy import JSON, DateTime, ForeignKey, Numeric, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin
@@ -26,6 +36,7 @@ from app.models.base import Base, TimestampMixin
 
 class OrderStatus(str, enum.Enum):
     PENDING = "pending"
+    PROCESSING = "processing"
     PRICE_REJECTED = "price_rejected"
     ORDERED_UPSTREAM = "ordered_upstream"
     DELIVERED = "delivered"
@@ -51,6 +62,7 @@ class Order(TimestampMixin, Base):
     # info_order) — например, invite_url для Steam-гифта или Player ID.
     buyer_data: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
 
+    # Реально оплаченная сумма (amount из get_order_info), не цена лота.
     price_at_sale_rub: Mapped[Decimal] = mapped_column(Numeric(12, 2))
     # Заполняется на шаге повторной проверки цены перед списанием у FZ —
     # NULL, если проверка ещё не выполнялась.
@@ -59,6 +71,14 @@ class Order(TimestampMixin, Base):
     )
 
     fz_order_id: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    # Статус заказа у FZ (processing / completed / failed / refund) и когда
+    # заказ у FZ создан — для таймаута опроса (roadmap 5.2).
+    fz_status: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    fz_ordered_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    # Выплата продавцу по данным GGSell (profit из get_order_info) — цена
+    # минус комиссии GGSell (roadmap 5.8).
+    seller_payout_rub: Mapped[Optional[Decimal]] = mapped_column(Numeric(12, 2), nullable=True)
 
     retry_count: Mapped[int] = mapped_column(default=0)
     error_message: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
