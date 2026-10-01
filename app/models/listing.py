@@ -59,4 +59,9 @@ class Listing(TimestampMixin, Base):
     # пусто — действует глобальная наценка из настроек (app/settings.py).
     markup_percent: Mapped[Optional[Decimal]] = mapped_column(Numeric(7, 2), nullable=True)
 
+    # Опции покупателя повешены на оффер (app/offers/options.py). Лот
+    # записывается сразу после create_offer, до опций, — если опции не
+    # повесились, повторный автозалив досоздаёт только их (roadmap 3.6).
+    options_attached: Mapped[bool] = mapped_column(default=False, server_default="false")
+
     orders: Mapped[list["Order"]] = relationship(back_populates="listing")  # noqa: F821
