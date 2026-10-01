@@ -17,8 +17,8 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 Два окружения (roadmap 2.10, notes 6.8): **`frkcorp.online` — наш стейдж** (наши тестовые аккаунты GGSell/FZ, разработка и пилот) и **VPS клиента — боевой** (аккаунты клиента, появится на этапе 3.9). Всё ниже — про стейдж, пока боевого нет. Массовый залив лотов — только на боевом.
 
 - Доступ: `ssh frkcorp` (алиас в `~/.ssh/config`, root@89.110.92.55). Проект в `/root/ggsell-autosync`.
-- Деплой: `ssh frkcorp 'cd /root/ggsell-autosync && git pull --ff-only && docker compose up -d --build app scheduler'`, затем проверка `curl -s https://frkcorp.online/health`.
-- Миграции: `docker compose exec app alembic upgrade head`. Скрипты: `docker compose exec app python scripts/<script>.py`.
+- Деплой: `ssh frkcorp 'cd /root/ggsell-autosync && git pull --ff-only && docker compose build app scheduler && docker compose run --rm app alembic upgrade head && docker compose up -d app scheduler'`, затем проверка `curl -s https://frkcorp.online/health`. **Миграции — до запуска `scheduler`:** при старте он сразу запускает синхронизацию цен, и без новой колонки она падает, а следующая попытка — только через 12 ч (так случилось 01.10, notes 6.12).
+- Скрипты: `docker compose exec app python scripts/<script>.py`. Проверка регионов позиций — `scripts/check_position_regions.py`.
 - БД: `docker compose exec -T db sh -c 'psql -U $POSTGRES_USER -d $POSTGRES_DB'`.
 - Логи: `docker compose logs --since 1h scheduler` / `app`.
 - Перед изменением прода (пересборка, импорт, миграции, `.env`) — коротко сказать пользователю, что делаешь. Чтение логов/статуса/SELECT — свободно.
