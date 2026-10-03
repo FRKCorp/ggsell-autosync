@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import logging
 import os
+import threading
 from decimal import Decimal
 
 from app import settings
@@ -13,7 +14,7 @@ from app.clients.fazercards import FazerCardsClient
 from app.clients.ggsell import GGSellV2Client
 from app.db import SessionLocal
 from app.orders.notifications import notify_admin
-from app.pricing.exchange_rate import refresh_rate
+from app.pricing.exchange_rate import current_rate, refresh_rate
 from app.pricing.listing_price import load_pricing_config
 from app.sync.fz_catalog import refresh_all_positions
 from app.sync.showcase import check_availability, fetch_offers, fz_errors_alert, push_prices, sync_listings
@@ -21,7 +22,26 @@ from app.sync.showcase import check_availability, fetch_offers, fz_errors_alert,
 logger = logging.getLogger(__name__)
 
 
+# Идёт ли синхронизация сейчас: запрос из бота, пришедший во время неё, нельзя
+# превращать в запуск — APScheduler его пропустит (max_instances=1), и смена
+# наценки потеряется до следующего запуска через 12 ч (нашли 03.10). Запрос
+# ждёт окончания (app/sync/scheduler.py:check_price_sync_request).
+_running = threading.Event()
+
+
+def is_refresh_running() -> bool:
+    return _running.is_set()
+
+
 def refresh_prices_job() -> None:
+    _running.set()
+    try:
+        _refresh_prices()
+    finally:
+        _running.clear()
+
+
+def _refresh_prices() -> None:
     api_key = os.getenv("FAZERCARDS_API_KEY")
     base_url = os.getenv("FAZERCARDS_BASE_URL", "https://api.fzr.cards/api/v2")
 
@@ -78,7 +98,7 @@ def refresh_prices_job() -> None:
             session.commit()
             notify_admin(
                 "🔄 Цены обновлены (запрос из бота)\n"
-                f"Курс: 1$ = {rate.rate} ₽{'' if rate.fresh else ' (ЦБ недоступен — сохранённый)'}\n"
+                f"Курс: 1$ = {current_rate(session).rate} ₽{'' if rate.fresh else ' (ЦБ недоступен — сохранённый)'}\n"
                 f"FazerCards: позиций {len(results)}, цена изменилась у {changed}, ошибок {errors}\n"
                 f"GGSell: {showcase}"
             )

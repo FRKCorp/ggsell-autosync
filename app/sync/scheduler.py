@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 from app import settings
 from app.db import SessionLocal
 from app.orders.jobs import poll_fz_orders_job, sweep_missed_orders_job
-from app.sync.jobs import refresh_prices_job
+from app.sync.jobs import is_refresh_running, refresh_prices_job
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +74,8 @@ def build_scheduler() -> BlockingScheduler:
 
 
 def check_price_sync_request(scheduler) -> bool:
+    if is_refresh_running():
+        return False  # запрос подождёт: запуск сейчас APScheduler пропустил бы
     session = SessionLocal()
     try:
         if not settings.take_price_sync_request(session):

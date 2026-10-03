@@ -390,3 +390,25 @@ def test_scheduler_picks_up_sync_request(factory, monkeypatch):
     with factory() as s:
         assert settings.take_price_sync_report(s) is True  # итог будет отправлен один раз
         assert settings.take_price_sync_report(s) is False
+
+
+def test_sync_request_waits_while_sync_is_running(factory, monkeypatch):
+    """Запрос во время синхронизации не теряется: APScheduler пропустил бы
+    запуск (max_instances=1), поэтому запрос ждёт её окончания."""
+    import app.sync.scheduler as scheduler_module
+    from app.sync import jobs
+    monkeypatch.setattr(scheduler_module, "SessionLocal", factory)
+    scheduler = MagicMock()
+    with factory() as s:
+        settings.request_price_sync(s)
+        s.commit()
+
+    jobs._running.set()
+    try:
+        assert check_price_sync_request(scheduler) is False
+        scheduler.modify_job.assert_not_called()
+    finally:
+        jobs._running.clear()
+
+    assert check_price_sync_request(scheduler) is True  # синхронизация закончилась — запускаем
+    scheduler.modify_job.assert_called_once()
