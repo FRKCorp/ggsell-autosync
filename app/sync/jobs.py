@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import logging
 import os
+from decimal import Decimal
 
 from app import settings
 from app.clients.fazercards import FazerCardsClient
@@ -15,7 +16,7 @@ from app.orders.notifications import notify_admin
 from app.pricing.exchange_rate import refresh_rate
 from app.pricing.listing_price import load_pricing_config
 from app.sync.fz_catalog import refresh_all_positions
-from app.sync.showcase import check_availability, fetch_offers, push_prices, sync_listings
+from app.sync.showcase import check_availability, fetch_offers, fz_errors_alert, push_prices, sync_listings
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +30,11 @@ def refresh_prices_job() -> None:
     changed = 0
     errors = 0
     try:
+        # Запущено из бота (смена наценки / «Обновить сейчас», roadmap 6.8) —
+        # админ ждёт новые цены, поэтому порог против колебаний курса не
+        # действует: отправляем все изменившиеся цены.
+        manual = settings.get_bool(session, settings.PRICE_SYNC_REPORT_PENDING)
+
         # Курс (ЦБ + надбавка, roadmap 3.4) — перед ценами; ЦБ недоступен —
         # остаётся последний сохранённый, синхронизация не падает.
         rate = refresh_rate(session)
@@ -59,10 +65,14 @@ def refresh_prices_job() -> None:
             len(results), updated, changed, errors,
         )
 
+        fz_alert = fz_errors_alert(results)
+        if fz_alert:
+            notify_admin(fz_alert)
+
         availability = check_availability(session, results)
         logger.info("Доступность у FZ: %s", availability)
 
-        showcase = sync_showcase(session)
+        showcase = sync_showcase(session, force=manual)
 
         if settings.take_price_sync_report(session):
             session.commit()
@@ -81,7 +91,7 @@ def refresh_prices_job() -> None:
         session.close()
 
 
-def sync_showcase(session) -> str:
+def sync_showcase(session, force: bool = False) -> str:
     """Витрина GGSell (этап 4): статусы и цены лотов с витрины, затем наши цены — если прайсер
     включён (выключатель в панели, roadmap 6.8). Сбой GGSell не роняет
     синхронизацию: цены FZ уже сохранены, следующий запуск дошлёт.
@@ -102,7 +112,8 @@ def sync_showcase(session) -> str:
             if not settings.pricer_enabled(session):
                 logger.info("Прайсер выключен — цены на GGSell не отправляю")
                 return "прайсер выключен — цены не отправлялись"
-            report = push_prices(session, v2, load_pricing_config(session))
+            report = push_prices(session, v2, load_pricing_config(session),
+                                 threshold_percent=Decimal(0) if force else None)
         settings.touch(session, settings.PRICES_UPDATED_AT)
         session.commit()
         logger.info("Цены на GGSell: %s", report.summary())

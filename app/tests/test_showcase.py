@@ -15,7 +15,7 @@ from app.pricing.calculator import PricingConfig
 from app.pricing.listing_price import listing_price_rub
 from app.sync import jobs
 from app.sync.fz_catalog import is_gone_error
-from app.sync.showcase import check_availability, fetch_offers, push_prices, sync_listings
+from app.sync.showcase import check_availability, fetch_offers, fz_errors_alert, push_prices, sync_listings
 
 CONFIG = PricingConfig(Decimal("87.7367"), Decimal("15"), Decimal("3"), Decimal("5"))
 NOW = datetime(2026, 10, 1, 12, 0, tzinfo=timezone.utc)
@@ -380,3 +380,39 @@ def test_ggsell_failure_does_not_raise(session, fake_v2, monkeypatch):
     jobs.sync_showcase(session)  # не падает — цены FZ уже сохранены
 
     assert len(alerts) == 1 and "упала" in alerts[0]
+
+
+# ----------------------------------------------------------------------
+# Массовый сбой FZ и синхронизация из бота без порога
+# ----------------------------------------------------------------------
+
+SUBSCRIPTION = "FazerCards error 403: Subscription is not active. Renew it to use this feature."
+
+
+def test_fz_errors_alert_on_mass_failure(session):
+    positions = [add_listing(session, f"p{i}", "10", i, listed=False)[0] for i in range(10)]
+
+    text = fz_errors_alert([(p, None, SUBSCRIPTION) for p in positions])
+
+    assert "не обновились у 10 из 10" in text and "истекла подписка FazerCards" in text
+
+
+def test_fz_errors_alert_ignores_few_transient_and_gone(session):
+    positions = [add_listing(session, f"p{i}", "10", i, listed=False)[0] for i in range(20)]
+    results = [(p, object(), None) for p in positions[:17]]
+    results += [(positions[17], None, TRANSIENT), (positions[18], None, GONE), (positions[19], None, GONE)]
+
+    assert fz_errors_alert(results) is None  # 1 временный сбой из 20, «пропало» — отдельный алерт
+
+
+def test_forced_sync_ignores_threshold(session, fake_v2):
+    position, _ = add_listing(session, "a", "50", 1)
+    position.last_known_price_usd = Decimal("50.2")  # +0.4% — ниже порога
+    settings.set_pricer_enabled(session, True)
+    session.commit()
+
+    jobs.sync_showcase(session)
+    fake_v2.patch_offer.assert_not_called()
+
+    jobs.sync_showcase(session, force=True)
+    fake_v2.patch_offer.assert_called_once()

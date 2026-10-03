@@ -21,6 +21,7 @@ from __future__ import annotations
 import logging
 import os
 import time
+from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -94,6 +95,26 @@ def sync_listings(session: Session, offers: dict[int, dict[str, Any]]) -> dict[s
 # ----------------------------------------------------------------------
 # 4.3, 4.5 — пропало у FZ / закончилось
 # ----------------------------------------------------------------------
+
+
+FZ_ERRORS_ALERT_SHARE = Decimal("0.1")  # алерт, если не обновилось ≥ 10% позиций
+
+
+def fz_errors_alert(refresh_results: list[tuple[Position, Any, Optional[str]]]) -> Optional[str]:
+    """Текст алерта, если FZ массово не отвечает (не «пропало», а сбой:
+    403 подписка, 5xx, сеть) — цены тогда считаются по устаревшим данным.
+    Единичные временные сбои категорий не алертим — следующий запуск догонит.
+    Выяснилось 03.10: подписка FZ протухла, и 2519 из 2519 позиций падали
+    молча, только в лог."""
+    failed = [error for _, _, error in refresh_results if error and not is_gone_error(error)]
+    if not failed or len(failed) < len(refresh_results) * FZ_ERRORS_ALERT_SHARE:
+        return None
+    top = Counter(failed).most_common(3)
+    lines = "\n".join(f"  • {error} — {count}" for error, count in top)
+    hint = ("\nПохоже, истекла подписка FazerCards — продлите её в кабинете FZ."
+            if any("403" in error for error, _ in top) else "")
+    return (f"❗ FazerCards: цены не обновились у {len(failed)} из {len(refresh_results)} позиций — "
+            f"цены на витрине считаются по последним известным.\n{lines}{hint}")
 
 
 def check_availability(
