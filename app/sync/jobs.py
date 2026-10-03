@@ -31,7 +31,7 @@ def refresh_prices_job() -> None:
     try:
         # Курс (ЦБ + надбавка, roadmap 3.4) — перед ценами; ЦБ недоступен —
         # остаётся последний сохранённый, синхронизация не падает.
-        refresh_rate(session)
+        rate = refresh_rate(session)
         session.commit()
 
         with FazerCardsClient(api_key=api_key, base_url=base_url) as client:
@@ -62,23 +62,34 @@ def refresh_prices_job() -> None:
         availability = check_availability(session, results)
         logger.info("Доступность у FZ: %s", availability)
 
-        sync_showcase(session)
-    except Exception:
+        showcase = sync_showcase(session)
+
+        if settings.take_price_sync_report(session):
+            session.commit()
+            notify_admin(
+                "🔄 Цены обновлены (запрос из бота)\n"
+                f"Курс: 1$ = {rate.rate} ₽{'' if rate.fresh else ' (ЦБ недоступен — сохранённый)'}\n"
+                f"FazerCards: позиций {len(results)}, цена изменилась у {changed}, ошибок {errors}\n"
+                f"GGSell: {showcase}"
+            )
+    except Exception as e:
         session.rollback()
         logger.exception("Синхронизация цен упала с необработанной ошибкой")
+        notify_admin(f"❗ Синхронизация цен упала: {e!r}")
         raise
     finally:
         session.close()
 
 
-def sync_showcase(session) -> None:
+def sync_showcase(session) -> str:
     """Витрина GGSell (этап 4): статусы и цены лотов с витрины, затем наши цены — если прайсер
     включён (выключатель в панели, roadmap 6.8). Сбой GGSell не роняет
-    синхронизацию: цены FZ уже сохранены, следующий запуск дошлёт."""
+    синхронизацию: цены FZ уже сохранены, следующий запуск дошлёт.
+    Возвращает итог одной строкой — для отчёта в Telegram."""
     api_key = os.getenv("GGSELL_API_KEY")
     if not api_key:
         logger.warning("GGSELL_API_KEY не задан — витрину GGSell не синхронизирую")
-        return
+        return "не синхронизирована (нет GGSELL_API_KEY)"
     try:
         with GGSellV2Client(
             api_key=api_key,
@@ -90,12 +101,14 @@ def sync_showcase(session) -> None:
 
             if not settings.pricer_enabled(session):
                 logger.info("Прайсер выключен — цены на GGSell не отправляю")
-                return
+                return "прайсер выключен — цены не отправлялись"
             report = push_prices(session, v2, load_pricing_config(session))
         settings.touch(session, settings.PRICES_UPDATED_AT)
         session.commit()
         logger.info("Цены на GGSell: %s", report.summary())
+        return report.summary()
     except Exception as e:
         session.rollback()
         logger.exception("Синхронизация витрины GGSell упала")
         notify_admin(f"❗ Синхронизация цен на GGSell упала: {e!r}. Цены FZ обновлены, повтор — со следующим запуском.")
+        return f"ошибка: {e!r}"

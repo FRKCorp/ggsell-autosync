@@ -17,6 +17,8 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from dotenv import load_dotenv
 
+from app import settings
+from app.db import SessionLocal
 from app.orders.jobs import poll_fz_orders_job, sweep_missed_orders_job
 from app.sync.jobs import refresh_prices_job
 
@@ -57,4 +59,28 @@ def build_scheduler() -> BlockingScheduler:
         coalesce=True,
         max_instances=1,
     )
+    # «Обновить цены СЕЙЧАС» из бота (roadmap 6.8): бот пишет запрос в БД,
+    # здесь он переносит ближайший запуск refresh_prices на «сейчас» — та же
+    # джоба, поэтому две синхронизации разом не пойдут (max_instances=1).
+    scheduler.add_job(
+        lambda: check_price_sync_request(scheduler),
+        trigger=IntervalTrigger(seconds=15),
+        id="price_sync_requests",
+        name="Запрос синхронизации цен из бота",
+        coalesce=True,
+        max_instances=1,
+    )
     return scheduler
+
+
+def check_price_sync_request(scheduler) -> bool:
+    session = SessionLocal()
+    try:
+        if not settings.take_price_sync_request(session):
+            return False
+        session.commit()
+    finally:
+        session.close()
+    logger.info("Синхронизация цен запрошена из бота — запускаю")
+    scheduler.modify_job("refresh_prices", next_run_time=datetime.now(timezone.utc))
+    return True

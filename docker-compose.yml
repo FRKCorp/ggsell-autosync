@@ -33,6 +33,18 @@ services:
     depends_on:
       - db
 
+  # Telegram-бот администратора (roadmap 6.7): команды, панель «Авто-прайсер»,
+  # ответы покупателям. Алерты шлют app и scheduler сами.
+  bot:
+    build: .
+    container_name: ggsell_autosync_bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: ["python", "-m", "app.bot.main"]
+    depends_on:
+      - db
+
   caddy:
     image: caddy:2-alpine
     container_name: ggsell_autosync_caddy

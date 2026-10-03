@@ -25,6 +25,11 @@ USD_RUB_RATE = "usd_rub_rate"  # итоговый курс для расчёта
 RATE_UPDATED_AT = "rate_updated_at"  # когда курс ЦБ последний раз удалось получить
 PRICES_UPDATED_AT = "prices_updated_at"  # последнее обновление цен (для панели)
 PRICER_ENABLED = "pricer_enabled"  # выключатель прайсера: false — цены на витрину не отправляются (6.8)
+# «Обновить цены СЕЙЧАС» из бота (6.8): бот ставит запрос, scheduler его
+# забирает и запускает ту же джобу refresh_prices (две синхронизации разом не
+# идут — max_instances=1), по окончании присылает итог в Telegram.
+PRICE_SYNC_REQUESTED_AT = "price_sync_requested_at"
+PRICE_SYNC_REPORT_PENDING = "price_sync_report_pending"
 
 _ENV_DEFAULTS = {
     GLOBAL_MARKUP_PERCENT: ("MARKUP_PERCENT", "15.0"),
@@ -89,3 +94,25 @@ def pricer_enabled(session: Session) -> bool:
 
 def set_pricer_enabled(session: Session, enabled: bool) -> None:
     set_value(session, PRICER_ENABLED, "true" if enabled else "false")
+
+
+def request_price_sync(session: Session) -> None:
+    touch(session, PRICE_SYNC_REQUESTED_AT)
+
+
+def take_price_sync_request(session: Session) -> bool:
+    """True, если из бота запросили синхронизацию; запрос снимается, а
+    итог синхронизации будет отправлен в Telegram."""
+    if not get(session, PRICE_SYNC_REQUESTED_AT):
+        return False
+    set_value(session, PRICE_SYNC_REQUESTED_AT, "")
+    set_value(session, PRICE_SYNC_REPORT_PENDING, "true")
+    return True
+
+
+def take_price_sync_report(session: Session) -> bool:
+    """True один раз после синхронизации, запрошенной из бота."""
+    if not get_bool(session, PRICE_SYNC_REPORT_PENDING):
+        return False
+    set_value(session, PRICE_SYNC_REPORT_PENDING, "false")
+    return True

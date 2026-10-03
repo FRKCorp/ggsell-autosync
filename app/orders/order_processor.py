@@ -50,7 +50,7 @@ from app.models.order import Order, OrderStatus
 from app.models.position import Position, SourceType
 from app.offers.options import BuyerDataError, map_buyer_data_to_fz_fields
 from app.orders.delivery import format_delivery_message
-from app.orders.notifications import notify_admin
+from app.orders.notifications import REPLY_HINT, notify_admin
 from app.pricing.calculator import PricingConfig, check_price_deviation
 
 logger = logging.getLogger(__name__)
@@ -197,7 +197,7 @@ def _to_manual_review(session: Session, order: Order, reason: str, alert: str) -
     order.status = OrderStatus.MANUAL_REVIEW
     order.error_message = reason
     session.commit()
-    notify_admin(alert)
+    notify_admin(f"{alert}\n\n{REPLY_HINT}")
     return order
 
 
@@ -393,7 +393,7 @@ def process_new_order(
         session.commit()
         notify_admin(
             f"Заказ {invoice_id}: цена у FZ разошлась больше порога, отправлен в ручной режим. "
-            f"{order.error_message}"
+            f"{order.error_message}\n\n{REPLY_HINT}"
         )
         return order
 
