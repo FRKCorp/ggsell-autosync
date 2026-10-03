@@ -8,7 +8,7 @@
 
 ## Стек
 
-Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, pytest. Деплой: Docker Compose (`db`/`app`/`scheduler`/`caddy`) на VPS, домен `frkcorp.online`, HTTPS через Caddy/Let's Encrypt.
+Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, pytest. Деплой: Docker Compose (`db`/`app`/`scheduler`/`bot`/`caddy`) на VPS, домен `frkcorp.online`, HTTPS через Caddy/Let's Encrypt.
 
 Локально: `venv/Scripts/python -m pytest` (в системном Python pytest нет).
 
@@ -17,10 +17,11 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 Два окружения (roadmap 2.10, notes 6.8): **`frkcorp.online` — наш стейдж** (наши тестовые аккаунты GGSell/FZ, разработка и пилот) и **VPS клиента — боевой** (аккаунты клиента, появится на этапе 3.9). Всё ниже — про стейдж, пока боевого нет. Массовый залив лотов — только на боевом.
 
 - Доступ: `ssh frkcorp` (алиас в `~/.ssh/config`, root@89.110.92.55). Проект в `/root/ggsell-autosync`.
-- Деплой: `ssh frkcorp 'cd /root/ggsell-autosync && git pull --ff-only && docker compose build app scheduler && docker compose run --rm app alembic upgrade head && docker compose up -d app scheduler'`, затем проверка `curl -s https://frkcorp.online/health`. **Миграции — до запуска `scheduler`:** при старте он сразу запускает синхронизацию цен, и без новой колонки она падает, а следующая попытка — только через 12 ч (так случилось 01.10, notes 6.12).
+- Деплой: `ssh frkcorp 'cd /root/ggsell-autosync && git pull --ff-only && docker compose build app scheduler bot && docker compose run --rm app alembic upgrade head && docker compose up -d app scheduler bot'`, затем проверка `curl -s https://frkcorp.online/health`. **Миграции — до запуска `scheduler`:** при старте он сразу запускает синхронизацию цен, и без новой колонки она падает, а следующая попытка — только через 12 ч (так случилось 01.10, notes 6.12).
 - Скрипты: `docker compose exec app python scripts/<script>.py`. Проверка регионов позиций — `scripts/check_position_regions.py`.
 - БД: `docker compose exec -T db sh -c 'psql -U $POSTGRES_USER -d $POSTGRES_DB'`.
-- Логи: `docker compose logs --since 1h scheduler` / `app`.
+- Логи: `docker compose logs --since 1h scheduler` / `app` / `bot`.
+- **`.env` читается при создании контейнера:** после правки — `docker compose up -d --force-recreate app scheduler bot` (restart не подхватит).
 - Перед изменением прода (пересборка, импорт, миграции, `.env`) — коротко сказать пользователю, что делаешь. Чтение логов/статуса/SELECT — свободно.
 
 ## Что готово и работает на бою (не трогать без причины)
@@ -33,6 +34,7 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 - `app/pricing/exchange_rate.py` — курс USD→RUB = ЦБ + надбавка (5%), обновляется перед каждой синхронизацией; `app/settings.py` (таблица `settings`) — глобальная наценка, надбавка, курс — меняются из панели, не из `.env`; `app/pricing/listing_price.py` — цена лота (индивидуальная наценка `Listing.markup_percent` или глобальная), вверх до рубля.
 - `app/orders/` — заказ end-to-end: вебхук отвечает сразу и обрабатывает в фоне; `order_processor.py` (сверка заказа, атомарный захват, закупка у FZ — **FZ асинхронный**: processing → completed/failed/refund; повторы только сеть/5xx), `jobs.py` (в `scheduler`: опрос FZ раз в минуту, страховка от потерянных вебхуков раз в 5 мин), `delivery.py` (сообщение покупателю: коды карт / «пополнение выполнено», тексты в `data/offer_templates.json`).
 - `app/api/webhooks.py` — реальный вебхук пойман и разобран, подключён к order_processor.
+- `app/bot/` — Telegram-бот администратора (сервис `bot`, этап 6): статус, заказы, ручной разбор, панель «Авто-прайсер» (ВКЛ/ВЫКЛ, наценка, надбавка, наценка лота, «обновить сейчас» — через запрос в БД, выполняет `scheduler`), ответ покупателю reply на алерт. Алерты — `app/orders/notifications.py::notify_admin` (Telegram + лог), клиент — `app/clients/telegram.py`. Тестовый бот стейджа — `@frk_autosync_test_bot`.
 - `app/offers/` — всё для лота GGSell: `categories.py` (подбор листовой категории, карта `data/ggsell_category_map.json`), `options.py` (поля покупателя ⇄ опции), `builder.py` (карточка по образцу клиента; тексты в `data/offer_templates.json`, словарь — `data/offer_terms.json`). `uploader.py` + `scripts/upload_offers.py` — автозалив черновиков (повторный запуск безопасен; `--dry-run`, `--limit`, `--only`).
 - Прод-БД: 597 топапов (40 категорий) + 1918 giftcards (236 категорий) = 2515 позиций, у всех регион в названии. Полный цикл синхронизации цен ~2 мин, ~280 запросов к FZ. Локальная БД — `docker compose up -d db`, плюс 2 тестовые позиции от `seed_test_positions.py`, которых на проде нет.
 
@@ -56,6 +58,7 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 - **Локальная БД ≠ прод-БД.** Импорт, прогнанный локально, на сервере не появляется — скрипты импорта надо запускать и на сервере (так прод-БД до 29 сентября оставалась пустой).
 - На сервере `.env` заполняется вручную — файл не в git, различается между локальной машиной и сервером (`DATABASE_URL` хост `db` vs `localhost`, `GGSELL_WEBHOOK_URL` реальный домен).
 - FazerCards подписка может протухнуть — если все вызовы вдруг начали падать с `403 subscription_inactive`, это не баг кода, проверь статус подписки на аккаунте.
+- **Telegram заблокирован в РФ** (стейдж в Москве): бот и алерты ходят только через `TELEGRAM_PROXY` (http-прокси, в `.env`), подключённый **только** к клиенту Telegram — системные `HTTP(S)_PROXY` не ставить, GGSell/FZ должны идти напрямую. Прокси стейджа оплачен до 10.10. Закреплять «рабочий» IP Telegram бессмысленно (notes 6.20).
 - SSH с не-домашних сетей может не работать: там бывает заблокирован исходящий порт 22 (проблема сети, не сервера).
 
 ## Полезные тестовые скрипты (уже написаны, в `scripts/`)
