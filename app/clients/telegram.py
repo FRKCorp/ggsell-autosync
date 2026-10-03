@@ -52,7 +52,13 @@ def truncate(text: str, limit: int = MAX_MESSAGE_LENGTH) -> str:
 
 class TelegramClient:
     def __init__(self, token: str, timeout: float = 15.0, base_url: str = API_URL):
-        self._client = httpx.Client(base_url=f"{base_url}/bot{token}", timeout=timeout)
+        # Telegram заблокирован в РФ — с российского VPS только через прокси
+        # (notes 6.20): TELEGRAM_PROXY в .env, http://логин:пароль@хост:порт.
+        # Прокси только у этого клиента — GGSell, FZ и ЦБ ходят напрямую;
+        # системные HTTP(S)_PROXY не используем.
+        load_dotenv()
+        proxy = os.getenv("TELEGRAM_PROXY", "").strip() or None
+        self._client = httpx.Client(base_url=f"{base_url}/bot{token}", timeout=timeout, proxy=proxy)
 
     def close(self) -> None:
         self._client.close()
