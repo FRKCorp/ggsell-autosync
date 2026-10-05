@@ -45,7 +45,9 @@ def build_scheduler() -> BlockingScheduler:
     # их не задерживает.
     scheduler.add_job(
         poll_fz_orders_job,
-        trigger=IntervalTrigger(seconds=int(os.getenv("FZ_ORDER_POLL_SECONDS", "60"))),
+        # 15 с: на пилоте 05.10 FZ выдал код за 23 с, а опрос раз в минуту
+        # отдал его покупателю ещё через 46 с. Лимит FZ order_status — 120/мин.
+        trigger=IntervalTrigger(seconds=int(os.getenv("FZ_ORDER_POLL_SECONDS", "15"))),
         id="poll_fz_orders",
         name="Опрос FZ по ожидающим заказам",
         coalesce=True,
