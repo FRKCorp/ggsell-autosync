@@ -28,6 +28,7 @@ from app.clients.fazercards import FazerCardsClient  # noqa: E402
 from app.clients.ggsell import GGSellV2Client  # noqa: E402
 from app.db import SessionLocal  # noqa: E402
 from app.models.position import Position  # noqa: E402
+from app.offers.categories import SPECIAL_CATEGORIES  # noqa: E402
 from app.offers.uploader import FieldsSource, upload_positions  # noqa: E402
 from app.pricing.exchange_rate import refresh_rate  # noqa: E402
 from app.pricing.listing_price import load_pricing_config  # noqa: E402
@@ -58,7 +59,8 @@ def main() -> None:
     config = load_pricing_config(session)
     print(f"Курс {config.exchange_rate_usd_to_rub} ₽/$, глобальная наценка {config.markup_percent}%, вебхук {webhook_url}")
 
-    query = select(Position).where(Position.external_id.in_(list(category_map))).order_by(Position.id)
+    known = list(category_map) + list(SPECIAL_CATEGORIES)  # этап 7 — категории заданы в коде
+    query = select(Position).where(Position.external_id.in_(known)).order_by(Position.id)
     positions = [
         p for p in session.scalars(query)
         if not args.only or any(p.external_id.startswith(prefix) for prefix in args.only)

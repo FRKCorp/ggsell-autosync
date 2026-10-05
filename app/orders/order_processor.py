@@ -47,8 +47,8 @@ from app.clients.fazercards import FazerCardsClient, FazerCardsError, FazerCards
 from app.clients.ggsell import GGSellError, GGSellV1Client
 from app.models.listing import Listing
 from app.models.order import Order, OrderStatus
-from app.models.position import Position, SourceType
-from app.offers.options import BuyerDataError, map_buyer_data_to_fz_fields
+from app.models.position import Position, SourceType, is_unit_priced
+from app.offers.options import BuyerDataError, buyer_fields_for, map_buyer_data_to_fz_fields
 from app.orders.delivery import format_delivery_message
 from app.orders.notifications import REPLY_HINT, notify_admin
 from app.pricing.calculator import PricingConfig, check_price_deviation
@@ -64,6 +64,10 @@ FZ_ORDER_TIMEOUT = timedelta(minutes=30)
 FZ_COMPLETED = "completed"
 FZ_PROCESSING = "processing"
 FZ_FINAL_FAILURES = ("failed", "refund")
+
+# Покупки Telegram у FZ без гарантии Idempotency-Key (документация FZ, 7.1):
+# после сбоя сети/5xx заказ мог пройти — повтор может купить второй раз.
+NO_RETRY_SOURCE_TYPES = (SourceType.TELEGRAM_STARS, SourceType.TELEGRAM_PREMIUM)
 
 
 class OrderProcessingError(Exception):
@@ -108,6 +112,20 @@ class OrderContext:
     buyer_data: dict[str, str]
     price_at_sale_rub: Decimal
     seller_payout_rub: Optional[Decimal] = None
+    # Сколько единиц купили — у лотов с ценой за единицу (калькулятор GGSell:
+    # сумма пополнения Steam, число звёзд), иначе 1.
+    quantity: int = 1
+
+
+def order_quantity(order_info: dict[str, Any], position: Position) -> int:
+    """cnt_goods из get_order_info («100.0») — количество единиц, которое
+    выбрал покупатель в калькуляторе. У обычных лотов — всегда 1."""
+    if not is_unit_priced(position.source_type):
+        return 1
+    try:
+        return int(Decimal(str(order_info.get("cnt_goods") or 1)))
+    except ArithmeticError as e:
+        raise OrderProcessingError(f"Не разобрать количество cnt_goods={order_info.get('cnt_goods')!r}") from e
 
 
 def build_order_context(
@@ -140,6 +158,7 @@ def build_order_context(
         # оплачено 10 ₽). Нет amount — цена лота как запасной вариант.
         price_at_sale_rub=_decimal(order_info.get("amount")) or listing.price_rub,
         seller_payout_rub=_decimal(order_info.get("profit")),
+        quantity=order_quantity(order_info, listing.position),
     )
 
 
@@ -154,6 +173,7 @@ def get_or_create_order(session: Session, ctx: OrderContext) -> Order:
         buyer_data=ctx.buyer_data,
         price_at_sale_rub=ctx.price_at_sale_rub,
         seller_payout_rub=ctx.seller_payout_rub,
+        quantity=ctx.quantity,
     )
     session.add(order)
     try:
@@ -231,11 +251,29 @@ def verify_price_before_charge(
         offer = next(o for o in data["offers"] if o["sub_id"] == position.fz_sub_id)
         region_price = next(r["price"] for r in offer["regions"] if r["region"] == position.region)
         live_price = Decimal(region_price)
+    elif buyer_fields_for(position.source_type):
+        # Steam top-up / Telegram: цена единицы (или плана) из тех же эндпоинтов,
+        # что и при синхронизации (fz_special.py).
+        from app.sync.fz_special import fetch_specs
+
+        spec = next(s for s in fetch_specs(fz_client, SourceType(position.source_type))
+                    if s.external_id == position.external_id)
+        live_price = spec.price_usd
+        fz_fields = buyer_fields_for(position.source_type)
     else:
         raise OrderProcessingError(f"Неизвестный source_type: {position.source_type}")
 
     check = check_price_deviation(position.last_known_price_usd, live_price, config)
     return check.within_threshold, live_price, fz_fields, check.deviation_percent
+
+
+def normalize_telegram_username(value: str) -> str:
+    """«durov», «@durov», «t.me/durov», «https://t.me/durov» → «@durov»."""
+    username = value.strip()
+    for prefix in ("https://", "http://", "t.me/", "telegram.me/"):
+        if username.lower().startswith(prefix):
+            username = username[len(prefix):]
+    return "@" + username.strip().lstrip("@").strip("/")
 
 
 def place_fz_order(
@@ -244,6 +282,7 @@ def place_fz_order(
     buyer_data: dict[str, str],
     idempotency_key: str,
     topup_fields: Optional[dict[str, str]] = None,
+    quantity: int = 1,
 ) -> dict[str, Any]:
     """Заказывает товар у FazerCards, метод зависит от source_type.
     idempotency_key должен быть детерминированным (используем invoice_id)
@@ -278,7 +317,37 @@ def place_fz_order(
             region=position.region,
             idempotency_key=idempotency_key,
         )
+    if position.source_type in (SourceType.STEAM_TOPUP, SourceType.TELEGRAM_STARS, SourceType.TELEGRAM_PREMIUM):
+        if not topup_fields:
+            raise OrderProcessingError("Не переданы данные покупателя (логин Steam / username Telegram)")
+        if position.source_type == SourceType.STEAM_TOPUP:
+            return fz_client.order_steam_topup(
+                topup_fields["steam_login"], position.fz_category_id, quantity,
+                idempotency_key=idempotency_key,
+            )
+        username = normalize_telegram_username(topup_fields["telegram_username"])
+        if position.source_type == SourceType.TELEGRAM_STARS:
+            return fz_client.buy_telegram_stars(username, quantity, idempotency_key=idempotency_key)
+        return fz_client.buy_telegram_premium(username, int(position.fz_offer_id), idempotency_key=idempotency_key)
     raise OrderProcessingError(f"Неизвестный source_type: {position.source_type}")
+
+
+def check_before_order(
+    fz_client: FazerCardsClient, position: Position, topup_fields: Optional[dict[str, str]], quantity: int
+) -> Optional[str]:
+    """Проверки до списания у FZ (этап 7). Текст причины — заказ в ручной
+    разбор, None — можно заказывать."""
+    raw = position.raw_payload or {}
+    if is_unit_priced(position.source_type):
+        low, high = int(raw.get("min_units", 1)), int(raw.get("max_units", quantity))
+        if not low <= quantity <= high:
+            return f"количество {quantity} вне диапазона {low}–{high}"
+    if position.source_type == SourceType.STEAM_TOPUP:
+        login = (topup_fields or {}).get("steam_login", "")
+        result = fz_client.check_steam_login(login)
+        if not result.get("can_refill"):
+            return f"логин Steam {login!r} нельзя пополнить (FZ check-login: {result})"
+    return None
 
 
 def is_transient_fz_error(error: Exception) -> bool:
@@ -309,7 +378,7 @@ def deliver_order(
     session: Session, ggsell_v1: GGSellV1Client, order: Order, fz_response: dict[str, Any]
 ) -> Order:
     position = order.listing.position
-    message = format_delivery_message(position, order.buyer_data or {}, fz_response)
+    message = format_delivery_message(position, order.buyer_data or {}, fz_response, quantity=order.quantity or 1)
     if message is None:
         return _to_manual_review(
             session, order,
@@ -398,7 +467,7 @@ def process_new_order(
         return order
 
     topup_fields = None
-    if ctx.position.source_type == SourceType.TOPUP:
+    if ctx.position.source_type == SourceType.TOPUP or buyer_fields_for(ctx.position.source_type):
         try:
             topup_fields = map_buyer_data_to_fz_fields(fz_fields, ctx.buyer_data)
         except BuyerDataError as e:
@@ -409,6 +478,18 @@ def process_new_order(
                 f"Данные покупателя: {ctx.buyer_data}. Требуется ручная обработка.",
             )
 
+    try:
+        problem = check_before_order(fz_client, ctx.position, topup_fields, ctx.quantity)
+    except (FazerCardsError, httpx.TransportError) as e:
+        problem = f"проверка у FZ не удалась — {describe_fz_error(e)}"
+    if problem:
+        return _to_manual_review(
+            session, order, problem,
+            f"Заказ {invoice_id}: {problem}. Заказ у FZ НЕ сделан. "
+            f"Данные покупателя: {ctx.buyer_data}. Требуется ручная обработка.",
+        )
+
+    no_retry = SourceType(ctx.position.source_type) in NO_RETRY_SOURCE_TYPES
     fz_response = None
     last_error: Optional[str] = None
     for attempt in range(1, MAX_FZ_ORDER_RETRIES + 1):
@@ -416,11 +497,18 @@ def process_new_order(
         try:
             fz_response = place_fz_order(
                 fz_client, ctx.position, ctx.buyer_data,
-                idempotency_key=invoice_id, topup_fields=topup_fields,
+                idempotency_key=invoice_id, topup_fields=topup_fields, quantity=ctx.quantity,
             )
             break
         except (FazerCardsError, httpx.TransportError) as e:
             last_error = describe_fz_error(e)
+            if is_transient_fz_error(e) and no_retry:
+                return _to_manual_review(
+                    session, order, last_error,
+                    f"Заказ {invoice_id}: сбой связи с FZ при покупке Telegram — {last_error}. "
+                    f"Заказ МОГ пройти: проверьте в кабинете FazerCards, прежде чем выдавать вручную "
+                    f"или возвращать деньги (повтор мог бы купить второй раз).",
+                )
             if not is_transient_fz_error(e):
                 return _to_manual_review(
                     session, order, last_error,

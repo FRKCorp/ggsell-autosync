@@ -4,7 +4,8 @@
 
 Особенности, учтённые в реализации:
 - Аутентификация: заголовок X-API-Key.
-- Идемпотентность: все create-заказ эндпоинты поддерживают Idempotency-Key.
+- Идемпотентность: create-заказ эндпоинты поддерживают Idempotency-Key — кроме
+  Telegram Stars/Premium (по документации FZ), см. раздел Telegram ниже.
 - Rate limits по категориям (каждая — свой sliding window, ключ — API key):
     catalog_read   : 120 / min  (GET /topups, /giftcards, /steam-gifts/games, ...)
     order_create   : 60  / min  (POST .../order)
@@ -253,6 +254,72 @@ class FazerCardsClient:
                 "app_id": app_id,
                 "region": region,
             },
+            idempotency_key=idempotency_key or str(uuid.uuid4()),
+        )
+
+    # ------------------------------------------------------------------
+    # Пополнение баланса Steam (roadmap 7.1): не каталог, а произвольная
+    # сумма в валюте кошелька (USD, RUB, UAH, KZT) на логин Steam.
+    # ------------------------------------------------------------------
+
+    def get_steam_topup_rates(self) -> dict[str, Any]:
+        """{"base": "USD", "rates": {"RUB": 83.58, "UAH": …, "KZT": …}} —
+        сколько единиц валюты кошелька за 1 USD баланса FZ."""
+        return self._request("GET", "/steam-topup/rates", RateCategory.CATALOG_READ)
+
+    def check_steam_login(self, steam_login: str) -> dict[str, Any]:
+        """{"ok": true, "can_refill": bool} — можно ли пополнить этот логин.
+        Проверяем до закупки: неверный логин — деньги ушли бы не туда."""
+        return self._request(
+            "POST", "/steam-topup/check-login", RateCategory.OTHER,
+            json_body={"steamLogin": steam_login},
+        )
+
+    def order_steam_topup(
+        self, steam_login: str, currency: str, amount: Any, idempotency_key: Optional[str] = None
+    ) -> dict[str, Any]:
+        return self._request(
+            "POST",
+            "/steam-topup/order",
+            RateCategory.ORDER_CREATE,
+            json_body={"steamLogin": steam_login, "currency": currency, "amount": amount},
+            idempotency_key=idempotency_key or str(uuid.uuid4()),
+        )
+
+    # ------------------------------------------------------------------
+    # Telegram Stars / Premium (roadmap 7.1). В документации FZ Idempotency-Key
+    # перечислен для всех эндпоинтов заказа, КРОМЕ этих двух: повтор покупки
+    # после сбоя сети может купить второй раз — не повторяем (order_processor).
+    # Заголовок всё равно передаём: если FZ его учитывает — дубль исключён.
+    # ------------------------------------------------------------------
+
+    def get_telegram_stars(self) -> dict[str, Any]:
+        """{"price_per_star": "0.0152625", "min_amount": 50, "max_amount": 10000}"""
+        return self._request("GET", "/telegram/stars", RateCategory.CATALOG_READ)
+
+    def get_telegram_premium(self) -> dict[str, Any]:
+        """{"plans": [{"months": 3, "price_usd": "12.1999"}, {"months": 6, …}, {"months": 12, …}]}"""
+        return self._request("GET", "/telegram/premium", RateCategory.CATALOG_READ)
+
+    def buy_telegram_stars(
+        self, telegram_username: str, quantity: int, idempotency_key: Optional[str] = None
+    ) -> dict[str, Any]:
+        return self._request(
+            "POST",
+            "/telegram/stars/buy",
+            RateCategory.ORDER_CREATE,
+            json_body={"telegram_username": telegram_username, "quantity": quantity},
+            idempotency_key=idempotency_key or str(uuid.uuid4()),
+        )
+
+    def buy_telegram_premium(
+        self, telegram_username: str, months: int, idempotency_key: Optional[str] = None
+    ) -> dict[str, Any]:
+        return self._request(
+            "POST",
+            "/telegram/premium/buy",
+            RateCategory.ORDER_CREATE,
+            json_body={"telegram_username": telegram_username, "months": months},
             idempotency_key=idempotency_key or str(uuid.uuid4()),
         )
 

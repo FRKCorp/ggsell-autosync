@@ -379,6 +379,7 @@ def refresh_all_positions(
     topup_groups: dict[str, list[Position]] = {}
     giftcard_groups: dict[str, list[Position]] = {}
     steam_groups: dict[int, list[Position]] = {}
+    special: list[Position] = []  # Steam top-up / Telegram (этап 7, fz_special.py)
 
     for p in positions:
         if p.source_type == SourceType.TOPUP:
@@ -387,6 +388,8 @@ def refresh_all_positions(
             giftcard_groups.setdefault(p.fz_category_id, []).append(p)
         elif p.source_type == SourceType.STEAM_GIFT:
             steam_groups.setdefault(p.fz_appid, []).append(p)
+        elif p.source_type in (SourceType.STEAM_TOPUP, SourceType.TELEGRAM_STARS, SourceType.TELEGRAM_PREMIUM):
+            special.append(p)
         else:
             results.append((p, None, f"Неизвестный source_type: {p.source_type}"))
 
@@ -452,5 +455,10 @@ def refresh_all_positions(
                 continue
             result = _apply_price_to_position(session, p, Decimal(region_price), offer)
             results.append((p, result, None))
+
+    if special:
+        from app.sync.fz_special import refresh_special_positions  # fz_special импортирует этот модуль
+
+        results.extend(refresh_special_positions(session, client, special))
 
     return results

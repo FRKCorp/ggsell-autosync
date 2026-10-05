@@ -34,7 +34,39 @@ RU_TITLES = {
     "Account ID": "ID аккаунта (Account ID)",
     "Server ID": "ID сервера (Server ID)",
     "Server": "Сервер",
+    "Steam login": "Логин Steam (Steam login)",
+    "Telegram username": "Username Telegram",
 }
+
+# Этап 7: у пополнения Steam и Telegram FZ не отдаёт поля покупателя — это
+# параметры самого запроса (steamLogin, telegram_username). Описываем их как
+# поля топапа, чтобы переиспользовать опции, текст карточки и разбор заказа.
+STEAM_LOGIN_FIELD = {"key": "steam_login", "label": "Steam login", "type": "text"}
+TELEGRAM_USERNAME_FIELD = {"key": "telegram_username", "label": "Telegram username", "type": "text"}
+SPECIAL_FIELDS = {
+    "steam_topup": [STEAM_LOGIN_FIELD],
+    "telegram_stars": [TELEGRAM_USERNAME_FIELD],
+    "telegram_premium": [TELEGRAM_USERNAME_FIELD],
+}
+
+# Подсказки к полям, где «из профиля в игре» не подходит.
+FIELD_COMMENTS = {
+    "steam_login": (
+        "Логин для входа в Steam — НЕ никнейм. Узнать: store.steampowered.com/account/ (строка «Аккаунт …»). "
+        "Проверьте перед оплатой — пополнение придёт на этот аккаунт.",
+        "Your Steam sign-in login — NOT the nickname. Find it at store.steampowered.com/account/. "
+        "Double-check it — the top-up goes to this account.",
+    ),
+    "telegram_username": (
+        "Username Telegram, например @durov (задаётся в настройках Telegram). Проверьте перед оплатой.",
+        "Telegram username, e.g. @durov (set in Telegram settings). Double-check it before paying.",
+    ),
+}
+
+
+def buyer_fields_for(source_type: object) -> list[dict[str, Any]]:
+    """Поля покупателя для позиций этапа 7 ([] — у остальных берутся из FZ)."""
+    return SPECIAL_FIELDS.get(str(getattr(source_type, "value", source_type)), [])
 
 
 # GGSell требует у radio_button ровно один вариант по умолчанию (422 «Для
@@ -81,12 +113,14 @@ def build_topup_options(fz_fields: list[dict[str, Any]]) -> list[OptionSpec]:
             "comment_ru": (
                 "Выберите сервер, на котором находится ваш аккаунт."
                 if is_select
-                else f"Укажите {fz_field['label']} из профиля в игре. Проверьте перед оплатой — пополнение придёт на этот аккаунт."
+                else FIELD_COMMENTS.get(fz_field["key"], (None,))[0]
+                or f"Укажите {fz_field['label']} из профиля в игре. Проверьте перед оплатой — пополнение придёт на этот аккаунт."
             ),
             "comment_en": (
                 "Choose the server your account is on."
                 if is_select
-                else f"Enter your in-game {fz_field['label']}. Double-check it — the top-up goes to this account."
+                else FIELD_COMMENTS.get(fz_field["key"], (None, None))[1]
+                or f"Enter your in-game {fz_field['label']}. Double-check it — the top-up goes to this account."
             ),
             "is_required": True,
             "position": position,

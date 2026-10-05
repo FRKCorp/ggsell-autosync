@@ -43,7 +43,7 @@ class Listing(TimestampMixin, Base):
     # Цена поставщика (USD), на основе которой была посчитана price_rub —
     # нужна, чтобы понять, требуется ли пересчёт при следующей синхронизации,
     # не заглядывая каждый раз в Position (она могла обновиться позже).
-    price_source_usd_at_sync: Mapped[Decimal] = mapped_column(Numeric(12, 4))
+    price_source_usd_at_sync: Mapped[Decimal] = mapped_column(Numeric(16, 8))
 
     # Категория GGSell лота и её комиссии на момент выставления (доли: 0.02 =
     # 2%) — удерживаются из цены, поэтому входят в расчёт price_rub

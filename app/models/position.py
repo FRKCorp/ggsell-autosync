@@ -21,6 +21,20 @@ class SourceType(str, enum.Enum):
     TOPUP = "topup"
     GIFTCARD = "giftcard"
     STEAM_GIFT = "steam_gift"
+    # Этап 7 — отдельные эндпоинты FZ, не каталог /topups (notes 3.10, 6.22).
+    STEAM_TOPUP = "steam_topup"  # пополнение кошелька Steam на произвольную сумму
+    TELEGRAM_STARS = "telegram_stars"  # звёзды Telegram, произвольное количество
+    TELEGRAM_PREMIUM = "telegram_premium"  # Premium на 3/6/12 месяцев
+
+
+# Цена за единицу (1 ₽ Steam, 1 звезда): лот на GGSell с калькулятором
+# «Заплачу ⇄ Получу» — min/max_quantity в «валютной» категории, количество
+# выбирает покупатель (notes 6.22). Цена лота — до копеек, а не до рубля.
+UNIT_PRICED = frozenset({SourceType.STEAM_TOPUP, SourceType.TELEGRAM_STARS})
+
+
+def is_unit_priced(source_type: object) -> bool:
+    return SourceType(source_type) in UNIT_PRICED
 
 
 class Position(TimestampMixin, Base):
@@ -60,7 +74,9 @@ class Position(TimestampMixin, Base):
     name: Mapped[str] = mapped_column(String(500))
 
     # Последняя известная цена у поставщика — то, с чем сверяется прайсер.
-    last_known_price_usd: Mapped[Decimal] = mapped_column(Numeric(12, 4))
+    # У позиций с ценой за единицу — цена одной единицы: 1 ₽ Steam ≈ $0.011965,
+    # 1 звезда ≈ $0.0152625 — поэтому 8 знаков, а не 4.
+    last_known_price_usd: Mapped[Decimal] = mapped_column(Numeric(16, 8))
 
     # Сырой ответ API на момент последней синхронизации — на случай, если
     # понадобятся поля, которые мы ещё не выделили в отдельные колонки.

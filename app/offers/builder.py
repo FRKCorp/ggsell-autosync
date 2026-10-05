@@ -29,7 +29,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Optional
 
-from app.models.position import Position, SourceType
+from app.models.position import Position, SourceType, is_unit_priced
 from app.pricing.calculator import GGSellFees, PricingConfig
 from app.pricing.listing_price import price_rub
 from app.regions import GLOBAL, REGION_NAMES
@@ -253,9 +253,11 @@ def build_offer(
     templates = templates or load_templates()
     terms_data = terms_data or load_terms()
     source_type = SourceType(position.source_type)  # из БД приходит строкой
-    kind = source_type.value  # "topup" / "giftcard"
-    if kind not in ("topup", "giftcard"):
+    kind = source_type.value  # "topup" / "giftcard" / этап 7: "steam_topup", "telegram_*"
+    if kind not in templates["tag"]:
         raise ValueError(f"Карточки для {kind} не поддерживаются")
+    unit_priced = is_unit_priced(source_type)
+    raw = position.raw_payload or {}
     fz_fields = fz_fields or []
     offer_name = position.raw_payload.get("name", position.name.split(" — ", 1)[-1])
     region = position.region or GLOBAL
@@ -264,7 +266,10 @@ def build_offer(
 
     texts = {}
     for lang in ("ru", "en"):
-        item = format_item(offer_name, source_type=source_type, region=region, lang=lang, terms_data=terms_data)
+        # У позиций этапа 7 название товара задано готовым (fz_special.py).
+        item = raw.get(f"item_{lang}") or format_item(
+            offer_name, source_type=source_type, region=region, lang=lang, terms_data=terms_data
+        )
         # «Xbox Game Pass … Xbox Game Pass Ultimate» → без повтора названия игры.
         if item.casefold().startswith(game.casefold() + " "):
             item = item[len(game) + 1:]
@@ -279,6 +284,10 @@ def build_offer(
             "fields": fields,
             "region_text": region_text(region, source_type, lang, templates),
             "service": game,
+            "enter_fields": enter_fields,
+            "min_units": raw.get("min_units", ""),
+            "max_units": raw.get("max_units", ""),
+            "unit": raw.get("unit", ""),
         }
         values["rule"] = rule.format(**{**values, "fields": enter_fields}) if rule else ""
         values["select_rule"] = block.get(f"select_rule_{lang}", "") if has_select else ""
@@ -289,7 +298,7 @@ def build_offer(
         }
 
     fees = GGSellFees.from_category(category.get("fee"), category.get("payment_fee"))
-    price = price_rub(position.last_known_price_usd, config, fees, markup_percent)
+    price = price_rub(position.last_known_price_usd, config, fees, markup_percent, unit_priced=unit_priced)
 
     payload = {
         "title_ru": texts["ru"]["title"],
@@ -303,8 +312,10 @@ def build_offer(
         "currency": "RUB",
         "category_id": category["category_id"],
         "is_autoselling": False,
-        "min_quantity": 1,
-        "max_quantity": 1,
+        # Цена за единицу — калькулятор «Заплачу ⇄ Получу»: GGSell включает его
+        # сам, если оффер в «валютной» категории и количество — диапазон (7.3).
+        "min_quantity": int(raw["min_units"]) if unit_priced else 1,
+        "max_quantity": int(raw["max_units"]) if unit_priced else 1,
         "is_unlimited_quantity": True,
         # Всегда auto: сменить потом нельзя (notes 3.8); выдача — через чат.
         "delivery": "auto",
@@ -323,5 +334,5 @@ def build_offer(
         fees=fees,
         price_rub=price,
         price_usd=position.last_known_price_usd,
-        fz_fields=fz_fields if source_type == SourceType.TOPUP else [],
+        fz_fields=fz_fields if source_type != SourceType.GIFTCARD else [],
     )

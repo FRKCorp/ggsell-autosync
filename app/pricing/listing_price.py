@@ -16,6 +16,7 @@ from sqlalchemy.orm import Session
 
 from app import settings
 from app.models.listing import Listing
+from app.models.position import is_unit_priced
 from app.pricing.calculator import GGSellFees, PricingConfig, calculate_price_rub
 
 
@@ -35,15 +36,24 @@ def effective_markup(config: PricingConfig, listing_markup: Optional[Decimal]) -
     return listing_markup if listing_markup is not None else config.markup_percent
 
 
+UNIT_PRICE_ROUND = Decimal("0.01")
+
+
 def price_rub(
     price_usd: Decimal,
     config: PricingConfig,
     fees: GGSellFees,
     listing_markup: Optional[Decimal] = None,
+    *,
+    unit_priced: bool = False,
 ) -> Decimal:
     """Цена на витрине: курс + наценка лота (или глобальная) + комиссии
-    категории, вверх до целого рубля."""
+    категории, вверх до целого рубля. У лотов с ценой за единицу (1 ₽ Steam,
+    1 звезда — калькулятор GGSell) — вверх до копейки: до рубля 1.33 ₽ стали
+    бы 2 ₽, +50% к цене (notes 6.22)."""
     lot_config = replace(config, markup_percent=effective_markup(config, listing_markup))
+    if unit_priced:
+        return calculate_price_rub(price_usd, lot_config, fees, round_to=UNIT_PRICE_ROUND)
     return calculate_price_rub(price_usd, lot_config, fees)
 
 
@@ -54,6 +64,7 @@ def listing_price_rub(listing: Listing, config: PricingConfig) -> Decimal:
         config,
         GGSellFees(fee=listing.ggsell_fee, payment_fee=listing.ggsell_payment_fee),
         listing.markup_percent,
+        unit_priced=is_unit_priced(listing.position.source_type),
     )
 
 

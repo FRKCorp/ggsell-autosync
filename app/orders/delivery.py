@@ -51,16 +51,19 @@ def extract_codes(fz_order: dict[str, Any]) -> list[str]:
 
 
 def format_delivery_message(
-    position: Position, buyer_data: dict[str, Any], fz_order: dict[str, Any]
+    position: Position, buyer_data: dict[str, Any], fz_order: dict[str, Any], quantity: int = 1
 ) -> Optional[str]:
     templates = load_templates()["delivery"]
     source_type = SourceType(position.source_type)
-    offer_name = position.raw_payload.get("name", position.name.split(" — ", 1)[-1])
+    raw = position.raw_payload or {}
+    offer_name = raw.get("name", position.name.split(" — ", 1)[-1])
     values = {
-        "item": format_item(offer_name, source_type=source_type, region=position.region, lang="ru"),
+        "item": raw.get("item_ru") or format_item(offer_name, source_type=source_type, region=position.region, lang="ru"),
         "service": game_name(position),
         "account": ", ".join(f"{name}: {value}" for name, value in buyer_data.items()) or "—",
         "codes": "",
+        "quantity": quantity,
+        "unit": raw.get("unit", ""),
     }
     if source_type == SourceType.GIFTCARD:
         codes = extract_codes(fz_order)
@@ -69,5 +72,6 @@ def format_delivery_message(
         values["codes"] = "\n".join(codes)
         lines = templates["giftcard"]
     else:
-        lines = templates["topup"]
+        # Этап 7 — свои тексты (Steam / Stars / Premium), остальное — пополнение.
+        lines = templates.get(source_type.value, templates["topup"])
     return "\n".join(line.format(**values) for line in lines).strip()

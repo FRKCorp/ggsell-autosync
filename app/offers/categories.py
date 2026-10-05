@@ -33,6 +33,30 @@ from app.regions import REGION_NAMES
 FALLBACK_TITLES = ("другое количество", "другие страны", "прочее", "other countries")
 
 
+# Этап 7 (notes 6.22): у пополнения Steam и Telegram нет категории FZ, по
+# которой работает автоподбор, — категории GGSell подобраны вручную. Steam —
+# «Прямое пополнение» (там GGSell включает калькулятор «Заплачу ⇄ Получу»).
+# Telegram-категории на нашем тестовом аккаунте закрыты для публикации
+# («Offer cannot be activate», вопрос в поддержке GGSell, roadmap 7.3).
+SPECIAL_CATEGORIES: dict[str, dict[str, Any]] = {
+    "steam_topup:RUB": {"category_id": 28831, "tree": "Сервисы и соцсети > Steam Wallet > Прямое пополнение > Россия",
+                        "fee": 0.045, "payment_fee": 0.027},
+    "steam_topup:KZT": {"category_id": 138186, "tree": "Сервисы и соцсети > Steam Wallet > Прямое пополнение > Kazakhstan",
+                        "fee": 0.045, "payment_fee": 0.027},
+    "steam_topup:UAH": {"category_id": 138191, "tree": "Сервисы и соцсети > Steam Wallet > Прямое пополнение > Ukraine",
+                        "fee": 0.045, "payment_fee": 0.027},
+    "steam_topup:USD": {"category_id": 138188, "tree": "Сервисы и соцсети > Steam Wallet > Прямое пополнение > СНГ USD",
+                        "fee": 0.045, "payment_fee": 0.027},
+    "telegram_stars:stars": {"category_id": 117291, "tree": "Сервисы и соцсети > Telegram > Звезды",
+                             "fee": 0.06, "payment_fee": 0.027},
+    **{
+        f"telegram_premium:{months}": {"category_id": 120607, "tree": "Сервисы и соцсети > Telegram > Telegram Premium > Gift",
+                                       "fee": 0.06, "payment_fee": 0.027}
+        for months in (3, 6, 12)
+    },
+}
+
+
 @dataclass
 class CategoryChoice:
     category_id: int

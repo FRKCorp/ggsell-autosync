@@ -80,6 +80,10 @@ class Order(TimestampMixin, Base):
     # минус комиссии GGSell (roadmap 5.8).
     seller_payout_rub: Mapped[Optional[Decimal]] = mapped_column(Numeric(12, 2), nullable=True)
 
+    # Сколько единиц купил покупатель (cnt_goods из get_order_info): у лотов
+    # с ценой за единицу — сумма пополнения Steam / число звёзд, иначе 1.
+    quantity: Mapped[int] = mapped_column(default=1, server_default="1")
+
     retry_count: Mapped[int] = mapped_column(default=0)
     error_message: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 

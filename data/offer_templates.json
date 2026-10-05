@@ -12,6 +12,18 @@
     "giftcard": {
       "ru": "Код",
       "en": "Code"
+    },
+    "steam_topup": {
+      "ru": "по логину",
+      "en": "by login"
+    },
+    "telegram_stars": {
+      "ru": "по username",
+      "en": "by username"
+    },
+    "telegram_premium": {
+      "ru": "по username",
+      "en": "by username"
     }
   },
   "topup": {
@@ -114,6 +126,42 @@
         "Global": "Global card — works for accounts of any region",
         "_default": "Only for accounts of the region: {region_name}"
       }
+    },
+    "steam_topup": {
+      "ru": {
+        "RU": "Для аккаунтов Steam с регионом Россия (кошелёк в рублях)",
+        "KZ": "Для аккаунтов Steam с регионом Казахстан (кошелёк в тенге)",
+        "CIS": "Для аккаунтов Steam стран СНГ с кошельком в долларах (USD)",
+        "_default": "Для аккаунтов Steam региона: {region_name}",
+        "UA": "Для аккаунтов Steam с регионом Украина (кошелёк в гривнах)"
+      },
+      "en": {
+        "RU": "For Steam accounts with region Russia (wallet in RUB)",
+        "KZ": "For Steam accounts with region Kazakhstan (wallet in KZT)",
+        "CIS": "For Steam accounts in CIS countries with a USD wallet",
+        "_default": "For Steam accounts of the region: {region_name}",
+        "UA": "For Steam accounts with region Ukraine (wallet in UAH)"
+      }
+    },
+    "telegram_stars": {
+      "ru": {
+        "Global": "Для любого аккаунта Telegram",
+        "_default": "Для аккаунтов Telegram региона: {region_name}"
+      },
+      "en": {
+        "Global": "For any Telegram account",
+        "_default": "For Telegram accounts of the region: {region_name}"
+      }
+    },
+    "telegram_premium": {
+      "ru": {
+        "Global": "Для любого аккаунта Telegram",
+        "_default": "Для аккаунтов Telegram региона: {region_name}"
+      },
+      "en": {
+        "Global": "For any Telegram account",
+        "_default": "For Telegram accounts of the region: {region_name}"
+      }
     }
   },
   "fields": {
@@ -125,7 +173,9 @@
       "likee_id": "Likee ID",
       "bigo_id": "Bigo ID",
       "server_id": "ID сервера",
-      "server": "серверу"
+      "server": "серверу",
+      "steam_login": "логину Steam",
+      "telegram_username": "username Telegram"
     },
     "by_en": {
       "player_id": "player ID",
@@ -134,7 +184,9 @@
       "likee_id": "Likee ID",
       "bigo_id": "Bigo ID",
       "server_id": "server ID",
-      "server": "server"
+      "server": "server",
+      "steam_login": "Steam login",
+      "telegram_username": "Telegram username"
     },
     "enter_ru": {
       "player_id": "ID игрока",
@@ -142,7 +194,9 @@
       "account_id": "ID аккаунта",
       "likee_id": "Likee ID",
       "bigo_id": "Bigo ID",
-      "server_id": "ID сервера"
+      "server_id": "ID сервера",
+      "steam_login": "логин Steam",
+      "telegram_username": "username Telegram"
     },
     "enter_en": {
       "player_id": "player ID",
@@ -150,13 +204,15 @@
       "account_id": "account ID",
       "likee_id": "Likee ID",
       "bigo_id": "Bigo ID",
-      "server_id": "server ID"
+      "server_id": "server ID",
+      "steam_login": "Steam login",
+      "telegram_username": "Telegram username"
     },
     "and_ru": " и ",
     "and_en": " and "
   },
   "delivery": {
-    "_comment": "Сообщения покупателю в чат заказа после выдачи (roadmap 5.3, app/orders/delivery.py). {item} — товар, {account} — что ввёл покупатель («ID игрока (Player ID): 123, Сервер: asia»), {codes} — коды карт (по строке на карту), {service} — игра/сервис.",
+    "_comment": "Сообщения покупателю в чат заказа после выдачи (roadmap 5.3, app/orders/delivery.py). {item} — товар, {account} — что ввёл покупатель («ID игрока (Player ID): 123, Сервер: asia»), {codes} — коды карт (по строке на карту), {service} — игра/сервис. {quantity} — сколько единиц купил покупатель (сумма пополнения Steam, число звёзд), {unit} — валюта кошелька Steam.",
     "topup": [
       "✅ Заказ выполнен!",
       "Зачислено на ваш аккаунт: {item}.",
@@ -173,6 +229,138 @@
       "Активируйте его в {service} на аккаунте нужного региона.",
       "Остались вопросы — напишите сюда, поддержка с 11:00 до 01:00 по МСК.",
       "Спасибо за покупку! Будем рады вашему отзыву 🙌"
+    ],
+    "steam_topup": [
+      "✅ Заказ выполнен!",
+      "Баланс Steam пополнен на {quantity} {unit}.",
+      "Данные пополнения: {account}.",
+      "",
+      "Если баланс не обновился в течение 10 минут — перезайдите в Steam. Остались вопросы — напишите сюда, поддержка с 11:00 до 01:00 по МСК.",
+      "Спасибо за покупку! Будем рады вашему отзыву 🙌"
+    ],
+    "telegram_stars": [
+      "✅ Заказ выполнен!",
+      "Звёзды Telegram ({quantity} шт.) отправлены на ваш аккаунт.",
+      "Данные: {account}.",
+      "",
+      "Остались вопросы — напишите сюда, поддержка с 11:00 до 01:00 по МСК.",
+      "Спасибо за покупку! Будем рады вашему отзыву 🙌"
+    ],
+    "telegram_premium": [
+      "✅ Заказ выполнен!",
+      "Telegram {item} оформлен на ваш аккаунт.",
+      "Данные: {account}.",
+      "",
+      "Остались вопросы — напишите сюда, поддержка с 11:00 до 01:00 по МСК.",
+      "Спасибо за покупку! Будем рады вашему отзыву 🙌"
     ]
+  },
+  "steam_topup": {
+    "description_ru": [
+      "💳 {item} — зачисление на кошелёк Steam по логину аккаунта.",
+      "🧮 Сумму пополнения укажите в калькуляторе: от {min_units} до {max_units} {unit}.",
+      "🚀 Автодоставка обычно занимает 1-10 минут.",
+      "🌎 {region_text}",
+      "",
+      "❗️ Укажите ЛОГИН Steam — тот, что вводите при входе, а НЕ никнейм. Узнать логин: store.steampowered.com/account/ (строка «Аккаунт …»).",
+      "❗️ Перед оплатой убедитесь, что валюта вашего кошелька Steam — {unit}.",
+      "⚙️ После оплаты заказ выполняется автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 01:00 по мск.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ ВАЖНО ПРО АВТОВЫДАЧУ:",
+      "Заказ выполняется напрямую через API провайдера сразу после оплаты и работает автоматически 24/7. Поэтому изменить данные, отменить заказ или вернуть средства невозможно. Пожалуйста, внимательно проверяйте данные перед оплатой!",
+      "❗ Если заказ успешно выполнен на неверно указанный {enter_fields}, услуга считается исполненной.",
+      "❗ Любой возврат, инициированный по вашей вине, идёт с удержанием до 20% суммы. Если же вдруг вина на нас, то вы получите назад средства полностью."
+    ],
+    "description_en": [
+      "💳 {item} — credited to your Steam wallet by account login.",
+      "🧮 Choose the amount in the calculator: from {min_units} to {max_units} {unit}.",
+      "🚀 Auto delivery usually takes 1-10 minutes.",
+      "🌎 {region_text}",
+      "",
+      "❗️ Enter your Steam LOGIN (the one you sign in with), NOT your nickname. Find it at store.steampowered.com/account/.",
+      "❗️ Before paying make sure your Steam wallet currency is {unit}.",
+      "⚙️ After payment the order is fulfilled automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ IMPORTANT ABOUT AUTO DELIVERY:",
+      "The order is fulfilled directly through the provider's API right after payment and works automatically 24/7. Therefore the data cannot be changed, and the order cannot be cancelled or refunded. Please check your data carefully before paying!",
+      "❗ If the order is successfully fulfilled to an incorrectly entered {enter_fields}, the service is considered fulfilled.",
+      "❗ Any refund caused by your mistake is made with a deduction of up to 20%. If the fault is ours, you will get a full refund."
+    ],
+    "instructions_ru": "Заказ будет выполнен автоматически, обычно в течение 1-10 минут после оплаты. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
+    "instructions_en": "The order will be fulfilled automatically, usually within 1-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time."
+  },
+  "telegram_stars": {
+    "description_ru": [
+      "⭐ {item} Telegram — отправляем на ваш аккаунт по username.",
+      "🧮 Количество звёзд укажите в калькуляторе: от {min_units} до {max_units}.",
+      "🚀 Автодоставка обычно занимает 1-10 минут.",
+      "🌎 {region_text}",
+      "",
+      "❗️ Укажите username Telegram (например, @durov). Проверьте, что username задан в настройках Telegram.",
+      "⚙️ После оплаты заказ выполняется автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 01:00 по мск.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ ВАЖНО ПРО АВТОВЫДАЧУ:",
+      "Заказ выполняется напрямую через API провайдера сразу после оплаты и работает автоматически 24/7. Поэтому изменить данные, отменить заказ или вернуть средства невозможно. Пожалуйста, внимательно проверяйте данные перед оплатой!",
+      "❗ Если заказ успешно выполнен на неверно указанный {enter_fields}, услуга считается исполненной.",
+      "❗ Любой возврат, инициированный по вашей вине, идёт с удержанием до 20% суммы. Если же вдруг вина на нас, то вы получите назад средства полностью."
+    ],
+    "description_en": [
+      "⭐ Telegram {item} — sent to your account by username.",
+      "🧮 Choose the number of stars in the calculator: from {min_units} to {max_units}.",
+      "🚀 Auto delivery usually takes 1-10 minutes.",
+      "🌎 {region_text}",
+      "",
+      "❗️ Enter your Telegram username (e.g. @durov). Make sure the username is set in Telegram settings.",
+      "⚙️ After payment the order is fulfilled automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ IMPORTANT ABOUT AUTO DELIVERY:",
+      "The order is fulfilled directly through the provider's API right after payment and works automatically 24/7. Therefore the data cannot be changed, and the order cannot be cancelled or refunded. Please check your data carefully before paying!",
+      "❗ If the order is successfully fulfilled to an incorrectly entered {enter_fields}, the service is considered fulfilled.",
+      "❗ Any refund caused by your mistake is made with a deduction of up to 20%. If the fault is ours, you will get a full refund."
+    ],
+    "instructions_ru": "Заказ будет выполнен автоматически, обычно в течение 1-10 минут после оплаты. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
+    "instructions_en": "The order will be fulfilled automatically, usually within 1-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time."
+  },
+  "telegram_premium": {
+    "description_ru": [
+      "👑 Telegram {item} — подписка оформляется на ваш аккаунт по username.",
+      "🚀 Автодоставка обычно занимает 1-10 минут.",
+      "🌎 {region_text}",
+      "",
+      "❗️ Укажите username Telegram (например, @durov). Проверьте, что username задан в настройках Telegram.",
+      "⚙️ После оплаты заказ выполняется автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 01:00 по мск.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ ВАЖНО ПРО АВТОВЫДАЧУ:",
+      "Заказ выполняется напрямую через API провайдера сразу после оплаты и работает автоматически 24/7. Поэтому изменить данные, отменить заказ или вернуть средства невозможно. Пожалуйста, внимательно проверяйте данные перед оплатой!",
+      "❗ Если заказ успешно выполнен на неверно указанный {enter_fields}, услуга считается исполненной.",
+      "❗ Любой возврат, инициированный по вашей вине, идёт с удержанием до 20% суммы. Если же вдруг вина на нас, то вы получите назад средства полностью."
+    ],
+    "description_en": [
+      "👑 Telegram {item} — the subscription is activated on your account by username.",
+      "🚀 Auto delivery usually takes 1-10 minutes.",
+      "🌎 {region_text}",
+      "",
+      "❗️ Enter your Telegram username (e.g. @durov). Make sure the username is set in Telegram settings.",
+      "⚙️ After payment the order is fulfilled automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "",
+      "━━━━━━━━━━━━━━━━━━━━",
+      "",
+      "ℹ IMPORTANT ABOUT AUTO DELIVERY:",
+      "The order is fulfilled directly through the provider's API right after payment and works automatically 24/7. Therefore the data cannot be changed, and the order cannot be cancelled or refunded. Please check your data carefully before paying!",
+      "❗ If the order is successfully fulfilled to an incorrectly entered {enter_fields}, the service is considered fulfilled.",
+      "❗ Any refund caused by your mistake is made with a deduction of up to 20%. If the fault is ours, you will get a full refund."
+    ],
+    "instructions_ru": "Заказ будет выполнен автоматически, обычно в течение 1-10 минут после оплаты. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
+    "instructions_en": "The order will be fulfilled automatically, usually within 1-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time."
   }
 }

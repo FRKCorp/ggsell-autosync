@@ -34,7 +34,8 @@ from app.clients.ggsell import GGSellError, GGSellV2Client, call_with_retry
 from app.models.listing import Listing, ListingStatus
 from app.models.position import Position, SourceType
 from app.offers.builder import build_offer
-from app.offers.options import attach_topup_options
+from app.offers.categories import SPECIAL_CATEGORIES
+from app.offers.options import attach_topup_options, buyer_fields_for
 from app.pricing.calculator import PricingConfig
 
 logger = logging.getLogger(__name__)
@@ -99,15 +100,18 @@ def upload_positions(
     for position in positions:
         if limit is not None and len(report.created) >= limit:
             break
-        category = category_map.get(position.external_id)
+        category = category_map.get(position.external_id) or SPECIAL_CATEGORIES.get(position.external_id)
         if category is None:
             report.skipped_no_category += 1
             continue
 
         listing = session.scalar(select(Listing).where(Listing.position_id == position.id))
         is_topup = SourceType(position.source_type) == SourceType.TOPUP
+        # Поля покупателя: у топапов — от FZ, у Steam/Telegram (этап 7) — свои.
+        special_fields = buyer_fields_for(position.source_type)
+        needs_options = is_topup or bool(special_fields)
         if listing is not None:
-            if listing.options_attached or not is_topup:
+            if listing.options_attached or not needs_options:
                 report.skipped_existing += 1
                 continue
             # Лот есть, опции не повешены — досоздаём только их.
@@ -117,7 +121,7 @@ def upload_positions(
             try:
                 call_with_retry(
                     attach_topup_options, v2, listing.ggsell_offer_id,
-                    fields.get(position.fz_category_id), sleep=sleep,
+                    special_fields or fields.get(position.fz_category_id), sleep=sleep,
                 )
                 listing.options_attached = True
                 session.commit()
@@ -129,7 +133,7 @@ def upload_positions(
                 say(f"❌ {position.external_id}: опции: {e}")
             continue
 
-        fz_fields = fields.get(position.fz_category_id) if is_topup else []
+        fz_fields = special_fields or (fields.get(position.fz_category_id) if is_topup else [])
         try:
             draft = build_offer(position, category, config, webhook_url=webhook_url, fz_fields=fz_fields)
         except Exception as e:  # noqa: BLE001
