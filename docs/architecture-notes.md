@@ -455,3 +455,29 @@ Mobile Legends RU* Алмазы 275 (250+25)  | по ID |  Автодостав�
 - Опрос FZ переведён на 15 с (`FZ_ORDER_POLL_SECONDS`, лимит FZ `order_status` — 120/мин). Иначе код лежал у FZ почти минуту.
 - Сообщение о пополнении: «Зачислено на ваш аккаунт: Алмазы 5» (было «Алмазы 5 зачислено…»).
 - Проверка ID до заказа (`/topups/validate-id`) для Bigo Live недоступна («ID validation is not available for this category_id»). Она есть не у всех игр, это стоит учесть в «проверке до оплаты» (возможные доработки).
+
+### 6.22. Этап 7: пополнение Steam и Telegram — калькулятор GGSell, пилот Steam (5 октября)
+
+**FZ (живые ответы 05.10):**
+- `GET /steam-topup/rates` → `{"rates": {"RUB": 83.58, "UAH": 45.02, "KZT": 450.41}}` — единиц валюты за $1. `POST /steam-topup/check-login {"steamLogin"}` → `{"can_refill": true, "unverified": false}`. `POST /steam-topup/order {"steamLogin", "currency", "amount"}` — Idempotency-Key есть.
+- Лимиты Steam (страница FZ): от эквивалента $0.10 до $1000, сумма — до 4 знаков. Списание «по правилам плана»: на пилоте за $0.60 списано $0.5787 (скидка ~3.5%). Сумму FZ округляет до центов **вверх**: 50 RUB → $0.60 → зачислено 50.15 ₽.
+- Ответ заказа Steam: `kind: steam_topup`, `amountUsd`, `amountLocal`, `chargedUsd`, `walletFiatApprox`, `statusHistory` (created → processing → completed за ~1.5 мин).
+- `GET /telegram/stars` → `price_per_star` 0.0152625, `min_amount` 50, `max_amount` 10 000. `GET /telegram/premium` → планы 3/6/12 мес. ($12.20/$16.27/$29.50). `POST /telegram/stars/buy {telegram_username, quantity}`, `/telegram/premium/buy {telegram_username, months}`. **В документации FZ Idempotency-Key перечислен для всех эндпоинтов заказа, кроме Telegram.** Поэтому покупку Telegram после сбоя сети или 5xx не повторяем: она уходит в ручной разбор с пометкой «мог пройти, проверьте в кабинете FZ».
+
+**GGSell — калькулятор «Заплачу ⇄ Получу» (как у конкурентов «1 Steam UAH = 2.12 ₽»):**
+- Отдельных полей в API v2 нет. GGSell включает калькулятор сам, если оффер **создан** в «валютной» категории с диапазоном `min_quantity`..`max_quantity`. `price` — цена одной единицы (копейки принимаются). Название единицы берётся из категории («Steam RUB», «Звёзд»). Видно в V1 `products/:id/data` → `prices_unit` (`unit_name_ru`, `unit_cnt_min/max`, `unit_only_int`).
+- Если перенести готовый оффер в другую категорию, единица остаётся старой, а в «не валютной» категории калькулятор не показывается. Поэтому оффер создаём сразу в нужной категории.
+- В заказе количество — `cnt_goods` из `get_order_info` (на пилоте `"50.0"`), `amount` — итоговая сумма.
+- **Telegram-категории закрыты для нашего аккаунта:** «Telegram > Звезды» (117291) и «Telegram Premium > Gift» (120607) — `batch_activate` → «INVALID_OPERATION: Offer cannot be activate» при любой цене, количестве и текстах. Тот же оффер в других категориях публикуется. Другие продавцы там торгуют, значит, нужно разрешение. Вопрос в поддержку отправлен 05.10. Важно и для аккаунта клиента.
+- «Steam Wallet > Прямое пополнение» (Россия 28831, Kazakhstan 138186, Ukraine 138191, СНГ USD 138188; комиссия 4.5% + 2.7%) публикуется нормально.
+
+**Как сделано** (решение — переиспользовать цепочку топапов, а не строить новую):
+- `SourceType.STEAM_TOPUP / TELEGRAM_STARS / TELEGRAM_PREMIUM`. `UNIT_PRICED` = Steam и Stars: `last_known_price_usd` хранит цену одной единицы, поэтому точность расширена до `Numeric(16, 8)`, а цена лота округляется вверх до копейки (до рубля 1.33 ₽ стали бы 2 ₽). Миграция `9fd28d8963b9` (+ `orders.quantity`).
+- Позиции строятся из эндпоинтов FZ (`app/sync/fz_special.py`) и обновляются в общей синхронизации цен. Рамки калькулятора свои, внутри лимитов FZ (`STEAM_TOPUP_CURRENCIES`). Импорт — `scripts/import_special.py`.
+- Категории — константа `SPECIAL_CATEGORIES` в `app/offers/categories.py` (у этих товаров нет категории FZ для автоподбора).
+- Логин Steam и username Telegram оформлены как «поля топапа» (`SPECIAL_FIELDS` в `options.py`). Опции, текст карточки и разбор данных покупателя — общий код.
+- Заказ: `quantity` из `cnt_goods`. До покупки — проверка диапазона и `check-login` (логин нельзя пополнить → ручной разбор, у FZ ничего не заказано). Username нормализуется.
+
+**Пилот Steam (05.10):** лот 103375551 (1.33 ₽ за 1 ₽ Steam, 50–15 000), заказ 54278990 на 50 Steam RUB за 66.50 ₽. От оплаты до сообщения 2 мин 47 с. Баланс Steam покупателя 160 → 210 ₽. Выплата GGSell 61.71 ₽, списано FZ $0.5787.
+
+Тестовые офферы (на паузе, удалить в 9.5): 103374677 (проба калькулятора, «TEST Telegram Stars»), 103375227 («TEST Пополнение Steam RUB»).
