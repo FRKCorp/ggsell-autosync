@@ -12,12 +12,13 @@ import os
 import time
 from typing import Any, Optional
 
+import httpx
 from dotenv import load_dotenv
 
 from app.bot.handlers import BotApp
 from app.clients.fazercards import FazerCardsClient
 from app.clients.ggsell import GGSellV1Client, GGSellV2Client
-from app.clients.telegram import TelegramClient, admin_chat_ids, bot_token
+from app.clients.telegram import TelegramClient, TelegramError, admin_chat_ids, bot_token
 from app.db import SessionLocal
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -82,7 +83,12 @@ def main() -> None:
         while True:
             try:
                 updates = tg.get_updates(offset=offset, timeout=30)
-            except Exception:  # noqa: BLE001 — сеть/Telegram недоступны: ждём и пробуем снова
+            except (httpx.TransportError, TelegramError) as e:
+                # Прокси/Telegram недоступны — обычное дело для shared-прокси, без traceback.
+                logger.warning("getUpdates не удался (%r) — повтор через 5 с", e)
+                time.sleep(5)
+                continue
+            except Exception:  # noqa: BLE001
                 logger.exception("getUpdates не удался — повтор через 5 с")
                 time.sleep(5)
                 continue

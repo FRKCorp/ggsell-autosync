@@ -15,6 +15,8 @@ from app.api.webhooks import router as webhooks_router
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
 )
+# httpx на INFO пишет полный URL запроса — у GGSell V1 в нём токен (?token=...).
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 app = FastAPI(title="ggsell-autosync")
 app.include_router(webhooks_router)

@@ -18,10 +18,11 @@ from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 from typing import Iterator, Optional
 
+import httpx
 from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
-from app.clients.fazercards import FazerCardsClient
+from app.clients.fazercards import FazerCardsClient, FazerCardsError
 from app.clients.ggsell import GGSellError, GGSellV1Client
 from app.db import SessionLocal
 from app.models.listing import Listing
@@ -129,6 +130,23 @@ def sweep_missed_orders(
     return {"found": len(targets), "processed": processed, "errors": errors}
 
 
+def _is_transient(e: Exception) -> bool:
+    if isinstance(e, GGSellError):
+        return e.status_code == 429 or e.status_code >= 500
+    if isinstance(e, FazerCardsError):
+        return e.status_code is not None and (e.status_code == 429 or e.status_code >= 500)
+    return isinstance(e, httpx.TransportError)
+
+
+def _log_job_failure(job: str, e: Exception) -> None:
+    """Временный сбой (GGSell 504, сеть) — одной строкой: джоба повторится
+    сама через минуту-пять. Остальное — с traceback, это баг."""
+    if _is_transient(e):
+        logger.warning("%s: временный сбой (%r) — повтор при следующем запуске", job, e)
+    else:
+        logger.exception("%s упал", job)
+
+
 def poll_fz_orders_job() -> None:
     session = SessionLocal()
     try:
@@ -136,9 +154,9 @@ def poll_fz_orders_job() -> None:
             stats = poll_upstream_orders(session, fz, ggsell_v1)
         if stats["checked"]:
             logger.info("Опрос FZ по заказам: %s", stats)
-    except Exception:
+    except Exception as e:
         session.rollback()
-        logger.exception("Опрос FZ по заказам упал")
+        _log_job_failure("Опрос FZ по заказам", e)
     finally:
         session.close()
 
@@ -150,8 +168,8 @@ def sweep_missed_orders_job() -> None:
             stats = sweep_missed_orders(session, fz, ggsell_v1, PricingConfig.from_env())
         if stats["found"]:
             logger.info("Страховочная проверка заказов: %s", stats)
-    except Exception:
+    except Exception as e:
         session.rollback()
-        logger.exception("Страховочная проверка заказов упала")
+        _log_job_failure("Страховочная проверка заказов", e)
     finally:
         session.close()

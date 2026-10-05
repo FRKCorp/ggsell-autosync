@@ -10,7 +10,8 @@ ADMIN_TELEGRAM_CHAT_ID — ещё и в Telegram (всем chat_id из спис
 from __future__ import annotations
 
 import logging
-from typing import Optional
+import time
+from typing import Callable, Optional
 
 from app.clients.telegram import TelegramClient, admin_chat_ids, bot_token
 
@@ -21,18 +22,32 @@ logger = logging.getLogger(__name__)
 REPLY_HINT = "↩️ Ответьте на это сообщение, чтобы написать покупателю."
 
 
-def notify_admin(message: str, client: Optional[TelegramClient] = None) -> None:
+# Shared-прокси для Telegram периодически отказывает в соединении на
+# секунды-минуты (стейдж, 05.10: 153 отказа за двое суток) — пробуем ещё раз.
+SEND_ATTEMPTS = 3
+RETRY_DELAYS_SECONDS = (3, 10)
+
+
+def notify_admin(message: str, client: Optional[TelegramClient] = None,
+                 sleep: Callable[[float], None] = time.sleep) -> None:
     logger.warning("ADMIN ALERT: %s", message)
     token, chat_ids = bot_token(), admin_chat_ids()
     if not token or not chat_ids:
         return
     own_client = client is None
+    client = client or TelegramClient(token, timeout=10)
     try:
-        client = client or TelegramClient(token, timeout=10)
         for chat_id in chat_ids:
-            client.send_message(chat_id, message)
-    except Exception:  # noqa: BLE001 — алерт не должен ронять обработку заказа
-        logger.exception("Алерт в Telegram не отправлен — остался только в логе")
+            for attempt in range(1, SEND_ATTEMPTS + 1):
+                try:
+                    client.send_message(chat_id, message)
+                    break
+                except Exception as e:  # noqa: BLE001 — алерт не должен ронять обработку заказа
+                    if attempt == SEND_ATTEMPTS:
+                        logger.error("Алерт в Telegram (chat %s) не отправлен после %d попыток (%r) — "
+                                     "остался только в логе", chat_id, SEND_ATTEMPTS, e)
+                    else:
+                        sleep(RETRY_DELAYS_SECONDS[attempt - 1])
     finally:
-        if own_client and client is not None:
+        if own_client:
             client.close()

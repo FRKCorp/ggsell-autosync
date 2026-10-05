@@ -13,6 +13,8 @@ from app.sync.scheduler import build_scheduler
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
 )
+# httpx на INFO пишет полный URL запроса — у GGSell V1 в нём токен (?token=...).
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
 

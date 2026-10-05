@@ -360,9 +360,23 @@ def test_notify_admin_survives_telegram_failure(monkeypatch, caplog):
     client = MagicMock()
     client.send_message.side_effect = RuntimeError("network down")
 
-    notifications.notify_admin("Заказ 1: тест", client=client)  # не падает
+    notifications.notify_admin("Заказ 1: тест", client=client, sleep=lambda s: None)  # не падает
 
+    assert client.send_message.call_count == notifications.SEND_ATTEMPTS
     assert "ADMIN ALERT: Заказ 1: тест" in caplog.text
+    assert "не отправлен после 3 попыток" in caplog.text
+
+
+def test_notify_admin_retries_until_proxy_recovers(monkeypatch):
+    monkeypatch.setenv("ADMIN_TELEGRAM_BOT_TOKEN", "123:abc")
+    monkeypatch.setenv("ADMIN_TELEGRAM_CHAT_ID", "111")
+    client = MagicMock()
+    client.send_message.side_effect = [RuntimeError("Connection refused"), {"message_id": 1}]
+    pauses = []
+
+    notifications.notify_admin("Заказ 1: тест", client=client, sleep=pauses.append)
+
+    assert client.send_message.call_count == 2 and pauses == [3]
 
 
 def test_notify_admin_without_token_only_logs(monkeypatch):
