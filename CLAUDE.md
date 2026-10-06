@@ -8,7 +8,7 @@
 
 ## Стек
 
-Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, pytest. Деплой: Docker Compose (`db`/`app`/`scheduler`/`bot`/`caddy`) на VPS, домен `frkcorp.online`, HTTPS через Caddy/Let's Encrypt.
+Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, pytest. Деплой: Docker Compose (`db`/`app`/`scheduler`/`bot`/`backup`/`caddy`) на VPS, домен `frkcorp.online`, HTTPS через Caddy/Let's Encrypt.
 
 Локально: `venv/Scripts/python -m pytest` (в системном Python pytest нет).
 
@@ -20,7 +20,8 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 - Деплой: `ssh frkcorp 'cd /root/ggsell-autosync && git pull --ff-only && docker compose build app scheduler bot && docker compose run --rm app alembic upgrade head && docker compose up -d app scheduler bot'`, затем проверка `curl -s https://frkcorp.online/health`. **Миграции — до запуска `scheduler`:** при старте он сразу запускает синхронизацию цен, и без новой колонки она падает, а следующая попытка — только через 12 ч (так случилось 01.10, notes 6.12).
 - Скрипты: `docker compose exec app python scripts/<script>.py`. Проверка регионов позиций — `scripts/check_position_regions.py`.
 - БД: `docker compose exec -T db sh -c 'psql -U $POSTGRES_USER -d $POSTGRES_DB'`.
-- Логи: `docker compose logs --since 1h scheduler` / `app` / `bot`.
+- Логи: `docker compose logs --since 1h scheduler` / `app` / `bot` / `backup` (ограничены 10 МБ × 5).
+- **Эксплуатация — `docs/operations.md`:** бэкапы БД каждую ночь в `./backups` (7 шт., проверка — `docker compose exec -T backup sh /ops/restore_check.sh`), сторож в scheduler шлёт алерты (app, бот/прокси, синхронизация, бэкап, диск, перезапуски), `/health/full` — для внешнего мониторинга, фаервол `ops/firewall.sh` (на стейдже включён: 22/80/443).
 - **`.env` читается при создании контейнера:** после правки — `docker compose up -d --force-recreate app scheduler bot` (restart не подхватит).
 - Перед изменением прода (пересборка, импорт, миграции, `.env`) — коротко сказать пользователю, что делаешь. Чтение логов/статуса/SELECT — свободно.
 
