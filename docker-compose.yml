@@ -1,7 +1,16 @@
+# Логи каждого контейнера — не больше 5 файлов по 10 МБ (roadmap 8.5), иначе
+# json-логи Docker растут, пока не кончится диск.
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
 services:
   db:
     image: postgres:16-alpine
     container_name: ggsell_autosync_db
+    logging: *logging
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-user}
@@ -15,6 +24,7 @@ services:
   app:
     build: .
     container_name: ggsell_autosync_app
+    logging: *logging
     restart: unless-stopped
     env_file:
       - .env
@@ -26,18 +36,23 @@ services:
   scheduler:
     build: .
     container_name: ggsell_autosync_scheduler
+    logging: *logging
     restart: unless-stopped
     env_file:
       - .env
     command: ["python", "-m", "app.sync.main"]
     depends_on:
       - db
+    volumes:
+      # Сторож проверяет, что бэкапы появляются (app/ops/watchdog.py)
+      - ./backups:/backups:ro
 
   # Telegram-бот администратора (roadmap 6.7): команды, панель «Авто-прайсер»,
   # ответы покупателям. Алерты шлют app и scheduler сами.
   bot:
     build: .
     container_name: ggsell_autosync_bot
+    logging: *logging
     restart: unless-stopped
     env_file:
       - .env
@@ -45,9 +60,31 @@ services:
     depends_on:
       - db
 
+  # Ежедневный дамп БД в ./backups, хранится 7 последних (roadmap 8.2,
+  # ops/backup.sh; восстановление — docs/operations.md).
+  backup:
+    image: postgres:16-alpine
+    container_name: ggsell_autosync_backup
+    logging: *logging
+    restart: unless-stopped
+    environment:
+      PGHOST: db
+      PGUSER: ${POSTGRES_USER:-user}
+      PGPASSWORD: ${POSTGRES_PASSWORD:-password}
+      PGDATABASE: ${POSTGRES_DB:-ggsell_autosync}
+      BACKUP_KEEP: ${BACKUP_KEEP:-7}
+      BACKUP_AT_UTC: ${BACKUP_AT_UTC:-00:30}
+    entrypoint: ["sh", "/ops/backup.sh"]
+    volumes:
+      - ./backups:/backups
+      - ./ops:/ops:ro
+    depends_on:
+      - db
+
   caddy:
     image: caddy:2-alpine
     container_name: ggsell_autosync_caddy
+    logging: *logging
     restart: unless-stopped
     ports:
       - "80:80"

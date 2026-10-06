@@ -26,3 +26,6 @@ htmlcov/
 *.sqlite3
 
 .claude/settings.local.json
+
+# Дампы БД (сервис backup)
+backups/

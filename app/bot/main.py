@@ -20,6 +20,7 @@ from app.clients.fazercards import FazerCardsClient
 from app.clients.ggsell import GGSellV1Client, GGSellV2Client
 from app.clients.telegram import TelegramClient, TelegramError, admin_chat_ids, bot_token
 from app.db import SessionLocal
+from app.ops.heartbeat import beat, mark_started
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -78,8 +79,10 @@ def main() -> None:
         except Exception:  # noqa: BLE001
             logger.exception("Не удалось задать список команд бота")
         logger.info("Бот запущен, админов: %d", len(admins))
+        mark_started("bot")
 
         offset: Optional[int] = None
+        last_beat = 0.0
         while True:
             try:
                 updates = tg.get_updates(offset=offset, timeout=30)
@@ -92,6 +95,13 @@ def main() -> None:
                 logger.exception("getUpdates не удался — повтор через 5 с")
                 time.sleep(5)
                 continue
+            # Telegram ответил — бот жив и прокси работает (сторож, 8.4).
+            if time.monotonic() - last_beat > 60:
+                try:
+                    beat("bot")
+                    last_beat = time.monotonic()
+                except Exception:  # noqa: BLE001 — БД недоступна: следующий раз
+                    logger.exception("Сердцебиение бота не записано")
             for update in updates:
                 offset = update["update_id"] + 1
                 app.handle_update(update)

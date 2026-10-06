@@ -93,6 +93,8 @@ def _refresh_prices() -> None:
         logger.info("Доступность у FZ: %s", availability)
 
         showcase = sync_showcase(session, force=manual)
+        settings.touch(session, settings.SYNC_FINISHED_AT)
+        session.commit()
 
         if settings.take_price_sync_report(session):
             session.commit()

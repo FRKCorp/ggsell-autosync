@@ -24,6 +24,7 @@ USD_RUB_CBR = "usd_rub_cbr"  # последний полученный курс 
 USD_RUB_RATE = "usd_rub_rate"  # итоговый курс для расчёта цен (ЦБ + надбавка)
 RATE_UPDATED_AT = "rate_updated_at"  # когда курс ЦБ последний раз удалось получить
 PRICES_UPDATED_AT = "prices_updated_at"  # последнее обновление цен (для панели)
+SYNC_FINISHED_AT = "sync_finished_at"  # синхронизация цен дошла до конца (сторож, 8.4)
 PRICER_ENABLED = "pricer_enabled"  # выключатель прайсера: false — цены на витрину не отправляются (6.8)
 # «Обновить цены СЕЙЧАС» из бота (6.8): бот ставит запрос, scheduler его
 # забирает и запускает ту же джобу refresh_prices (две синхронизации разом не
