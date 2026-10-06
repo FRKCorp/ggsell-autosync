@@ -9,11 +9,15 @@ echo "Проверяю $latest"
 psql -q -d postgres -c "DROP DATABASE IF EXISTS restore_check" -c "CREATE DATABASE restore_check"
 pg_restore --no-owner -d restore_check "$latest"
 status=0
-for table in positions listings orders settings; do
+# Бизнес-данные: после бэкапа меняются редко — должны совпасть (если между
+# бэкапом и проверкой были новые заказы/позиции — расхождение ожидаемо).
+for table in positions listings orders; do
     live=$(psql -At -c "SELECT count(*) FROM $table")
     restored=$(psql -At -d restore_check -c "SELECT count(*) FROM $table")
     mark=ok; [ "$live" = "$restored" ] || { mark="РАСХОЖДЕНИЕ"; status=1; }
     echo "$table: рабочая $live, из бэкапа $restored — $mark"
 done
+# settings пишется постоянно (сердцебиения сервисов) — только для справки.
+echo "settings: рабочая $(psql -At -c 'SELECT count(*) FROM settings'), из бэкапа $(psql -At -d restore_check -c 'SELECT count(*) FROM settings') (меняется постоянно — не сверяется)"
 psql -q -d postgres -c "DROP DATABASE restore_check"
 exit $status
