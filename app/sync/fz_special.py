@@ -44,6 +44,11 @@ STEAM_TOPUP_CURRENCIES: dict[str, dict[str, Any]] = {
 }
 PREMIUM_MONTHS = (3, 6, 12)
 
+# GGSell: у категории «Telegram > Звезды» минимальная цена заказа 150 ₽ — с
+# меньшим min_quantity оффер не публикуется («Offer cannot be activate»).
+# Поддержка GGSell 07.10: min_quantity = 100 (100 × ~1.7 ₽ ≈ 174 ₽).
+STARS_MIN_UNITS = 100
+
 UNIT_PRICE_PLACES = Decimal("0.00000001")  # как Numeric(16, 8) в Position
 
 
@@ -111,7 +116,7 @@ def telegram_stars_specs(stars_response: dict[str, Any]) -> list[SpecialSpec]:
             "item_ru": "Звёзды",
             "item_en": "Stars",
             "unit": "stars",
-            "min_units": int(stars_response.get("min_amount", 50)),
+            "min_units": max(int(stars_response.get("min_amount", 50)), STARS_MIN_UNITS),
             "max_units": int(stars_response.get("max_amount", 10000)),
             "updated_at": stars_response.get("rates_updated_at"),
         },

@@ -81,7 +81,8 @@ def test_steam_specs_unit_price_and_limits():
 def test_telegram_specs():
     (stars,) = telegram_stars_specs(STARS)
     assert stars.price_usd == Decimal("0.01526250")
-    assert (stars.raw_payload["min_units"], stars.raw_payload["max_units"]) == (50, 10000)
+    # FZ разрешает от 50, но GGSell не публикует «Звёзды» дешевле 150 ₽ — минимум 100
+    assert (stars.raw_payload["min_units"], stars.raw_payload["max_units"]) == (100, 10000)
 
     premium = {s.external_id: s for s in telegram_premium_specs(PREMIUM)}
     assert premium["telegram_premium:12"].price_usd == Decimal("29.4974")
@@ -257,7 +258,7 @@ def test_telegram_not_retried_after_network_failure(session):
     fz = fz_client()
     fz.buy_telegram_stars.side_effect = httpx.ConnectError("connection reset")
 
-    order, _, alert = run(session, fz, order_info("Username Telegram", "durov", cnt_goods="50.0"))
+    order, _, alert = run(session, fz, order_info("Username Telegram", "durov", cnt_goods="100.0"))
 
     assert fz.buy_telegram_stars.call_count == 1  # без повтора — мог купить второй раз
     assert order.status == OrderStatus.MANUAL_REVIEW
