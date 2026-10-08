@@ -1,5 +1,5 @@
 #!/bin/sh
-# Ежедневный дамп БД (roadmap 8.2) — сервис `backup` в docker-compose.yml.
+# Ежедневный дамп БД — сервис `backup` в docker-compose.yml.
 #
 # Раз в сутки в BACKUP_AT_UTC (по умолчанию 00:30 UTC = 03:30 МСК) делает
 # pg_dump в /backups (= ./backups на сервере), хранит BACKUP_KEEP последних
@@ -7,7 +7,7 @@
 # чтобы после деплоя бэкап был сразу. Свежесть бэкапа проверяет сторож в
 # scheduler (app/ops/watchdog.py) — если дамп перестал появляться, придёт алерт.
 #
-# Восстановление — docs/operations.md.
+# Восстановление — INSTRUCTIONS.md.
 set -eu
 
 KEEP="${BACKUP_KEEP:-7}"

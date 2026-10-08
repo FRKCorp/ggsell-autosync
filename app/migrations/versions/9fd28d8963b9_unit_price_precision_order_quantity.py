@@ -1,4 +1,4 @@
-"""stage 7 unit price precision order quantity
+"""unit price precision, order quantity
 
 Revision ID: 9fd28d8963b9
 Revises: 1a9cd2e2943d

@@ -1,5 +1,5 @@
-"""Этап 7: пополнение Steam, Telegram Stars и Premium — каталог, цена за
-единицу, карточка с калькулятором, заказ у FZ (notes 6.22)."""
+"""Пополнение Steam, Telegram Stars и Premium — каталог, цена за
+единицу, карточка с калькулятором, заказ у FZ."""
 
 from decimal import Decimal
 from unittest.mock import MagicMock, patch

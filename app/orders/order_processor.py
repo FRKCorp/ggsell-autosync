@@ -1,13 +1,12 @@
 """Обработка заказа от момента продажи на GGSell до выдачи покупателю.
 
-Последовательность (см. docs/architecture-notes.md, 3.3 и 6.16–6.17):
+Последовательность:
   1. Регистрация (register_order): get_order_info по номеру заказа, сверка
-     с вебхуком (наш товар, оплачен — защита от поддельных вебхуков,
-     roadmap 5.6), запись Order со статусом PENDING: данные покупателя,
-     реально оплаченная сумма и выплата продавцу (roadmap 5.8).
+     с вебхуком (наш товар, оплачен — защита от поддельных вебхуков), запись Order со статусом PENDING: данные покупателя,
+     реально оплаченная сумма и выплата продавцу.
   2. Захват (claim_order): атомарный переход PENDING → PROCESSING — заказ
      обрабатывает ровно один обработчик, даже если вебхуки пришли дважды
-     или одновременно сработала страховочная джоба (roadmap 5.5).
+     или одновременно сработала страховочная джоба.
   3. Перепроверка цены у FZ прямо перед закупкой (порог
      MAX_PRICE_DEVIATION_PERCENT, отклонение пишется в заказ).
   4. Для топапа — перевод данных покупателя из названий опций GGSell в
@@ -15,15 +14,16 @@
   5. Заказ у FZ с Idempotency-Key = номер заказа GGSell (повтор возвращает
      тот же заказ FZ, без второго списания). Повторяются только сбои сети,
      5xx и исчерпанный лимит 429; остальные отказы FZ (400 «Insufficient
-     balance» и т.п.) — сразу ручной разбор с текстом ответа (roadmap 5.2).
+     balance» и т.п.) — сразу ручной разбор с текстом ответа.
   6. FZ асинхронный (docs FZ): заказ создаётся в processing и потом
      становится completed / failed / refund. completed сразу — выдаём;
      processing — ORDERED_UPSTREAM, результат забирает poll_upstream_orders
      (джоба в scheduler) с таймаутом.
   7. Выдача: сообщение в чат заказа (create_message(invoice_id)) — коды карт
-     или «пополнение выполнено» (app/orders/delivery.py, roadmap 5.3).
-     Отдельного «закрытия» заказа в API GGSell нет; что GGSell считает
-     обработкой заказа (резерв 12 ч) — открытый вопрос roadmap 5.0.
+     или «пополнение выполнено» (app/orders/delivery.py).
+     Отдельного «закрытия» заказа в API GGSell нет и не нужно: сообщения в
+     чат достаточно — оплата не возвращается покупателю, заказ GGSell
+     подтверждает автоматически через 7 суток (проверено на живых заказах).
 
 Точка входа для вебхука и страховочной джобы — process_new_order (полный
 путь); для опроса FZ — poll_upstream_orders.
@@ -134,10 +134,9 @@ def build_order_context(
     invoice_id: str,
     expected_offer_id: Optional[int] = None,
 ) -> OrderContext:
-    """order_info — content-часть ответа get_order_info. Сверка (roadmap 5.6):
+    """order_info — content-часть ответа get_order_info. Сверка:
     заказ должен быть на наш лот, совпадать с id_d вебхука и быть оплаченным.
-    Подписать вебхук у нас нечем (формула SHA256 GGSell неизвестна, notes
-    6.17), поэтому правда — то, что отдаёт API GGSell по нашему токену."""
+    Подписать вебхук у нас нечем (формула SHA256 GGSell неизвестна), поэтому правда — то, что отдаёт API GGSell по нашему токену."""
     offer_id = order_info["item_id"]
     if expected_offer_id is not None and int(expected_offer_id) != int(offer_id):
         raise OrderProcessingError(
@@ -335,7 +334,7 @@ def place_fz_order(
 def check_before_order(
     fz_client: FazerCardsClient, position: Position, topup_fields: Optional[dict[str, str]], quantity: int
 ) -> Optional[str]:
-    """Проверки до списания у FZ (этап 7). Текст причины — заказ в ручной
+    """Проверки до списания у FZ (Steam, Telegram). Текст причины — заказ в ручной
     разбор, None — можно заказывать."""
     raw = position.raw_payload or {}
     if is_unit_priced(position.source_type):
@@ -541,7 +540,7 @@ def poll_upstream_orders(
     now: Optional[datetime] = None,
     timeout: timedelta = FZ_ORDER_TIMEOUT,
 ) -> dict[str, int]:
-    """Джоба опроса (roadmap 5.2): заказы ORDERED_UPSTREAM → GET /orders/{id}
+    """Джоба опроса: заказы ORDERED_UPSTREAM → GET /orders/{id}
     у FZ → выдача / ручной разбор / ждём дальше; дольше timeout — ручной разбор."""
     now = now or datetime.now(timezone.utc)
     stats = {"checked": 0, "delivered": 0, "manual": 0, "waiting": 0}

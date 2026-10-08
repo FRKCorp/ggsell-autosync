@@ -33,11 +33,11 @@ from app.regions import REGION_NAMES
 FALLBACK_TITLES = ("другое количество", "другие страны", "прочее", "other countries")
 
 
-# Этап 7 (notes 6.22): у пополнения Steam и Telegram нет категории FZ, по
+# У пополнения Steam и Telegram нет категории FZ, по
 # которой работает автоподбор, — категории GGSell подобраны вручную. Steam —
 # «Прямое пополнение» (там GGSell включает калькулятор «Заплачу ⇄ Получу»).
 # Telegram-категории на нашем тестовом аккаунте закрыты для публикации
-# («Offer cannot be activate», вопрос в поддержке GGSell, roadmap 7.3).
+# («Offer cannot be activate», вопрос в поддержке GGSell).
 SPECIAL_CATEGORIES: dict[str, dict[str, Any]] = {
     "steam_topup:RUB": {"category_id": 28831, "tree": "Сервисы и соцсети > Steam Wallet > Прямое пополнение > Россия",
                         "fee": 0.045, "payment_fee": 0.027},

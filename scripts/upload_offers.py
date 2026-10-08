@@ -1,4 +1,4 @@
-"""Автозалив черновиков лотов на GGSell (roadmap 3.6).
+"""Автозалив черновиков лотов на GGSell.
 
 Запуск:
     python scripts/upload_offers.py --dry-run              # собрать карточки, без GGSell
@@ -59,7 +59,7 @@ def main() -> None:
     config = load_pricing_config(session)
     print(f"Курс {config.exchange_rate_usd_to_rub} ₽/$, глобальная наценка {config.markup_percent}%, вебхук {webhook_url}")
 
-    known = list(category_map) + list(SPECIAL_CATEGORIES)  # этап 7 — категории заданы в коде
+    known = list(category_map) + list(SPECIAL_CATEGORIES)  # Steam/Telegram — категории заданы в коде
     query = select(Position).where(Position.external_id.in_(known)).order_by(Position.id)
     positions = [
         p for p in session.scalars(query)

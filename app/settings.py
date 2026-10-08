@@ -1,6 +1,6 @@
 """Настройки прайсера в БД (таблица settings, app/models/setting.py).
 
-Клиент меняет их из Telegram-панели «Авто-прайсер» (roadmap 6.8), поэтому
+Клиент меняет их из Telegram-панели «Авто-прайсер», поэтому
 они живут в БД, а не в .env. Значения из .env — только начальные: пока
 ключа в БД нет, берётся значение по умолчанию из окружения.
 """
@@ -18,7 +18,7 @@ from sqlalchemy.orm import Session
 from app.models.setting import Setting
 
 # Ключи
-GLOBAL_MARKUP_PERCENT = "global_markup_percent"  # массовая наценка, % (решение клиента 2.5)
+GLOBAL_MARKUP_PERCENT = "global_markup_percent"  # массовая наценка, %
 RATE_PREMIUM_PERCENT = "rate_premium_percent"  # надбавка к курсу ЦБ, % (по умолчанию 5)
 USD_RUB_CBR = "usd_rub_cbr"  # последний полученный курс ЦБ
 USD_RUB_RATE = "usd_rub_rate"  # итоговый курс для расчёта цен (ЦБ + надбавка)

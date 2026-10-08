@@ -1,4 +1,4 @@
-"""Точка входа бота администратора (roadmap 6.7): long polling Telegram.
+"""Точка входа бота администратора: long polling Telegram.
 
 Запуск: python -m app.bot.main (в docker-compose — сервис `bot`).
 Алерты бот не шлёт — их отправляет тот процесс, где они возникли

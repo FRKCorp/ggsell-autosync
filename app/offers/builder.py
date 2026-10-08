@@ -1,6 +1,6 @@
-"""Сборка карточки (payload create_offer) для позиции каталога (roadmap 3.5).
+"""Сборка карточки (payload create_offer) для позиции каталога.
 
-По образцу клиента от 01.10 (notes 6.11):
+По образцу клиента от 01.10:
     «Mobile Legends RU* Алмазы 275 (250+25) | по ID | Автодоставка»
 Тексты — в data/offer_templates.json, перевод названий товаров — в
 data/offer_terms.json (их можно править без кода). Здесь — только логика:
@@ -11,7 +11,7 @@ data/offer_terms.json (их можно править без кода). Здес
     (app/offers/categories.py); нет категории — позицию не выставляем (2.13);
   - цена — app/pricing/listing_price.py (курс ЦБ + надбавка, наценка,
     комиссии категории, вверх до рубля);
-  - регион — Position.region (app/regions.py, roadmap 1.9);
+  - регион — Position.region (app/regions.py);
   - поля покупателя для описания — fields FZ (data/fz_topup_fields.json);
     сами опции на оффер вешает attach_topup_options (app/offers/options.py);
   - обложка — заглушка data/placeholder_cover.png: обложки клиент ставит сам
@@ -253,7 +253,7 @@ def build_offer(
     templates = templates or load_templates()
     terms_data = terms_data or load_terms()
     source_type = SourceType(position.source_type)  # из БД приходит строкой
-    kind = source_type.value  # "topup" / "giftcard" / этап 7: "steam_topup", "telegram_*"
+    kind = source_type.value  # "topup" / "giftcard" / "steam_topup" / "telegram_*"
     if kind not in templates["tag"]:
         raise ValueError(f"Карточки для {kind} не поддерживаются")
     unit_priced = is_unit_priced(source_type)
@@ -317,7 +317,7 @@ def build_offer(
         "min_quantity": int(raw["min_units"]) if unit_priced else 1,
         "max_quantity": int(raw["max_units"]) if unit_priced else 1,
         "is_unlimited_quantity": True,
-        # Всегда auto: сменить потом нельзя (notes 3.8); выдача — через чат.
+        # Всегда auto: сменить потом нельзя; выдача — через чат.
         "delivery": "auto",
     }
     if webhook_url:

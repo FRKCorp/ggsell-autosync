@@ -30,7 +30,7 @@ SCHEDULER_STALE_SECONDS = 10 * 60
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    # Отметка запуска — сторож сообщит о перезапуске app (roadmap 8.4).
+    # Отметка запуска — сторож сообщит о перезапуске app.
     try:
         mark_started("app")
     except Exception:  # noqa: BLE001 — без БД вебхуки всё равно не обработать, но /health отвечает
@@ -50,7 +50,7 @@ async def health() -> dict:
 
 @app.get("/health/full")
 def health_full() -> JSONResponse:
-    """Для внешнего мониторинга (UptimeRobot и т.п., docs/operations.md): 200 —
+    """Для внешнего мониторинга (UptimeRobot и т.п., INSTRUCTIONS.md): 200 —
     БД доступна и scheduler жив; 503 — что-то из этого не так. Внешний
     мониторинг ловит то, о чём изнутри сообщить некому: упал сервер целиком
     или сам scheduler (в котором работает сторож)."""

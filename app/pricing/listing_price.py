@@ -1,4 +1,4 @@
-"""Цена лота на GGSell из текущих настроек (roadmap 3.4, 3.4b).
+"""Цена лота на GGSell из текущих настроек.
 
 Связывает чистый калькулятор (app/pricing/calculator.py) с тем, что живёт в
 БД: курс (ЦБ + надбавка) и глобальная наценка — в настройках (app/settings.py,
@@ -50,7 +50,7 @@ def price_rub(
     """Цена на витрине: курс + наценка лота (или глобальная) + комиссии
     категории, вверх до целого рубля. У лотов с ценой за единицу (1 ₽ Steam,
     1 звезда — калькулятор GGSell) — вверх до копейки: до рубля 1.33 ₽ стали
-    бы 2 ₽, +50% к цене (notes 6.22)."""
+    бы 2 ₽, +50% к цене."""
     lot_config = replace(config, markup_percent=effective_markup(config, listing_markup))
     if unit_priced:
         return calculate_price_rub(price_usd, lot_config, fees, round_to=UNIT_PRICE_ROUND)
@@ -70,7 +70,7 @@ def listing_price_rub(listing: Listing, config: PricingConfig) -> Decimal:
 
 def set_listing_markup(listing: Listing, percent: Optional[Decimal]) -> None:
     """Индивидуальная наценка лота (None — вернуть на глобальную). Новая цена
-    уходит на витрину с ближайшей синхронизацией цен (этап 4)."""
+    уходит на витрину с ближайшей синхронизацией цен."""
     if percent is not None and (percent < 0 or percent > 1000):
         raise ValueError(f"Наценка должна быть от 0 до 1000%, получено {percent}")
     listing.markup_percent = percent

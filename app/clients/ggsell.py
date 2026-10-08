@@ -1,6 +1,6 @@
 """
 Клиенты для GGSell Seller API — обе версии сразу, т.к. они закрывают разные
-части задачи и не взаимозаменяемы (см. docs/architecture-notes.md, раздел 3.1):
+части задачи и не взаимозаменяемы:
 
   GGSellV2Client — статичный API-ключ. Каталог: Category/Options/Products/Offers.
                    Используется для автозалива черновиков и синхронизации цен.
@@ -9,7 +9,7 @@
                    ограниченным сроком жизни. Заказы и чат: последние продажи,
                    детали заказа, отправка сообщения покупателю.
 
-Важно (architecture-notes.md, 3.6/3.8): у GGSell нет API-вызова для
+Важно: у GGSell нет API-вызова для
 "подтверждения/закрытия" заказа — happy path заканчивается отправкой
 сообщения в чат заказа. Все наши офферы создаются с delivery="auto": сменить
 delivery через API нельзя (подтверждено поддержкой GGSell).
@@ -277,18 +277,6 @@ class GGSellV1Client:
         return _safe_json(response)
 
     # ------------------------------------------------------------------
-    # Account
-    # ------------------------------------------------------------------
-
-    def get_balance(self) -> Any:
-        # TODO: путь подтверждённо неверен (404 на живом тесте). Проверить точный
-        # путь в Swagger V1, раздел Account.
-        return self._request("GET", "/api_sellers/api/seller-balance-info")
-
-    def list_categories(self) -> Any:
-        return self._request("GET", "/api_sellers/api/return-all-categories")
-
-    # ------------------------------------------------------------------
     # Orders
     # ------------------------------------------------------------------
 
@@ -352,18 +340,6 @@ class GGSellV1Client:
         params = {k: v for k, v in params.items() if v is not None}
         return self._request("GET", "/api_sellers/api/debates/v2/chats", params=params)
 
-    # ------------------------------------------------------------------
-    # Products — bulk price update (кандидат на замену поштучных V2 PATCH)
-    # ------------------------------------------------------------------
-
-    def bulk_update_prices(self, updates: list[dict[str, Any]]) -> Any:
-        """updates — TODO: точная форма элемента не подтверждена (product_id +
-        price? variant_id?) — проверить в Swagger тело запроса перед
-        использованием в проде. Заложено на будущее сравнение с V2 patch_offer.
-        """
-        return self._request(
-            "POST", "/api_sellers/api/product/edit/prices", json_body={"products": updates}
-        )
 
 
 def call_with_retry(call, *args, retries: int = 4, sleep=time.sleep, retry_network: bool = False, **kwargs) -> Any:

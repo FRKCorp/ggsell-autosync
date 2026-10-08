@@ -1,4 +1,4 @@
-"""Минимальный синхронный клиент Telegram Bot API (roadmap этап 6).
+"""Минимальный синхронный клиент Telegram Bot API.
 
 Своя обёртка над httpx, а не python-telegram-bot/aiogram: нужно несколько
 методов (sendMessage, editMessageText, answerCallbackQuery, getUpdates),
@@ -53,7 +53,7 @@ def truncate(text: str, limit: int = MAX_MESSAGE_LENGTH) -> str:
 class TelegramClient:
     def __init__(self, token: str, timeout: float = 15.0, base_url: str = API_URL):
         # Telegram заблокирован в РФ — с российского VPS только через прокси
-        # (notes 6.20): TELEGRAM_PROXY в .env, http://логин:пароль@хост:порт.
+        #: TELEGRAM_PROXY в .env, http://логин:пароль@хост:порт.
         # Прокси только у этого клиента — GGSell, FZ и ЦБ ходят напрямую;
         # системные HTTP(S)_PROXY не используем.
         load_dotenv()

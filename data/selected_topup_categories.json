@@ -1,5 +1,5 @@
 {
-  "_comment": "Подтверждённый клиентом список категорий /topups для импорта. region — регион категории кодом (US, RU, CIS, Global…); нет — берётся из «Region:» в примечании категории FZ, иначе Global; регион из названия номинала («1 Month (UK)» у CapCut) важнее (app/regions.py, roadmap 1.9). variant_label — вариант товара, если это не регион (Auto у PUBG Mobile, Mobile/PC у Arena Breakout). Оба попадают в название позиции. Global там, где FZ регион не указывает, подтверждён клиентом 01.10 (roadmap 2.9). Magic Chess Go Go и PUBG New State добавлены 30 сентября. Undawn — см. self_decided.",
+  "_comment": "Подтверждённый клиентом список категорий /topups для импорта. region — регион категории кодом (US, RU, CIS, Global…); нет — берётся из «Region:» в примечании категории FZ, иначе Global; регион из названия номинала («1 Month (UK)» у CapCut) важнее (app/regions.py). variant_label — вариант товара, если это не регион (Auto у PUBG Mobile, Mobile/PC у Arena Breakout). Оба попадают в название позиции. Global там, где FZ регион не указывает, подтверждён клиентом 01.10. Magic Chess Go Go и PUBG New State добавлены 30 сентября. Undawn — см. self_decided.",
   "items": [
     { "category_id": "8_ball_pool", "region": "Global" },
     { "category_id": "afk_journey", "region": "Global" },

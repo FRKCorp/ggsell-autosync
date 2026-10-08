@@ -1,6 +1,5 @@
 """Подбирает категорию GGSell для каждой позиции в БД по правилам
-data/ggsell_category_rules.json и дереву data/ggsell_category_tree.json
-(roadmap 3.5, подбор категорий).
+data/ggsell_category_rules.json и дереву data/ggsell_category_tree.json.
 
 Запуск: python scripts/build_category_map.py
 Результат:
@@ -82,7 +81,7 @@ def main() -> None:
                 unresolved[f"{p.fz_category_id}: нет правил"].append(offer_name)
                 continue
             try:
-                # Регион — у самой позиции (app/regions.py, roadmap 1.9): у CapCut
+                # Регион — у самой позиции (app/regions.py): у CapCut
                 # он свой у каждого номинала, у остальных — регион категории.
                 choice = resolve_category(tree, category_rules, offer_name, p.region)
             except CategoryNotResolved as e:

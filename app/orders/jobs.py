@@ -1,9 +1,9 @@
 """Фоновые задачи заказов (запускаются в scheduler, app/sync/scheduler.py).
 
   - poll_fz_orders_job — раз в минуту: заказы, ждущие FZ (ORDERED_UPSTREAM),
-    → GET /orders/{id} → выдача / ручной разбор (roadmap 5.2).
+    → GET /orders/{id} → выдача / ручной разбор.
   - sweep_missed_orders_job — раз в несколько минут: страховка от
-    потерянного вебхука (roadmap 5.7) — свежие продажи из seller-last-sales,
+    потерянного вебхука — свежие продажи из seller-last-sales,
     которых нет у нас, плюс заказы, застрявшие после падения процесса
     (PENDING дольше 2 мин, PROCESSING дольше 10 мин). Повторная обработка
     безопасна: Idempotency-Key у FZ = номер заказа GGSell, FZ вернёт тот же

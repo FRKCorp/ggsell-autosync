@@ -1,10 +1,10 @@
 """Работа с каталогом FazerCards на уровне БД: точечный импорт конкретных
-позиций (пока нет полного списка от клиента) и обновление цен уже
+позиций и обновление цен уже
 отслеживаемых позиций.
 
 Намеренно НЕ содержит функции "скачать весь каталог" — каталог поставщика
 на порядки больше нужных ~2000 позиций (306 категорий топапов, 578
-категорий giftcards, 177k+ Steam-игр), см. architecture-notes.md. Это
+категорий giftcards, 177k+ Steam-игр). Это
 модуль точечной работы: одна позиция — один вызов import_*/refresh_*.
 """
 
@@ -198,7 +198,7 @@ def position_name(
     """«Категория (вариант, регион) — номинал». Пометки, которые уже есть в
     названии категории или номинала, не дублируем: FZ часто сам пишет регион
     («Google Play (US)», «1 Month (UK) Standard» у CapCut). Клиент требует
-    регион в названии каждого товара (roadmap 1.9)."""
+    регион в названии каждого товара."""
     labels = [
         label
         for label in (variant_label, region)
@@ -379,7 +379,7 @@ def refresh_all_positions(
     topup_groups: dict[str, list[Position]] = {}
     giftcard_groups: dict[str, list[Position]] = {}
     steam_groups: dict[int, list[Position]] = {}
-    special: list[Position] = []  # Steam top-up / Telegram (этап 7, fz_special.py)
+    special: list[Position] = []  # Steam top-up / Telegram (fz_special.py)
 
     for p in positions:
         if p.source_type == SourceType.TOPUP:

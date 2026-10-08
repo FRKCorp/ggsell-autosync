@@ -78,7 +78,7 @@ def main() -> None:
             "min_quantity": 1,
             "max_quantity": 1,
             "is_unlimited_quantity": True,
-            # Стандарт для всех наших офферов (architecture-notes.md, 3.8):
+            # Стандарт для всех наших офферов:
             # delivery через PATCH потом не меняется.
             "delivery": "auto",
         }

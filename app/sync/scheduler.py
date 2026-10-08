@@ -44,7 +44,7 @@ def build_scheduler() -> BlockingScheduler:
         coalesce=True,
         max_instances=1,
     )
-    # Заказы (roadmap 5.2, 5.7): опрос FZ по ожидающим заказам и страховка
+    # Заказы: опрос FZ по ожидающим заказам и страховка
     # от потерянного вебхука. Отдельные потоки — синхронизация цен (~2 мин)
     # их не задерживает.
     scheduler.add_job(
@@ -65,7 +65,7 @@ def build_scheduler() -> BlockingScheduler:
         coalesce=True,
         max_instances=1,
     )
-    # «Обновить цены СЕЙЧАС» из бота (roadmap 6.8): бот пишет запрос в БД,
+    # «Обновить цены СЕЙЧАС» из бота: бот пишет запрос в БД,
     # здесь он переносит ближайший запуск refresh_prices на «сейчас» — та же
     # джоба, поэтому две синхронизации разом не пойдут (max_instances=1).
     scheduler.add_job(
@@ -76,7 +76,7 @@ def build_scheduler() -> BlockingScheduler:
         coalesce=True,
         max_instances=1,
     )
-    # Сторож (roadmap 8.4): сердцебиение scheduler раз в минуту, проверки —
+    # Сторож: сердцебиение scheduler раз в минуту, проверки —
     # раз в 5 минут (app, бот, синхронизация, бэкап, диск, перезапуски).
     scheduler.add_job(
         lambda: beat("scheduler"),

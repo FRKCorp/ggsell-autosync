@@ -38,7 +38,7 @@ RU_TITLES = {
     "Telegram username": "Username Telegram",
 }
 
-# Этап 7: у пополнения Steam и Telegram FZ не отдаёт поля покупателя — это
+# У пополнения Steam и Telegram FZ не отдаёт поля покупателя — это
 # параметры самого запроса (steamLogin, telegram_username). Описываем их как
 # поля топапа, чтобы переиспользовать опции, текст карточки и разбор заказа.
 STEAM_LOGIN_FIELD = {"key": "steam_login", "label": "Steam login", "type": "text"}

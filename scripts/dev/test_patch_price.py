@@ -1,8 +1,7 @@
 """Проверка: работает ли частичный PATCH для обычного поля (price), в
-отличие от delivery (который частично не работает — см.
-architecture-notes.md 3.8). Открытый вопрос №5.
+отличие от delivery (который через PATCH не меняется вообще).
 
-Запуск: python scripts/test_patch_price.py <offer_id>
+Запуск: python scripts/dev/test_patch_price.py <offer_id>
 """
 
 from __future__ import annotations

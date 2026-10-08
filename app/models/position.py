@@ -21,7 +21,7 @@ class SourceType(str, enum.Enum):
     TOPUP = "topup"
     GIFTCARD = "giftcard"
     STEAM_GIFT = "steam_gift"
-    # Этап 7 — отдельные эндпоинты FZ, не каталог /topups (notes 3.10, 6.22).
+    # Отдельные эндпоинты FZ, не каталог /topups (app/sync/fz_special.py).
     STEAM_TOPUP = "steam_topup"  # пополнение кошелька Steam на произвольную сумму
     TELEGRAM_STARS = "telegram_stars"  # звёзды Telegram, произвольное количество
     TELEGRAM_PREMIUM = "telegram_premium"  # Premium на 3/6/12 месяцев
@@ -29,7 +29,7 @@ class SourceType(str, enum.Enum):
 
 # Цена за единицу (1 ₽ Steam, 1 звезда): лот на GGSell с калькулятором
 # «Заплачу ⇄ Получу» — min/max_quantity в «валютной» категории, количество
-# выбирает покупатель (notes 6.22). Цена лота — до копеек, а не до рубля.
+# выбирает покупатель. Цена лота — до копеек, а не до рубля.
 UNIT_PRICED = frozenset({SourceType.STEAM_TOPUP, SourceType.TELEGRAM_STARS})
 
 
@@ -57,8 +57,8 @@ class Position(TimestampMixin, Base):
     fz_appid: Mapped[Optional[int]] = mapped_column(nullable=True)
     fz_sub_id: Mapped[Optional[int]] = mapped_column(nullable=True)
     # Регион товара кодом (US, RU, EU, CIS, Global…) — у всех типов позиций:
-    # клиент требует регион в названии и описании каждого лота (roadmap 1.9,
-    # app/regions.py). У steam_gift — регион цены FZ.
+    # регион обязателен в названии и описании каждого лота (app/regions.py).
+    # У steam_gift — регион цены FZ.
     region: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)
     # Вариант товара, если у игры их несколько и это не регион: Auto у PUBG
     # Mobile, Mobile / PC у Arena Breakout, Tier 1/2/3 у ExitLag.
@@ -67,7 +67,7 @@ class Position(TimestampMixin, Base):
     # С какого момента позиции нет у FZ (номинал/категория пропали) и когда
     # закончился остаток (stock = 0). Решение клиента — только алерт, лот не
     # трогаем; даты нужны, чтобы алертить один раз, а не каждую синхронизацию
-    # (roadmap 4.3, 4.5). None — всё в порядке.
+    #. None — всё в порядке.
     fz_missing_since: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
     fz_out_of_stock_since: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
 

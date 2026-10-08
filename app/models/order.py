@@ -1,7 +1,6 @@
 """Заказ покупателя на GGSell и его прохождение через нашу систему.
 
-Жизненный цикл status (см. architecture-notes.md, раздел про сценарий
-"оплатил, а FZ не отвечает"):
+Жизненный цикл status:
 
     PENDING -> PROCESSING -> ORDERED_UPSTREAM -> DELIVERED
                    |               |
@@ -10,10 +9,10 @@
                    +-> MANUAL_REVIEW (отказ FZ, данные покупателя не подошли)
 
 PROCESSING — заказ «захвачен» одним обработчиком (атомарный переход из
-PENDING, roadmap 5.5): второй вебхук или страховочная джоба его не тронут.
+PENDING): второй вебхук или страховочная джоба его не тронут.
 ORDERED_UPSTREAM — заказ у FZ создан и ещё выполняется (FZ асинхронный:
 processing → completed / failed / refund), результат забирает джоба
-опроса (roadmap 5.2). FAILED не используется: отказы сразу идут в
+опроса. FAILED не используется: отказы сразу идут в
 MANUAL_REVIEW с текстом ответа FZ.
 
 PRICE_REJECTED — отдельная ветка: цена разошлась с поставщиком больше
@@ -72,12 +71,12 @@ class Order(TimestampMixin, Base):
 
     fz_order_id: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     # Статус заказа у FZ (processing / completed / failed / refund) и когда
-    # заказ у FZ создан — для таймаута опроса (roadmap 5.2).
+    # заказ у FZ создан — для таймаута опроса.
     fz_status: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
     fz_ordered_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
 
     # Выплата продавцу по данным GGSell (profit из get_order_info) — цена
-    # минус комиссии GGSell (roadmap 5.8).
+    # минус комиссии GGSell.
     seller_payout_rub: Mapped[Optional[Decimal]] = mapped_column(Numeric(12, 2), nullable=True)
 
     # Сколько единиц купил покупатель (cnt_goods из get_order_info): у лотов

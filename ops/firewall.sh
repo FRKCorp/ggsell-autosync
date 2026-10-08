@@ -1,5 +1,5 @@
 #!/bin/sh
-# Фаервол сервера (roadmap 8.3): входящие — только SSH, HTTP и HTTPS.
+# Фаервол сервера: входящие — только SSH, HTTP и HTTPS.
 # Запуск на сервере от root: sh ops/firewall.sh   (SSH_PORT=2200 sh ops/firewall.sh — если SSH не на 22)
 #
 # Безопасно запускать по SSH: правило для SSH добавляется до включения, текущее

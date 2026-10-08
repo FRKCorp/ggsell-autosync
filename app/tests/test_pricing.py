@@ -103,7 +103,7 @@ def test_check_price_deviation_handles_price_drop_too(config):
 
 
 # ----------------------------------------------------------------------
-# Комиссия GGSell (roadmap 3.4a)
+# Комиссия GGSell
 # ----------------------------------------------------------------------
 
 from app.pricing.calculator import NO_FEES, GGSellFees, net_payout_rub  # noqa: E402

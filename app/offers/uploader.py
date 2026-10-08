@@ -1,4 +1,4 @@
-"""Автозалив лотов на GGSell (roadmap 3.6).
+"""Автозалив лотов на GGSell.
 
 Для каждой позиции из data/ggsell_category_map.json (без категории — не
 выставляем, решение 2.13): собрать карточку (builder.py) → create_offer
@@ -118,7 +118,7 @@ def upload_positions(
 
         listing = session.scalar(select(Listing).where(Listing.position_id == position.id))
         is_topup = SourceType(position.source_type) == SourceType.TOPUP
-        # Поля покупателя: у топапов — от FZ, у Steam/Telegram (этап 7) — свои.
+        # Поля покупателя: у топапов — от FZ, у Steam/Telegram — свои.
         special_fields = buyer_fields_for(position.source_type)
         needs_options = is_topup or bool(special_fields)
         if listing is not None:

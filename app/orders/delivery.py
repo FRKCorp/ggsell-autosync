@@ -1,10 +1,10 @@
-"""Сообщение покупателю после выполнения заказа у FZ (roadmap 5.3).
+"""Сообщение покупателю после выполнения заказа у FZ.
 
 Тексты — data/offer_templates.json, раздел "delivery". Коды подарочных
 карт FZ отдаёт в order.cards (Cookbook FZ: «мгновенные товары возвращаются
 со статусом completed и кодами в order.cards», то же — в GET /orders/{id}).
-Точный формат элемента cards на живом заказе ещё не видели (roadmap 5.1),
-поэтому разбор терпимый: строка — это код; словарь — берём известные поля.
+На живых заказах cards — список строк-кодов; разбор терпимый и к словарям
+(берём известные поля) — на случай других типов карт.
 Нет ни одного кода — None: такой заказ уходит в ручной разбор, сырой ответ
 FZ покупателю не отправляем.
 """
@@ -72,6 +72,6 @@ def format_delivery_message(
         values["codes"] = "\n".join(codes)
         lines = templates["giftcard"]
     else:
-        # Этап 7 — свои тексты (Steam / Stars / Premium), остальное — пополнение.
+        # Steam / Stars / Premium — свои тексты, остальное — пополнение.
         lines = templates.get(source_type.value, templates["topup"])
     return "\n".join(line.format(**values) for line in lines).strip()

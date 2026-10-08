@@ -1,6 +1,6 @@
 """Выгружает поля, которые FazerCards требует от покупателя при заказе
 топапа (Player ID, Server ID, выбор сервера и т.п.), для каждой категории из
-data/selected_topup_categories.json — основа для опций GGSell (roadmap 3.1–3.2).
+data/selected_topup_categories.json — основа для опций GGSell.
 
 FZ отдаёт их в get_topup_offers на уровне категории, поле `fields`:
     [{"key": "player_id", "label": "Player ID", "type": "text"},

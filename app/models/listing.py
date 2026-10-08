@@ -3,7 +3,7 @@
 Один Position может иметь несколько Listing только в переходный период
 (например, при смене архитектуры маппинга) — в норме связь 1:1, но FK
 намеренно не unique, чтобы не блокировать будущий переход на модель
-"один оффер = группа позиций через variants" (см. architecture-notes.md, 3.2).
+"один оффер = группа позиций через variants".
 """
 
 from __future__ import annotations
@@ -55,13 +55,13 @@ class Listing(TimestampMixin, Base):
         Numeric(6, 4), default=Decimal(0), server_default="0"
     )
 
-    # Индивидуальная наценка лота, % (решение клиента 2.5, roadmap 3.4b):
+    # Индивидуальная наценка лота, % (задаётся из Telegram-панели):
     # пусто — действует глобальная наценка из настроек (app/settings.py).
     markup_percent: Mapped[Optional[Decimal]] = mapped_column(Numeric(7, 2), nullable=True)
 
     # Опции покупателя повешены на оффер (app/offers/options.py). Лот
     # записывается сразу после create_offer, до опций, — если опции не
-    # повесились, повторный автозалив досоздаёт только их (roadmap 3.6).
+    # повесились, повторный автозалив досоздаёт только их.
     options_attached: Mapped[bool] = mapped_column(default=False, server_default="false")
 
     orders: Mapped[list["Order"]] = relationship(back_populates="listing")  # noqa: F821
