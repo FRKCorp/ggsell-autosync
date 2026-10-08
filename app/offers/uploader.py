@@ -44,12 +44,15 @@ logger = logging.getLogger(__name__)
 
 def default_webhook_url() -> Optional[str]:
     """Адрес вебхука GGSell для новых лотов: GGSELL_WEBHOOK_URL, а если не
-    задан — https://<первый домен из DOMAIN>/webhooks/ggsell."""
+    задан — https://<первый домен из DOMAIN>[:HTTPS_PORT]/webhooks/ggsell."""
     explicit = os.getenv("GGSELL_WEBHOOK_URL", "").strip()
     if explicit:
         return explicit
     domain = os.getenv("DOMAIN", "").split(",")[0].strip()
-    return f"https://{domain}/webhooks/ggsell" if domain and domain != "localhost" else None
+    if not domain or domain == "localhost":
+        return None
+    port = os.getenv("HTTPS_PORT", "443").strip() or "443"
+    return f"https://{domain}{'' if port == '443' else ':' + port}/webhooks/ggsell"
 
 
 @dataclass

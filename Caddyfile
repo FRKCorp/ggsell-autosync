@@ -1,6 +1,13 @@
-# Домен — из .env (DOMAIN). Caddy сам получает и продлевает HTTPS-сертификат
-# Let's Encrypt; A-запись домена должна указывать на IP сервера. Можно
-# несколько через запятую: DOMAIN=example.ru, www.example.ru
+# Порт HTTPS — из .env (HTTPS_PORT, по умолчанию 443). Другой порт нужен,
+# если 443 на сервере уже занят (например, VPN); сертификат Let's Encrypt
+# при этом всё равно получается через порт 80.
+{
+    https_port {$HTTPS_PORT:443}
+}
+
+# Домен — из .env (DOMAIN). Caddy сам получает и продлевает HTTPS-сертификат;
+# A-запись домена должна указывать на IP сервера. Несколько — через запятую:
+# DOMAIN=example.ru, www.example.ru
 {$DOMAIN} {
     reverse_proxy app:8000
 }

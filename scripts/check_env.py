@@ -112,7 +112,9 @@ def check_domain() -> str:
     if resolved != public_ip:
         raise RuntimeError(f"{domain} указывает на {resolved}, а IP этого сервера {public_ip} — "
                            "исправьте A-запись (обновление DNS может занять до часа)")
-    return f"{domain} → {resolved} (этот сервер)"
+    from app.offers.uploader import default_webhook_url
+
+    return f"{domain} → {resolved} (этот сервер); адрес для GGSell: {default_webhook_url()}"
 
 
 def main() -> None:

@@ -183,3 +183,18 @@ def test_fields_fall_back_to_file_when_fz_down():
     assert source.get("mlbb_ru") == MLBB_FIELDS
     source.get("mlbb_ru")
     assert fz.get_topup_offers.call_count == 1  # кэш на категорию
+
+
+@pytest.mark.parametrize("domain, port, expected", [
+    ("shop.example.ru", "443", "https://shop.example.ru/webhooks/ggsell"),
+    ("shop.example.ru, www.shop.example.ru", "", "https://shop.example.ru/webhooks/ggsell"),
+    ("shop.example.ru", "8443", "https://shop.example.ru:8443/webhooks/ggsell"),
+    ("", "443", None),
+])
+def test_default_webhook_url(monkeypatch, domain, port, expected):
+    from app.offers.uploader import default_webhook_url
+
+    monkeypatch.delenv("GGSELL_WEBHOOK_URL", raising=False)
+    monkeypatch.setenv("DOMAIN", domain)
+    monkeypatch.setenv("HTTPS_PORT", port)
+    assert default_webhook_url() == expected

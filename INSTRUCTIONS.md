@@ -19,8 +19,9 @@
 
 ## 1. Что нужно
 
-- **Сервер (VPS):** Ubuntu 22.04 или 24.04, от 2 ГБ памяти и 20 ГБ диска.
+- **Сервер (VPS):** Ubuntu 22.04/24.04 или Debian 12, от 1 ГБ памяти (при 1 ГБ — с файлом подкачки, см. 2.1) и 10 ГБ диска.
 - **Домен или поддомен**, A-запись которого указывает на IP сервера. На него GGSell присылает уведомления о продажах, HTTPS настраивается сам.
+- **Свободные порты 80 и 443.** Если 443 уже занят (например, VPN), система работает на другом порту HTTPS — см. `HTTPS_PORT` в разделе 3.
 - **GGSell:** аккаунт продавца, API-ключ (API v2), а также ID продавца и ключ старого API (V1). Всё — в кабинете продавца, раздел API.
 - **FazerCards:** API-ключ аккаунта с **активной подпиской** и **пополненным балансом** — с него оплачиваются заказы покупателей.
 - **Telegram-бот:** токен от @BotFather и ваш chat_id (покажет @userinfobot). После создания бота нажмите в нём Start.
@@ -30,15 +31,26 @@
 
 ## 2. Установка
 
-### 2.1. Docker
+### 2.1. Docker и файл подкачки
+
+Docker (команды одинаковы для Ubuntu и Debian — дистрибутив подставляется сам):
 
 ```bash
 apt-get update && apt-get install -y ca-certificates curl git
+. /etc/os-release
 install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" > /etc/apt/sources.list.d/docker.list
+curl -fsSL https://download.docker.com/linux/$ID/gpg -o /etc/apt/keyrings/docker.asc
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/$ID $VERSION_CODENAME stable" > /etc/apt/sources.list.d/docker.list
 apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 docker compose version
+```
+
+Если на сервере 1–2 ГБ памяти, добавьте файл подкачки на 2 ГБ — страховка от нехватки памяти при сборке и синхронизации:
+
+```bash
+fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
+echo "/swapfile none swap sw 0 0" >> /etc/fstab
+free -h
 ```
 
 ### 2.2. Код
@@ -89,6 +101,7 @@ nano .env
 | Строка | Что вписать |
 |---|---|
 | `DOMAIN` | Домен без `https://`, например `shop.example.ru` |
+| `HTTPS_PORT` | `443`. Если на сервере порт 443 уже занят (VPN и т.п.) — другой, например `8443` |
 | `GGSELL_API_KEY` | API-ключ продавца GGSell (API v2) |
 | `GGSELL_V1_SELLER_ID` | ID продавца GGSell (число) |
 | `GGSELL_V1_API_KEY` | Ключ старого API GGSell (V1) — это другой ключ, не тот, что выше |
@@ -124,7 +137,7 @@ docker compose run --rm app python scripts/import_special.py
 ```bash
 docker compose up -d
 docker compose ps
-curl -s https://ВАШ_ДОМЕН/health
+curl -s https://ВАШ_ДОМЕН/health          # если HTTPS_PORT не 443: https://ВАШ_ДОМЕН:8443/health
 ```
 
 - `{"ok":true}` означает, что сервер работает, а HTTPS-сертификат получен. Если ответа нет сразу, подождите минуту и посмотрите `docker compose logs caddy`.
@@ -137,7 +150,8 @@ curl -s https://ВАШ_ДОМЕН/health
 sh ops/firewall.sh
 ```
 
-Если SSH на нестандартном порту: `SSH_PORT=2200 sh ops/firewall.sh`.
+- Если SSH на нестандартном порту: `SSH_PORT=2200 sh ops/firewall.sh`.
+- **Если на сервере работают другие сервисы** (VPN, панели управления), их порты нужно указать, иначе фаервол их закроет: `EXTRA_PORTS="2096 13019" sh ops/firewall.sh`. Посмотреть занятые порты: `ss -tlnp`. Если сервером уже управляет кто-то другой, фаервол можно не включать: база данных и так недоступна снаружи.
 
 ---
 
@@ -270,7 +284,7 @@ docker compose up -d
 
 ### Внешний мониторинг
 
-Сторож внутри системы присылает алерты, но не сможет сообщить, если **сервер упадёт целиком**. Для этого добавьте адрес `https://ВАШ_ДОМЕН/health/full` в бесплатный [UptimeRobot](https://uptimerobot.com):
+Сторож внутри системы присылает алерты, но не сможет сообщить, если **сервер упадёт целиком**. Для этого добавьте адрес `https://ВАШ_ДОМЕН/health/full` (с портом, если `HTTPS_PORT` не 443) в бесплатный [UptimeRobot](https://uptimerobot.com):
 1. New Monitor → тип HTTP(s) → этот адрес, интервал 5 минут.
 2. Alert Contacts — e-mail или Telegram.
 
