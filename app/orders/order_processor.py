@@ -360,7 +360,8 @@ def is_transient_fz_error(error: Exception) -> bool:
 
 def describe_fz_error(error: Exception) -> str:
     if isinstance(error, FazerCardsError):
-        return f"FazerCards {error.status_code}: {error.error}"
+        # FZ пишет текст с точкой в конце — в алерте после него идёт «. …»
+        return f"FazerCards {error.status_code}: {str(error.error).rstrip('.')}"
     return f"FazerCards недоступен: {type(error).__name__}: {error}"
 
 

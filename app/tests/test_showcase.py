@@ -416,3 +416,28 @@ def test_forced_sync_ignores_threshold(session, fake_v2):
 
     jobs.sync_showcase(session, force=True)
     fake_v2.patch_offer.assert_called_once()
+
+
+def test_read_timeout_retried_for_safe_calls():
+    """08.10: синхронизация упала на ReadTimeout list_offers — чтение и PATCH
+    цены повторяем и при сбое сети."""
+    import httpx
+
+    v2 = MagicMock()
+    v2.list_offers.side_effect = [httpx.ReadTimeout("timed out"),
+                                  {"data": [{"id": 1, "status": "active"}], "pagination": {"has_next_page": False}}]
+
+    assert set(fetch_offers(v2, sleep=lambda s: None)) == {1}
+    assert v2.list_offers.call_count == 2
+
+
+def test_create_offer_not_retried_on_timeout():
+    """Создание оффера после тайм-аута не повторяем — GGSell мог его создать."""
+    import httpx
+
+    from app.clients.ggsell import call_with_retry
+
+    create = MagicMock(side_effect=httpx.ReadTimeout("timed out"))
+    with pytest.raises(httpx.ReadTimeout):
+        call_with_retry(create, {"title": "x"}, sleep=lambda s: None)
+    assert create.call_count == 1

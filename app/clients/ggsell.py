@@ -366,15 +366,24 @@ class GGSellV1Client:
         )
 
 
-def call_with_retry(call, *args, retries: int = 4, sleep=time.sleep, **kwargs) -> Any:
+def call_with_retry(call, *args, retries: int = 4, sleep=time.sleep, retry_network: bool = False, **kwargs) -> Any:
     """Вызов метода клиента с повторами на 429 и 5xx: GGSell под нагрузкой
     отвечает 504 Gateway Time-out (проверено при выгрузке категорий 30.09).
-    Остальные ошибки (4xx) не повторяются."""
+    Остальные ошибки (4xx) не повторяются.
+
+    retry_network=True — повторять и сбои сети / тайм-ауты (08.10 утренняя
+    синхронизация упала на ReadTimeout list_offers). Только для запросов,
+    которые безопасно повторить: чтение, PATCH той же цены. Создание оффера
+    после тайм-аута повторять нельзя — GGSell мог его уже создать (дубль)."""
     for attempt in range(1, retries + 1):
         try:
             return call(*args, **kwargs)
         except GGSellError as e:
             if not (e.status_code == 429 or e.status_code >= 500) or attempt == retries:
+                raise
+            sleep(2 * attempt)
+        except httpx.TransportError:
+            if not retry_network or attempt == retries:
                 raise
             sleep(2 * attempt)
 

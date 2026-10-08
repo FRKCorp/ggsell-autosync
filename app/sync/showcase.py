@@ -61,7 +61,7 @@ def fetch_offers(v2: GGSellV2Client, sleep: Callable[[float], None] = time.sleep
     offers: dict[int, dict[str, Any]] = {}
     page = 1
     while True:
-        response = call_with_retry(v2.list_offers, page=page, sleep=sleep)
+        response = call_with_retry(v2.list_offers, page=page, sleep=sleep, retry_network=True)
         for offer in response.get("data", []):
             offers[offer["id"]] = offer
         if not response.get("pagination", {}).get("has_next_page"):
@@ -230,7 +230,8 @@ def push_prices(
             continue
 
         try:
-            call_with_retry(v2.patch_offer, listing.ggsell_offer_id, {"price": float(new_price)}, sleep=sleep)
+            call_with_retry(v2.patch_offer, listing.ggsell_offer_id, {"price": float(new_price)}, sleep=sleep,
+                            retry_network=True)
         except GGSellError as e:
             if e.status_code == 404:
                 listing.status = ListingStatus.ARCHIVED
