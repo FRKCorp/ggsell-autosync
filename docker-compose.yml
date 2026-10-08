@@ -6,6 +6,11 @@ x-logging: &logging
     max-size: "10m"
     max-file: "5"
 
+# Адрес БД для app/scheduler/bot собирается из POSTGRES_* в .env — отдельно
+# DATABASE_URL на сервере задавать не нужно (хост — имя сервиса db).
+x-app-env: &app-env
+  DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-user}:${POSTGRES_PASSWORD:-password}@db:5432/${POSTGRES_DB:-ggsell_autosync}
+
 services:
   db:
     image: postgres:16-alpine
@@ -28,6 +33,7 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment: *app-env
     depends_on:
       - db
     expose:
@@ -40,6 +46,7 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment: *app-env
     command: ["python", "-m", "app.sync.main"]
     depends_on:
       - db
@@ -56,6 +63,7 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment: *app-env
     command: ["python", "-m", "app.bot.main"]
     depends_on:
       - db
@@ -86,6 +94,8 @@ services:
     container_name: ggsell_autosync_caddy
     logging: *logging
     restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
     ports:
       - "80:80"
       - "443:443"

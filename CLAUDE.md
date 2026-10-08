@@ -22,6 +22,7 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 - БД: `docker compose exec -T db sh -c 'psql -U $POSTGRES_USER -d $POSTGRES_DB'`.
 - Логи: `docker compose logs --since 1h scheduler` / `app` / `bot` / `backup` (ограничены 10 МБ × 5).
 - **Эксплуатация — `docs/operations.md`:** бэкапы БД каждую ночь в `./backups` (7 шт., проверка — `docker compose exec -T backup sh /ops/restore_check.sh`), сторож в scheduler шлёт алерты (app, бот/прокси, синхронизация, бэкап, диск, перезапуски), `/health/full` — для внешнего мониторинга, фаервол `ops/firewall.sh` (на стейдже включён: 22/80/443).
+- **Установка на новый сервер — `docs/deploy.md`** (клиентский VPS: ключи клиент вписывает в `.env` сам по пометкам «ЗАПОЛНИТЕ», проверка — `docker compose run --rm app python scripts/check_env.py`). Домен — `DOMAIN` в `.env` (Caddyfile берёт `{$DOMAIN}`), адрес вебхука выводится из него; `DATABASE_URL` для контейнеров собирается в compose из `POSTGRES_*`.
 - **`.env` читается при создании контейнера:** после правки — `docker compose up -d --force-recreate app scheduler bot` (restart не подхватит).
 - Перед изменением прода (пересборка, импорт, миграции, `.env`) — коротко сказать пользователю, что делаешь. Чтение логов/статуса/SELECT — свободно.
 
@@ -57,13 +58,14 @@ Python 3.13, FastAPI, SQLAlchemy 2.0 + Alembic, Postgres, APScheduler, httpx, py
 - **`id_i` для `create_message` — это просто `invoice_id`**, отдельной сущности чата нет. `list_chats` (возвращает `id_i: null`) — признанный поддержкой баг, не используй его.
 - **Плашка «Деньги зарезервированы… 12 часов» у покупателя — не проблема** (roadmap 5.0, notes 6.19): сообщения в чат достаточно, возврата через 12 ч нет, заказ автоподтверждается через 7 суток. Метода «отметить выполненным» в API нет и не нужно.
 - Частичный `PATCH` работает нормально для обычных полей (`price` подтверждено) — проблема была специфична для `delivery`.
-- Тестовые офферы иногда удаляются поддержкой GGSell без предупреждения — не полагайся на конкретный `offer_id` между сессиями, создавай заново через `scripts/create_test_offer.py`.
+- Тестовые офферы иногда удаляются поддержкой GGSell без предупреждения — не полагайся на конкретный `offer_id` между сессиями, создавай заново через `scripts/dev/create_test_offer.py`.
 - **Локальная БД ≠ прод-БД.** Импорт, прогнанный локально, на сервере не появляется — скрипты импорта надо запускать и на сервере (так прод-БД до 29 сентября оставалась пустой).
 - На сервере `.env` заполняется вручную — файл не в git, различается между локальной машиной и сервером (`DATABASE_URL` хост `db` vs `localhost`, `GGSELL_WEBHOOK_URL` реальный домен).
 - FazerCards подписка может протухнуть — если все вызовы вдруг начали падать с `403 subscription_inactive` / «Subscription is not active», это не баг кода, проверь статус подписки (`get_me()` → `plan`, `planExpiresAt`). Теперь при этом приходит алерт (сбой ≥ 10% позиций). **Тестовый аккаунт FZ стейджа (с 03.10) — `moryclouds`, trial до 08.10 19:46 МСК**; живые заказы проверены 05.10 (notes 6.21), остаток ~$2.8.
 - **Telegram заблокирован в РФ** (стейдж в Москве): бот и алерты ходят только через `TELEGRAM_PROXY` (http-прокси, в `.env`), подключённый **только** к клиенту Telegram — системные `HTTP(S)_PROXY` не ставить, GGSell/FZ должны идти напрямую. Прокси стейджа оплачен до 10.10. Закреплять «рабочий» IP Telegram бессмысленно (notes 6.20).
 - SSH с не-домашних сетей может не работать: там бывает заблокирован исходящий порт 22 (проблема сети, не сервера).
 
-## Полезные тестовые скрипты (уже написаны, в `scripts/`)
+## Скрипты
 
-`create_test_offer.py`, `check_offer.py`, `test_patch_price.py`, `test_patch_delivery.py`, `inspect_order_info.py`, `inspect_chats.py`, `inspect_last_sales.py`, `fetch_all_topup_categories.py`, `fetch_all_giftcard_categories.py`, `bulk_import_topups.py`, `seed_test_positions.py`.
+- `scripts/` — рабочие: `check_env.py` (проверка `.env` и связи со всеми сервисами, ключи не печатает), `bulk_import_topups.py` / `bulk_import_giftcards.py` / `import_special.py` (каталог), `upload_offers.py` (автозалив), `build_category_map.py`, `fetch_ggsell_categories.py`, `fetch_topup_fields.py`, `check_position_regions.py`.
+- `scripts/dev/` — отладочные (исследование API, пробные офферы): `create_test_offer.py`, `check_offer.py`, `inspect_order_info.py`, `inspect_last_sales.py`, `test_patch_price.py` и др. Запуск из корня: `python scripts/dev/<скрипт>.py`.

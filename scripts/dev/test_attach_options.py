@@ -18,7 +18,7 @@ import sys
 
 from dotenv import load_dotenv
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from app.clients.ggsell import GGSellError, GGSellV2Client  # noqa: E402
 from app.offers.options import attach_topup_options  # noqa: E402
@@ -40,7 +40,7 @@ def main() -> None:
             print(v2.batch_delete_offers([offer_id]))
             return
 
-        data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+        data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data")
         with open(os.path.join(data_dir, "fz_topup_fields.json"), encoding="utf-8") as f:
             fields = json.load(f)[arg]["fields"]
 

@@ -22,6 +22,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import time
 from dataclasses import dataclass, field
 from typing import Any, Callable, Iterable, Optional
@@ -39,6 +40,16 @@ from app.offers.options import attach_topup_options, buyer_fields_for
 from app.pricing.calculator import PricingConfig
 
 logger = logging.getLogger(__name__)
+
+
+def default_webhook_url() -> Optional[str]:
+    """Адрес вебхука GGSell для новых лотов: GGSELL_WEBHOOK_URL, а если не
+    задан — https://<первый домен из DOMAIN>/webhooks/ggsell."""
+    explicit = os.getenv("GGSELL_WEBHOOK_URL", "").strip()
+    if explicit:
+        return explicit
+    domain = os.getenv("DOMAIN", "").split(",")[0].strip()
+    return f"https://{domain}/webhooks/ggsell" if domain and domain != "localhost" else None
 
 
 @dataclass

@@ -19,7 +19,7 @@ import sys
 import httpx
 from dotenv import load_dotenv
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from app.clients.ggsell import GGSellError, GGSellV1Client, GGSellV2Client  # noqa: E402
 

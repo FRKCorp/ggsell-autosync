@@ -1,3 +1,6 @@
-frkcorp.online, www.frkcorp.online {
+# Домен — из .env (DOMAIN). Caddy сам получает и продлевает HTTPS-сертификат
+# Let's Encrypt; A-запись домена должна указывать на IP сервера. Можно
+# несколько через запятую: DOMAIN=example.ru, www.example.ru
+{$DOMAIN} {
     reverse_proxy app:8000
 }

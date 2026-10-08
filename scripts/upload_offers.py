@@ -29,7 +29,7 @@ from app.clients.ggsell import GGSellV2Client  # noqa: E402
 from app.db import SessionLocal  # noqa: E402
 from app.models.position import Position  # noqa: E402
 from app.offers.categories import SPECIAL_CATEGORIES  # noqa: E402
-from app.offers.uploader import FieldsSource, upload_positions  # noqa: E402
+from app.offers.uploader import FieldsSource, default_webhook_url, upload_positions  # noqa: E402
 from app.pricing.exchange_rate import refresh_rate  # noqa: E402
 from app.pricing.listing_price import load_pricing_config  # noqa: E402
 
@@ -49,9 +49,9 @@ def main() -> None:
     with open(os.path.join(data_dir, "fz_topup_fields.json"), encoding="utf-8") as f:
         fallback_fields = {k: v["fields"] for k, v in json.load(f).items()}
 
-    webhook_url = os.getenv("GGSELL_WEBHOOK_URL")
+    webhook_url = default_webhook_url()
     if not webhook_url and not args.dry_run:
-        sys.exit("GGSELL_WEBHOOK_URL не задан — без него GGSell не сообщит о продажах")
+        sys.exit("Не задан DOMAIN (или GGSELL_WEBHOOK_URL) в .env — без адреса вебхука GGSell не сообщит о продажах")
 
     session = SessionLocal()
     refresh_rate(session)
