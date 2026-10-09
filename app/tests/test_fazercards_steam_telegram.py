@@ -74,3 +74,15 @@ def test_telegram_buy_not_retried_on_server_error(fz):
         fz.buy_telegram_stars("@durov", 50)
 
     assert e.value.status_code == 502 and route.call_count == 1
+
+
+def test_ggsell_v1_key_defaults_to_main_key(monkeypatch):
+    """Ключ для входа в API v1 — тот же API-ключ продавца (проверено на живом
+    аккаунте), поэтому GGSELL_V1_API_KEY необязателен."""
+    from app.clients.ggsell import v1_api_key
+
+    monkeypatch.setenv("GGSELL_API_KEY", "main")
+    monkeypatch.setenv("GGSELL_V1_API_KEY", "")
+    assert v1_api_key() == "main"
+    monkeypatch.setenv("GGSELL_V1_API_KEY", "separate")
+    assert v1_api_key() == "separate"

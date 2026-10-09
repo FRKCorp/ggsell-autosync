@@ -24,7 +24,6 @@ REQUIRED = {
     "DOMAIN": "домен сервера",
     "GGSELL_API_KEY": "API-ключ GGSell (v2)",
     "GGSELL_V1_SELLER_ID": "ID продавца GGSell",
-    "GGSELL_V1_API_KEY": "API-ключ GGSell (v1)",
     "FAZERCARDS_API_KEY": "API-ключ FazerCards",
     "ADMIN_TELEGRAM_BOT_TOKEN": "токен Telegram-бота",
     "ADMIN_TELEGRAM_CHAT_ID": "chat_id админа",
@@ -81,9 +80,9 @@ def check_ggsell_v2() -> str:
 
 
 def check_ggsell_v1() -> str:
-    from app.clients.ggsell import GGSellV1Client
+    from app.clients.ggsell import GGSellV1Client, v1_api_key
 
-    with GGSellV1Client(seller_id=int(os.getenv("GGSELL_V1_SELLER_ID")), api_key=os.getenv("GGSELL_V1_API_KEY"),
+    with GGSellV1Client(seller_id=int(os.getenv("GGSELL_V1_SELLER_ID")), api_key=v1_api_key(),
                         base_url=os.getenv("GGSELL_BASE_URL", "https://seller.ggsel.com")) as v1:
         sales = v1.list_last_sales().get("sales") or []
     return f"вход по подписи прошёл, последних продаж: {len(sales)}"
@@ -133,7 +132,7 @@ def main() -> None:
         check("FazerCards", check_fz)
     if "GGSELL_API_KEY" not in missing:
         check("GGSell API v2", check_ggsell_v2)
-    if not {"GGSELL_V1_SELLER_ID", "GGSELL_V1_API_KEY"} & set(missing):
+    if not {"GGSELL_V1_SELLER_ID", "GGSELL_API_KEY"} & set(missing):
         check("GGSell API v1", check_ggsell_v1)
     if not {"ADMIN_TELEGRAM_BOT_TOKEN", "ADMIN_TELEGRAM_CHAT_ID"} & set(missing):
         check("Telegram-бот", check_telegram)

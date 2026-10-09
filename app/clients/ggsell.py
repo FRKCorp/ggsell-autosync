@@ -18,6 +18,7 @@ delivery через API нельзя (подтверждено поддержк�
 from __future__ import annotations
 
 import hashlib
+import os
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -26,6 +27,13 @@ from typing import Any, Optional
 import httpx
 
 BASE_URL = "https://seller.ggsel.com"
+
+
+def v1_api_key() -> Optional[str]:
+    """Ключ для входа в API v1 по подписи. Это тот же API-ключ продавца, что и
+    для v2 (проверено на живом аккаунте), поэтому GGSELL_V1_API_KEY можно не
+    задавать — берётся GGSELL_API_KEY."""
+    return os.getenv("GGSELL_V1_API_KEY", "").strip() or os.getenv("GGSELL_API_KEY")
 
 
 class GGSellError(Exception):

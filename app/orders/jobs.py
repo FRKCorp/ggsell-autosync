@@ -23,7 +23,7 @@ from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from app.clients.fazercards import FazerCardsClient, FazerCardsError
-from app.clients.ggsell import GGSellError, GGSellV1Client
+from app.clients.ggsell import GGSellError, GGSellV1Client, v1_api_key
 from app.db import SessionLocal
 from app.models.listing import Listing
 from app.models.order import Order, OrderStatus
@@ -48,7 +48,7 @@ def order_clients() -> Iterator[tuple[FazerCardsClient, GGSellV1Client]]:
         base_url=os.getenv("FAZERCARDS_BASE_URL", "https://api.fzr.cards/api/v2"),
     ) as fz, GGSellV1Client(
         seller_id=int(os.getenv("GGSELL_V1_SELLER_ID")),
-        api_key=os.getenv("GGSELL_V1_API_KEY"),
+        api_key=v1_api_key(),
         base_url=os.getenv("GGSELL_BASE_URL", "https://seller.ggsel.com"),
     ) as ggsell_v1:
         yield fz, ggsell_v1

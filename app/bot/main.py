@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 from app.bot.handlers import BotApp
 from app.clients.fazercards import FazerCardsClient
-from app.clients.ggsell import GGSellV1Client, GGSellV2Client
+from app.clients.ggsell import GGSellV1Client, GGSellV2Client, v1_api_key
 from app.clients.telegram import TelegramClient, TelegramError, admin_chat_ids, bot_token
 from app.db import SessionLocal
 from app.ops.heartbeat import beat, mark_started
@@ -50,7 +50,7 @@ class LiveServices:
     def send_to_buyer(self, invoice_id: int, text: str) -> None:
         with GGSellV1Client(
             seller_id=int(os.getenv("GGSELL_V1_SELLER_ID")),
-            api_key=os.getenv("GGSELL_V1_API_KEY"),
+            api_key=v1_api_key(),
             base_url=os.getenv("GGSELL_BASE_URL", "https://seller.ggsel.com"),
         ) as v1:
             v1.create_message(invoice_id, text)

@@ -30,7 +30,7 @@ def main() -> None:
     base_url = os.getenv("GGSELL_BASE_URL", "https://seller.ggsel.com")
     api_key = os.getenv("GGSELL_API_KEY")
     v1_seller_id = os.getenv("GGSELL_V1_SELLER_ID")
-    v1_api_key = os.getenv("GGSELL_V1_API_KEY")
+    v1_api_key = os.getenv("GGSELL_V1_API_KEY") or os.getenv("GGSELL_API_KEY")
 
     if not api_key or api_key == "your_ggsell_api_key":
         print("❌ GGSELL_API_KEY не задан в .env.")

@@ -20,7 +20,7 @@ from app.clients.ggsell import GGSellV1Client  # noqa: E402
 def main() -> None:
     load_dotenv()
     seller_id = int(os.getenv("GGSELL_V1_SELLER_ID"))
-    api_key = os.getenv("GGSELL_V1_API_KEY")
+    api_key = os.getenv("GGSELL_V1_API_KEY") or os.getenv("GGSELL_API_KEY")
     base_url = os.getenv("GGSELL_BASE_URL", "https://seller.ggsel.com")
 
     with GGSellV1Client(seller_id=seller_id, api_key=api_key, base_url=base_url) as client:
