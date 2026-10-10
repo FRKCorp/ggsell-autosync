@@ -237,6 +237,20 @@ class OfferDraft:
     fz_fields: list[dict[str, Any]] = field(default_factory=list)  # для attach_topup_options
 
 
+TITLE_MAX_LENGTH = 100  # больше GGSell не принимает (422 «слишком большой длины»)
+
+
+def _fit_title(template: str, values: dict[str, Any]) -> str:
+    """Название по шаблону; если длиннее лимита GGSell — укорачиваем название
+    товара с «…», игра, регион и хвост «| … | Автодоставка» остаются целыми."""
+    title = template.format(**values)
+    excess = len(title) - TITLE_MAX_LENGTH
+    if excess <= 0:
+        return title
+    item = values["item"][: max(len(values["item"]) - excess - 1, 0)].rstrip(" ,-(") + "…"
+    return template.format(**{**values, "item": item})[:TITLE_MAX_LENGTH]
+
+
 def build_offer(
     position: Position,
     category: dict[str, Any],
@@ -292,7 +306,7 @@ def build_offer(
         values["rule"] = rule.format(**{**values, "fields": enter_fields}) if rule else ""
         values["select_rule"] = block.get(f"select_rule_{lang}", "") if has_select else ""
         texts[lang] = {
-            "title": templates["title"][lang].format(**values),
+            "title": _fit_title(templates["title"][lang], values),
             "description": _render_lines(block[f"description_{lang}"], values),
             "instructions": block[f"instructions_{lang}"].format(**values),
         }

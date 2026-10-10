@@ -245,10 +245,26 @@ def test_sync_listings_statuses(session):
     result = sync_listings(session, {1: offer(1, "active", float(published.price_rub)),
                                      3: offer(3, "draft", float(same.price_rub))})
 
-    assert result == {"status_changed": 1, "archived": 1, "price_changed_on_ggsell": 0}
+    assert result == {"status_changed": 1, "archived": 1, "price_changed_on_ggsell": 0, "fee_changed": 0}
     assert published.status == "active"
     assert deleted.status == ListingStatus.ARCHIVED
     assert same.status == ListingStatus.DRAFT
+
+
+def test_fee_change_on_ggsell_updates_listing_and_price(session):
+    _, listing = add_listing(session, "a", "10", 1)  # записана комиссия 4% + 2.7%
+    old_price = listing.price_rub
+    live = offer(1, "draft", float(old_price)) | {"category": {"id": 7, "fee": 0.08, "payment_fee": 0.027}}
+
+    result = sync_listings(session, {1: live})
+    assert result["fee_changed"] == 1
+    assert (listing.ggsell_fee, listing.ggsell_payment_fee) == (Decimal("0.08"), Decimal("0.027"))
+    v2 = MagicMock()
+
+    report, _ = run_push(session, v2)
+
+    assert report.patched == 1 and listing.price_rub > old_price  # комиссия выросла — цена тоже
+    assert sync_listings(session, {1: live | {"price": float(listing.price_rub)}})["fee_changed"] == 0
 
 
 def test_manual_price_on_ggsell_restored_by_pricer(session):

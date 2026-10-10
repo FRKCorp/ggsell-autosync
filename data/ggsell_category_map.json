@@ -2,7 +2,7 @@
  "topup:8_ball_pool:20_000_coins": {
   "category_id": 62697,
   "tree": "Игры > 8 Ball Pool > Монеты",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -11,7 +11,7 @@
  "topup:8_ball_pool:20_cash": {
   "category_id": 62698,
   "tree": "Игры > 8 Ball Pool > Деньги",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20,7 +20,7 @@
  "topup:8_ball_pool:50_cash": {
   "category_id": 62698,
   "tree": "Игры > 8 Ball Pool > Деньги",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -29,7 +29,7 @@
  "topup:8_ball_pool:52_000_coins": {
   "category_id": 62697,
   "tree": "Игры > 8 Ball Pool > Монеты",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -38,7 +38,7 @@
  "topup:8_ball_pool:110_cash": {
   "category_id": 62698,
   "tree": "Игры > 8 Ball Pool > Деньги",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -47,7 +47,7 @@
  "topup:8_ball_pool:112_000_coins": {
   "category_id": 62697,
   "tree": "Игры > 8 Ball Pool > Монеты",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -56,7 +56,7 @@
  "topup:8_ball_pool:250_cash": {
   "category_id": 62698,
   "tree": "Игры > 8 Ball Pool > Деньги",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -65,7 +65,7 @@
  "topup:8_ball_pool:256_000_coins": {
   "category_id": 62697,
   "tree": "Игры > 8 Ball Pool > Монеты",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -74,7 +74,7 @@
  "topup:ace_racer:65_tokens": {
   "category_id": 113625,
   "tree": "Игры > Ace Racer > Токены",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -83,7 +83,7 @@
  "topup:ace_racer:270_tokens": {
   "category_id": 113625,
   "tree": "Игры > Ace Racer > Токены",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -92,7 +92,7 @@
  "topup:ace_racer:740_tokens": {
   "category_id": 113625,
   "tree": "Игры > Ace Racer > Токены",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -101,7 +101,7 @@
  "topup:ace_racer:1300_tokens": {
   "category_id": 113625,
   "tree": "Игры > Ace Racer > Токены",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -110,7 +110,7 @@
  "topup:ace_racer:3180_tokens": {
   "category_id": 113625,
   "tree": "Игры > Ace Racer > Токены",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -119,7 +119,7 @@
  "topup:ace_racer:6530_tokens": {
   "category_id": 113625,
   "tree": "Игры > Ace Racer > Токены",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -128,7 +128,7 @@
  "topup:acecraft:80_diamonds": {
   "category_id": 100303855,
   "tree": "Игры > Acecraft > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -137,7 +137,7 @@
  "topup:acecraft:500_diamonds": {
   "category_id": 100303855,
   "tree": "Игры > Acecraft > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -146,7 +146,7 @@
  "topup:acecraft:499_25_m_cash": {
   "category_id": 100303857,
   "tree": "Игры > Acecraft > M-cash",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -155,7 +155,7 @@
  "topup:acecraft:999_50_m_cash": {
   "category_id": 100303857,
   "tree": "Игры > Acecraft > M-cash",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -164,7 +164,7 @@
  "topup:acecraft:1200_60_diamonds": {
   "category_id": 100303855,
   "tree": "Игры > Acecraft > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -173,7 +173,7 @@
  "topup:acecraft:1499_75_m_cash": {
   "category_id": 100303857,
   "tree": "Игры > Acecraft > M-cash",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -182,7 +182,7 @@
  "topup:acecraft:2500_125_diamonds": {
   "category_id": 100303855,
   "tree": "Игры > Acecraft > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -191,7 +191,7 @@
  "topup:acecraft:1999_100_m_cash": {
   "category_id": 100303857,
   "tree": "Игры > Acecraft > M-cash",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -200,7 +200,7 @@
  "topup:acecraft:2499_125_m_cash": {
   "category_id": 100303857,
   "tree": "Игры > Acecraft > M-cash",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -209,7 +209,7 @@
  "topup:acecraft:4999_250_m_cash": {
   "category_id": 100303857,
   "tree": "Игры > Acecraft > M-cash",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -218,7 +218,7 @@
  "topup:acecraft:6500_325_diamonds": {
   "category_id": 100303855,
   "tree": "Игры > Acecraft > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -227,7 +227,7 @@
  "topup:acecraft:9999_500_m_cash": {
   "category_id": 100303857,
   "tree": "Игры > Acecraft > M-cash",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -236,7 +236,7 @@
  "topup:acecraft:14000_700_diamonds": {
   "category_id": 100303855,
   "tree": "Игры > Acecraft > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -245,7 +245,7 @@
  "topup:acecraft:19999_1000_m_cash": {
   "category_id": 100303857,
   "tree": "Игры > Acecraft > M-cash",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -254,7 +254,7 @@
  "topup:afk_journey:21_dragon_crystals": {
   "category_id": 120343,
   "tree": "Игры > AFK Journey > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -263,7 +263,7 @@
  "topup:afk_journey:126_dragon_crystals": {
   "category_id": 120343,
   "tree": "Игры > AFK Journey > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -272,7 +272,7 @@
  "topup:afk_journey:esperia_monthly_classic_gazette": {
   "category_id": 120344,
   "tree": "Игры > AFK Journey > BattlePass",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -281,7 +281,7 @@
  "topup:afk_journey:294_dragon_crystals": {
   "category_id": 120343,
   "tree": "Игры > AFK Journey > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -290,7 +290,7 @@
  "topup:afk_journey:esperia_monthly_premium_gazette": {
   "category_id": 120344,
   "tree": "Игры > AFK Journey > BattlePass",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -299,7 +299,7 @@
  "topup:afk_journey:588_dragon_crystals": {
   "category_id": 120343,
   "tree": "Игры > AFK Journey > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -308,7 +308,7 @@
  "topup:afk_journey:1554_dragon_crystals": {
   "category_id": 120343,
   "tree": "Игры > AFK Journey > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -317,7 +317,7 @@
  "topup:afk_journey:3150_dragon_crystals": {
   "category_id": 120343,
   "tree": "Игры > AFK Journey > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4394,7 +4394,7 @@
  "topup:arena_breakout:66_bonds": {
   "category_id": 140872,
   "tree": "Игры > Arena Breakout > Облигации > Другое количество",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -4403,7 +4403,7 @@
  "topup:arena_breakout:335_bonds": {
   "category_id": 140872,
   "tree": "Игры > Arena Breakout > Облигации > Другое количество",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -4412,7 +4412,7 @@
  "topup:arena_breakout:675_bonds": {
   "category_id": 140872,
   "tree": "Игры > Arena Breakout > Облигации > Другое количество",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -4421,7 +4421,7 @@
  "topup:arena_breakout:1690_bonds": {
   "category_id": 140872,
   "tree": "Игры > Arena Breakout > Облигации > Другое количество",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -4430,7 +4430,7 @@
  "topup:arena_breakout:3400_bonds": {
   "category_id": 140872,
   "tree": "Игры > Arena Breakout > Облигации > Другое количество",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -4439,7 +4439,7 @@
  "topup:arena_breakout:6820_bonds": {
   "category_id": 140872,
   "tree": "Игры > Arena Breakout > Облигации > Другое количество",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -4448,7 +4448,7 @@
  "topup:arena_breakout:beginner_select": {
   "category_id": 140874,
   "tree": "Игры > Arena Breakout > Sets",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -4457,7 +4457,7 @@
  "topup:arena_breakout:monthly_advanced_battle_pass_activation_pass": {
   "category_id": 183409,
   "tree": "Игры > Arena Breakout > Расширенный пропуск",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4466,7 +4466,7 @@
  "topup:arena_breakout:bulletproof_case_privileges": {
   "category_id": 140874,
   "tree": "Игры > Arena Breakout > Sets",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -4475,7 +4475,7 @@
  "topup:arena_breakout:bulletproof_case_30d": {
   "category_id": 140874,
   "tree": "Игры > Arena Breakout > Sets",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -4484,7 +4484,7 @@
  "topup:arena_breakout:monthly_premium_battle_pass_activation_pass": {
   "category_id": 140873,
   "tree": "Игры > Arena Breakout > Премиум пропуск",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4493,7 +4493,7 @@
  "topup:arena_breakout:composite_case_privileges": {
   "category_id": 140874,
   "tree": "Игры > Arena Breakout > Sets",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -4502,7 +4502,7 @@
  "topup:arena_breakout:composition_case_30d": {
   "category_id": 140874,
   "tree": "Игры > Arena Breakout > Sets",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -4511,7 +4511,7 @@
  "topup:arena_breakout:quarterly_premium_battle_pass_bundle_activation_pass_bundle": {
   "category_id": 140873,
   "tree": "Игры > Arena Breakout > Премиум пропуск",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4844,7 +4844,7 @@
  "topup:blood_strike:51_bc": {
   "category_id": 113629,
   "tree": "Игры > Blood Strike > Золото",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4853,7 +4853,7 @@
  "topup:blood_strike:105_bc": {
   "category_id": 113629,
   "tree": "Игры > Blood Strike > Золото",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4862,7 +4862,7 @@
  "topup:blood_strike:320_bc": {
   "category_id": 113629,
   "tree": "Игры > Blood Strike > Золото",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4871,7 +4871,7 @@
  "topup:blood_strike:540_bc": {
   "category_id": 113629,
   "tree": "Игры > Blood Strike > Золото",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4880,7 +4880,7 @@
  "topup:blood_strike:1100_bc": {
   "category_id": 113629,
   "tree": "Игры > Blood Strike > Золото",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4889,7 +4889,7 @@
  "topup:blood_strike:2260_bc": {
   "category_id": 113629,
   "tree": "Игры > Blood Strike > Золото",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4898,7 +4898,7 @@
  "topup:blood_strike:5800_bc": {
   "category_id": 113629,
   "tree": "Игры > Blood Strike > Золото",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4907,7 +4907,7 @@
  "topup:blood_strike:level_up_pass": {
   "category_id": 202600,
   "tree": "Игры > Blood Strike > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4916,7 +4916,7 @@
  "topup:blood_strike:strike_pass_elite": {
   "category_id": 202600,
   "tree": "Игры > Blood Strike > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4925,7 +4925,7 @@
  "topup:blood_strike:strike_pass_premium": {
   "category_id": 202600,
   "tree": "Игры > Blood Strike > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4934,7 +4934,7 @@
  "topup:bullet_echo:handful_of_bucks": {
   "category_id": 113649,
   "tree": "Игры > Bullet Echo > Баксы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4943,7 +4943,7 @@
  "topup:bullet_echo:stack_of_bucks": {
   "category_id": 113649,
   "tree": "Игры > Bullet Echo > Баксы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4952,7 +4952,7 @@
  "topup:bullet_echo:case_of_bucks": {
   "category_id": 113649,
   "tree": "Игры > Bullet Echo > Баксы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4961,7 +4961,7 @@
  "topup:bullet_echo:box_of_bucks": {
   "category_id": 113649,
   "tree": "Игры > Bullet Echo > Баксы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4970,7 +4970,7 @@
  "topup:bullet_echo:bag_of_bucks": {
   "category_id": 113649,
   "tree": "Игры > Bullet Echo > Баксы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -4979,7 +4979,7 @@
  "topup:bullet_echo:crate_of_bucks": {
   "category_id": 113649,
   "tree": "Игры > Bullet Echo > Баксы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5366,16 +5366,16 @@
  "topup:delta_force:18_delta_coins": {
   "category_id": 140955,
   "tree": "Игры > Delta Force > Delta Coins > 18",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
   "note": null
  },
  "topup:delta_force:30_delta_coins": {
-  "category_id": 140956,
-  "tree": "Игры > Delta Force > Delta Coins > 30",
-  "fee": 0.02,
+  "category_id": 141416,
+  "tree": "Игры > Delta Force > Delta Coins > Другое количество",
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5384,7 +5384,7 @@
  "topup:delta_force:60_delta_coins": {
   "category_id": 140957,
   "tree": "Игры > Delta Force > Delta Coins > 60",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5393,7 +5393,7 @@
  "topup:delta_force:320_delta_coins": {
   "category_id": 140958,
   "tree": "Игры > Delta Force > Delta Coins > 320",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5402,7 +5402,7 @@
  "topup:delta_force:460_delta_coins": {
   "category_id": 140959,
   "tree": "Игры > Delta Force > Delta Coins > 460",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5411,7 +5411,7 @@
  "topup:delta_force:750_delta_coins": {
   "category_id": 140960,
   "tree": "Игры > Delta Force > Delta Coins > 750",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5420,16 +5420,16 @@
  "topup:delta_force:1480_delta_coins": {
   "category_id": 140961,
   "tree": "Игры > Delta Force > Delta Coins > 1480",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
   "note": null
  },
  "topup:delta_force:1980_delta_coins": {
-  "category_id": 140962,
-  "tree": "Игры > Delta Force > Delta Coins > 1980",
-  "fee": 0.02,
+  "category_id": 141416,
+  "tree": "Игры > Delta Force > Delta Coins > Другое количество",
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5438,7 +5438,7 @@
  "topup:delta_force:3950_delta_coins": {
   "category_id": 140963,
   "tree": "Игры > Delta Force > Delta Coins > 3950",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5447,7 +5447,7 @@
  "topup:delta_force:8100_delta_coins": {
   "category_id": 140964,
   "tree": "Игры > Delta Force > Delta Coins > 8100",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5456,16 +5456,16 @@
  "topup:delta_force:16200_delta_coins": {
   "category_id": 140965,
   "tree": "Игры > Delta Force > Delta Coins > 16200",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
   "note": null
  },
  "topup:delta_force:24300_delta_coins": {
-  "category_id": 140966,
-  "tree": "Игры > Delta Force > Delta Coins > 24300",
-  "fee": 0.02,
+  "category_id": 141416,
+  "tree": "Игры > Delta Force > Delta Coins > Другое количество",
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5474,7 +5474,7 @@
  "topup:delta_force:season_pass_operations_special": {
   "category_id": 133634,
   "tree": "Игры > Delta Force > Battle pass",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5483,7 +5483,7 @@
  "topup:delta_force:season_pass_warfare_special": {
   "category_id": 133634,
   "tree": "Игры > Delta Force > Battle pass",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5492,7 +5492,7 @@
  "topup:delta_force:season_pass_delta_force_deluxe": {
   "category_id": 133634,
   "tree": "Игры > Delta Force > Battle pass",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5564,7 +5564,7 @@
  "topup:eve_echoes:aur25": {
   "category_id": 124291,
   "tree": "Игры > EVE Echoes > Валюта Аурум(AUR)",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5573,7 +5573,7 @@
  "topup:eve_echoes:aur125": {
   "category_id": 124291,
   "tree": "Игры > EVE Echoes > Валюта Аурум(AUR)",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5582,7 +5582,7 @@
  "topup:eve_echoes:aur265": {
   "category_id": 124291,
   "tree": "Игры > EVE Echoes > Валюта Аурум(AUR)",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5591,7 +5591,7 @@
  "topup:eve_echoes:aur525": {
   "category_id": 124291,
   "tree": "Игры > EVE Echoes > Валюта Аурум(AUR)",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5600,7 +5600,7 @@
  "topup:eve_echoes:aur1315": {
   "category_id": 124291,
   "tree": "Игры > EVE Echoes > Валюта Аурум(AUR)",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5618,7 +5618,7 @@
  "topup:eve_echoes:aur2750": {
   "category_id": 124291,
   "tree": "Игры > EVE Echoes > Валюта Аурум(AUR)",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5627,7 +5627,7 @@
  "topup:eve_echoes:aur5600": {
   "category_id": 124291,
   "tree": "Игры > EVE Echoes > Валюта Аурум(AUR)",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5717,7 +5717,7 @@
  "topup:farlight_84:5_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5726,7 +5726,7 @@
  "topup:farlight_84:10_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5735,7 +5735,7 @@
  "topup:farlight_84:20_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5744,7 +5744,7 @@
  "topup:farlight_84:30_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5753,7 +5753,7 @@
  "topup:farlight_84:40_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5762,7 +5762,7 @@
  "topup:farlight_84:50_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5771,7 +5771,7 @@
  "topup:farlight_84:60_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5780,7 +5780,7 @@
  "topup:farlight_84:80_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5789,7 +5789,7 @@
  "topup:farlight_84:100_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5798,7 +5798,7 @@
  "topup:farlight_84:165_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5807,7 +5807,7 @@
  "topup:farlight_84:220_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5816,7 +5816,7 @@
  "topup:farlight_84:330_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5825,7 +5825,7 @@
  "topup:farlight_84:880_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5834,7 +5834,7 @@
  "topup:farlight_84:2240_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5843,7 +5843,7 @@
  "topup:farlight_84:4700_diamonds": {
   "category_id": 110276,
   "tree": "Игры > Farlight 84 > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -5852,7 +5852,7 @@
  "topup:free_fire_cis:110_diamonds": {
   "category_id": 62699,
   "tree": "Игры > Free Fire > Алмазы > Россия",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5861,7 +5861,7 @@
  "topup:free_fire_cis:341_diamonds": {
   "category_id": 62699,
   "tree": "Игры > Free Fire > Алмазы > Россия",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5870,7 +5870,7 @@
  "topup:free_fire_cis:572_diamonds": {
   "category_id": 62699,
   "tree": "Игры > Free Fire > Алмазы > Россия",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5879,7 +5879,7 @@
  "topup:free_fire_cis:1166_diamonds": {
   "category_id": 62699,
   "tree": "Игры > Free Fire > Алмазы > Россия",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5888,7 +5888,7 @@
  "topup:free_fire_cis:2398_diamonds": {
   "category_id": 62699,
   "tree": "Игры > Free Fire > Алмазы > Россия",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5897,7 +5897,7 @@
  "topup:free_fire_cis:6160_diamonds": {
   "category_id": 62699,
   "tree": "Игры > Free Fire > Алмазы > Россия",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5906,7 +5906,7 @@
  "topup:free_fire_cis:level_up_package_6": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5915,7 +5915,7 @@
  "topup:free_fire_cis:level_up_package_10": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5924,7 +5924,7 @@
  "topup:free_fire_cis:level_up_package_15": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5933,7 +5933,7 @@
  "topup:free_fire_cis:level_up_package_20": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5942,7 +5942,7 @@
  "topup:free_fire_cis:level_up_package_25": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5951,7 +5951,7 @@
  "topup:free_fire_cis:level_up_package_30": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5960,7 +5960,7 @@
  "topup:free_fire_cis:evo_access_3d": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5969,7 +5969,7 @@
  "topup:free_fire_cis:evo_access_7d": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5978,7 +5978,7 @@
  "topup:free_fire_cis:evo_access_30d": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5987,7 +5987,7 @@
  "topup:free_fire_cis:newbie_bundle": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -5996,7 +5996,7 @@
  "topup:free_fire_cis:weekly_lite": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -6005,7 +6005,7 @@
  "topup:free_fire_cis:weekly_membership": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -6014,7 +6014,7 @@
  "topup:free_fire_cis:monthly_membership": {
   "category_id": 140830,
   "tree": "Игры > Free Fire > Пропуска",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -6077,7 +6077,7 @@
  "topup:genshin_impact_global:blessing_of_the_welkin_moon": {
   "category_id": 100404013,
   "tree": "Игры > Genshin Impact > Благословение полой луны > Top-up by ID > Blessing of the Hollow Moon (30 Days)",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7130,7 +7130,7 @@
  "topup:honkai_star_rail_global:60_oneiric_shard": {
   "category_id": 133128,
   "tree": "Games > Honkai: Star Rail > Oneiric Shards > Top-up by ID > 60",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7139,7 +7139,7 @@
  "topup:honkai_star_rail_global:300_30_oneiric_shard": {
   "category_id": 133129,
   "tree": "Игры > Honkai: Star Rail > Сущность древних снов > Пополнение по ID > 300+30",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7148,7 +7148,7 @@
  "topup:honkai_star_rail_global:980_110_oneiric_shard": {
   "category_id": 133130,
   "tree": "Игры > Honkai: Star Rail > Сущность древних снов > Пополнение по ID > 980+110",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7157,7 +7157,7 @@
  "topup:honkai_star_rail_global:1980_260_oneiric_shard": {
   "category_id": 133131,
   "tree": "Игры > Honkai: Star Rail > Сущность древних снов > Пополнение по ID > 1980+260",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7166,7 +7166,7 @@
  "topup:honkai_star_rail_global:3280_600_oneiric_shard": {
   "category_id": 133132,
   "tree": "Игры > Honkai: Star Rail > Сущность древних снов > Пополнение по ID > 3280+600",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7175,7 +7175,7 @@
  "topup:honkai_star_rail_global:6480_1600_oneiric_shard": {
   "category_id": 133133,
   "tree": "Игры > Honkai: Star Rail > Сущность древних снов > Пополнение по ID > 6480+1600",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7184,7 +7184,7 @@
  "topup:honkai_star_rail_global:express_supply_pass": {
   "category_id": 98578,
   "tree": "Игры > Honkai: Star Rail > Пропуск снабжения экспресса  > Пополнение по ID > 30 дней",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7193,7 +7193,7 @@
  "topup:honor_of_kings:16_tokens": {
   "category_id": 100311729,
   "tree": "Игры > Honor of Kings > Tokens > 16",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7202,7 +7202,7 @@
  "topup:honor_of_kings:80_tokens": {
   "category_id": 100311731,
   "tree": "Игры > Honor of Kings > Tokens > 80",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7220,7 +7220,7 @@
  "topup:honor_of_kings:240_tokens": {
   "category_id": 100311733,
   "tree": "Игры > Honor of Kings > Tokens > 240",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7238,7 +7238,7 @@
  "topup:honor_of_kings:400_tokens": {
   "category_id": 100311735,
   "tree": "Игры > Honor of Kings > Tokens > 400",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7247,7 +7247,7 @@
  "topup:honor_of_kings:560_tokens": {
   "category_id": 100311737,
   "tree": "Игры > Honor of Kings > Tokens > 560",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7256,7 +7256,7 @@
  "topup:honor_of_kings:830_tokens": {
   "category_id": 100311739,
   "tree": "Игры > Honor of Kings > Tokens > 830",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7265,7 +7265,7 @@
  "topup:honor_of_kings:1245_tokens": {
   "category_id": 100311741,
   "tree": "Игры > Honor of Kings > Tokens > 1245",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7274,7 +7274,7 @@
  "topup:honor_of_kings:2508_tokens": {
   "category_id": 100311743,
   "tree": "Игры > Honor of Kings > Tokens > 2508",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7283,7 +7283,7 @@
  "topup:honor_of_kings:4180_tokens": {
   "category_id": 100311745,
   "tree": "Игры > Honor of Kings > Tokens > 4180",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7292,7 +7292,7 @@
  "topup:honor_of_kings:8360_tokens": {
   "category_id": 100311747,
   "tree": "Игры > Honor of Kings > Tokens > 8360",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7499,7 +7499,7 @@
  "giftcard:league_of_legends_eu:575_rp": {
   "category_id": 100408723,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 575",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7508,7 +7508,7 @@
  "giftcard:league_of_legends_eu:6500_rp": {
   "category_id": 100408731,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 6500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7517,7 +7517,7 @@
  "giftcard:league_of_legends_eu:2540_rp": {
   "category_id": 100408727,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 2540",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7526,7 +7526,7 @@
  "giftcard:league_of_legends_eu:290_rp": {
   "category_id": 100408721,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 290",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7535,7 +7535,7 @@
  "giftcard:league_of_legends_eu:1240_rp": {
   "category_id": 100408725,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 1240",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7544,7 +7544,7 @@
  "giftcard:league_of_legends_eu:4500_rp": {
   "category_id": 100408729,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 4500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7553,7 +7553,7 @@
  "giftcard:league_of_legends_eu:13500_rp": {
   "category_id": 100408735,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 13500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7562,7 +7562,7 @@
  "giftcard:league_of_legends_eu:2575_rp": {
   "category_id": 100408737,
   "tree": "Игры > League of Legends > RP > Европа (EU) > Другое количество",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -7571,7 +7571,7 @@
  "giftcard:league_of_legends_eu:11000_rp": {
   "category_id": 100408737,
   "tree": "Игры > League of Legends > RP > Европа (EU) > Другое количество",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -7715,7 +7715,7 @@
  "giftcard:league_of_legends_tr:10875_rp": {
   "category_id": 100408785,
   "tree": "Игры > League of Legends > RP > Турция (TR) > Другое количество ",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -7724,7 +7724,7 @@
  "giftcard:league_of_legends_tr:1005_rp": {
   "category_id": 100408767,
   "tree": "Игры > League of Legends > RP > Турция (TR) > 1005",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7733,7 +7733,7 @@
  "giftcard:league_of_legends_tr:460_rp": {
   "category_id": 100408763,
   "tree": "Игры > League of Legends > RP > Турция (TR) > 460",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7742,7 +7742,7 @@
  "giftcard:league_of_legends_tr:3625_rp": {
   "category_id": 100408775,
   "tree": "Игры > League of Legends > RP > Турция (TR) > 3625",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7751,7 +7751,7 @@
  "giftcard:league_of_legends_tr:5295_rp": {
   "category_id": 100408781,
   "tree": "Игры > League of Legends > RP > Турция (TR) > 5295",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7760,7 +7760,7 @@
  "giftcard:league_of_legends_tr:2105_rp": {
   "category_id": 100408771,
   "tree": "Игры > League of Legends > RP > Турция (TR) > 2105",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7841,7 +7841,7 @@
  "giftcard:league_of_legends_uk:2540_rp": {
   "category_id": 100408727,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 2540",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7850,7 +7850,7 @@
  "giftcard:league_of_legends_uk:13500_rp": {
   "category_id": 100408735,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 13500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7859,7 +7859,7 @@
  "giftcard:league_of_legends_uk:4500_rp": {
   "category_id": 100408729,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 4500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7868,7 +7868,7 @@
  "giftcard:league_of_legends_uk:6500_rp": {
   "category_id": 100408731,
   "tree": "Игры > League of Legends > RP > Европа (EU) > 6500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7895,7 +7895,7 @@
  "giftcard:league_of_legends_us:6500_rp": {
   "category_id": 100408755,
   "tree": "Games > League of Legends > RP > North America (NA) > 6500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7913,7 +7913,7 @@
  "giftcard:league_of_legends_us:4500_rp": {
   "category_id": 100408761,
   "tree": "Игры > League of Legends > RP > Северная Америка (NA) > Другое количество",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": true,
   "review": false,
@@ -7922,7 +7922,7 @@
  "giftcard:league_of_legends_us:13500_rp": {
   "category_id": 100408759,
   "tree": "Games > League of Legends > RP > North America (NA) > 13500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -7931,7 +7931,7 @@
  "giftcard:league_of_legends_us:575_rp": {
   "category_id": 100408741,
   "tree": "Games > League of Legends > RP > North America (NA) > 575",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8075,7 +8075,7 @@
  "topup:lords_mobile:395_diamonds": {
   "category_id": 63018,
   "tree": "Игры > Lords Mobile > Алмазы",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8084,7 +8084,7 @@
  "topup:lords_mobile:785_diamonds": {
   "category_id": 63018,
   "tree": "Игры > Lords Mobile > Алмазы",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8093,7 +8093,7 @@
  "topup:lords_mobile:1179_diamonds": {
   "category_id": 63018,
   "tree": "Игры > Lords Mobile > Алмазы",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8111,7 +8111,7 @@
  "topup:lords_mobile:1964_diamonds": {
   "category_id": 63018,
   "tree": "Игры > Lords Mobile > Алмазы",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8120,7 +8120,7 @@
  "topup:lords_mobile:3928_diamonds": {
   "category_id": 63018,
   "tree": "Игры > Lords Mobile > Алмазы",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8129,7 +8129,7 @@
  "topup:lords_mobile:7857_diamonds": {
   "category_id": 63018,
   "tree": "Игры > Lords Mobile > Алмазы",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8138,7 +8138,7 @@
  "topup:lords_mobile:11785_diamonds": {
   "category_id": 63018,
   "tree": "Игры > Lords Mobile > Алмазы",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8147,7 +8147,7 @@
  "topup:lords_mobile:19642_diamonds": {
   "category_id": 63018,
   "tree": "Игры > Lords Mobile > Алмазы",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8156,7 +8156,7 @@
  "topup:love_and_deepspace:60_crystals": {
   "category_id": 100326543,
   "tree": "Игры > Love and Deepspace > Валюта > Кристаллы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8165,7 +8165,7 @@
  "topup:love_and_deepspace:300_crystals_30_diamonds": {
   "category_id": 100326543,
   "tree": "Игры > Love and Deepspace > Валюта > Кристаллы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8174,7 +8174,7 @@
  "topup:love_and_deepspace:aurum_pass": {
   "category_id": 100326551,
   "tree": "Игры > Love and Deepspace > Пропуски > Пропуск Аурума",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8183,7 +8183,7 @@
  "topup:love_and_deepspace:450_crystals_90_diamonds": {
   "category_id": 100326543,
   "tree": "Игры > Love and Deepspace > Валюта > Кристаллы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8192,7 +8192,7 @@
  "topup:love_and_deepspace:980_crystals_150_diamonds": {
   "category_id": 100326543,
   "tree": "Игры > Love and Deepspace > Валюта > Кристаллы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8201,7 +8201,7 @@
  "topup:love_and_deepspace:companionship_pack": {
   "category_id": 100326559,
   "tree": "Игры > Love and Deepspace > Наборы > Набор общения",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8210,7 +8210,7 @@
  "topup:love_and_deepspace:1980_crystals_360_diamonds": {
   "category_id": 100326543,
   "tree": "Игры > Love and Deepspace > Валюта > Кристаллы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8219,7 +8219,7 @@
  "topup:love_and_deepspace:3280_crystals_720_diamonds": {
   "category_id": 100326543,
   "tree": "Игры > Love and Deepspace > Валюта > Кристаллы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8228,7 +8228,7 @@
  "topup:love_and_deepspace:6480_crystals_1600_diamonds": {
   "category_id": 100326543,
   "tree": "Игры > Love and Deepspace > Валюта > Кристаллы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8237,7 +8237,7 @@
  "topup:magic_chess_gogo_global:5_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8246,7 +8246,7 @@
  "topup:magic_chess_gogo_global:11_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8255,7 +8255,7 @@
  "topup:magic_chess_gogo_global:12_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8264,7 +8264,7 @@
  "topup:magic_chess_gogo_global:22_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8273,7 +8273,7 @@
  "topup:magic_chess_gogo_global:19_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8282,7 +8282,7 @@
  "topup:magic_chess_gogo_global:28_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8291,7 +8291,7 @@
  "topup:magic_chess_gogo_global:44_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8300,7 +8300,7 @@
  "topup:magic_chess_gogo_global:56_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8309,7 +8309,7 @@
  "topup:magic_chess_gogo_global:first_recharge_100_50_50_bonus": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8318,7 +8318,7 @@
  "topup:magic_chess_gogo_global:battle_for_discounts": {
   "category_id": 100411979,
   "tree": "Игры > Magic Chess: Go Go > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8327,7 +8327,7 @@
  "topup:magic_chess_gogo_global:lukas_s_battle_bounty": {
   "category_id": 100411979,
   "tree": "Игры > Magic Chess: Go Go > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8336,7 +8336,7 @@
  "topup:magic_chess_gogo_global:59_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8345,7 +8345,7 @@
  "topup:magic_chess_gogo_global:85_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8354,7 +8354,7 @@
  "topup:magic_chess_gogo_global:86_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8363,7 +8363,7 @@
  "topup:magic_chess_gogo_global:112_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8372,7 +8372,7 @@
  "topup:magic_chess_gogo_global:weekly_card": {
   "category_id": 100411979,
   "tree": "Игры > Magic Chess: Go Go > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8381,7 +8381,7 @@
  "topup:magic_chess_gogo_global:165_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8390,7 +8390,7 @@
  "topup:magic_chess_gogo_global:first_recharge_300_150_150_bonus": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8399,7 +8399,7 @@
  "topup:magic_chess_gogo_global:170_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8408,7 +8408,7 @@
  "topup:magic_chess_gogo_global:172_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8417,7 +8417,7 @@
  "topup:magic_chess_gogo_global:223_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8426,7 +8426,7 @@
  "topup:magic_chess_gogo_global:240_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8435,7 +8435,7 @@
  "topup:magic_chess_gogo_global:257_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8444,7 +8444,7 @@
  "topup:magic_chess_gogo_global:275_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8453,7 +8453,7 @@
  "topup:magic_chess_gogo_global:first_recharge_500_250_250_bonus": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8462,7 +8462,7 @@
  "topup:magic_chess_gogo_global:296_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8471,7 +8471,7 @@
  "topup:magic_chess_gogo_global:336_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8480,7 +8480,7 @@
  "topup:magic_chess_gogo_global:344_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8489,7 +8489,7 @@
  "topup:magic_chess_gogo_global:408_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8498,7 +8498,7 @@
  "topup:magic_chess_gogo_global:570_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8507,7 +8507,7 @@
  "topup:magic_chess_gogo_global:516_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8516,7 +8516,7 @@
  "topup:magic_chess_gogo_global:565_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8525,7 +8525,7 @@
  "topup:magic_chess_gogo_global:568_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8534,7 +8534,7 @@
  "topup:magic_chess_gogo_global:first_recharge_1000_500_500_bonus": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8543,7 +8543,7 @@
  "topup:magic_chess_gogo_global:706_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8552,7 +8552,7 @@
  "topup:magic_chess_gogo_global:875_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8561,7 +8561,7 @@
  "topup:magic_chess_gogo_global:1163_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8570,7 +8570,7 @@
  "topup:magic_chess_gogo_global:1060_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8579,7 +8579,7 @@
  "topup:magic_chess_gogo_global:1346_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8588,7 +8588,7 @@
  "topup:magic_chess_gogo_global:1825_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8597,7 +8597,7 @@
  "topup:magic_chess_gogo_global:2010_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8606,7 +8606,7 @@
  "topup:magic_chess_gogo_global:2195_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8615,7 +8615,7 @@
  "topup:magic_chess_gogo_global:2398_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8624,7 +8624,7 @@
  "topup:magic_chess_gogo_global:3688_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8633,7 +8633,7 @@
  "topup:magic_chess_gogo_global:4830_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8642,7 +8642,7 @@
  "topup:magic_chess_gogo_global:5532_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8651,7 +8651,7 @@
  "topup:magic_chess_gogo_global:6042_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8660,7 +8660,7 @@
  "topup:magic_chess_gogo_global:9288_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8669,7 +8669,7 @@
  "topup:magic_chess_gogo_ru:55_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8678,7 +8678,7 @@
  "topup:magic_chess_gogo_ru:first_recharge_100_50_50_bonus": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8687,7 +8687,7 @@
  "topup:magic_chess_gogo_ru:weekly_card": {
   "category_id": 100411979,
   "tree": "Игры > Magic Chess: Go Go > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8696,7 +8696,7 @@
  "topup:magic_chess_gogo_ru:battle_for_discounts": {
   "category_id": 100411979,
   "tree": "Игры > Magic Chess: Go Go > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8705,7 +8705,7 @@
  "topup:magic_chess_gogo_ru:lukas_s_battle_bounty": {
   "category_id": 100411979,
   "tree": "Игры > Magic Chess: Go Go > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8714,7 +8714,7 @@
  "topup:magic_chess_gogo_ru:weekly_diamond_pass": {
   "category_id": 100411979,
   "tree": "Игры > Magic Chess: Go Go > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8723,7 +8723,7 @@
  "topup:magic_chess_gogo_ru:165_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8732,7 +8732,7 @@
  "topup:magic_chess_gogo_ru:first_recharge_300_150_150_bonus": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8741,7 +8741,7 @@
  "topup:magic_chess_gogo_ru:275_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8750,7 +8750,7 @@
  "topup:magic_chess_gogo_ru:first_recharge_500_250_250_bonus": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8759,7 +8759,7 @@
  "topup:magic_chess_gogo_ru:565_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8768,7 +8768,7 @@
  "topup:magic_chess_gogo_ru:first_recharge_1000_500_500_bonus": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8777,7 +8777,7 @@
  "topup:magic_chess_gogo_ru:1060_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8786,7 +8786,7 @@
  "topup:magic_chess_gogo_ru:1155_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8795,7 +8795,7 @@
  "topup:magic_chess_gogo_ru:1765_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8804,7 +8804,7 @@
  "topup:magic_chess_gogo_ru:2975_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8813,7 +8813,7 @@
  "topup:magic_chess_gogo_ru:6000_diamonds": {
   "category_id": 139884,
   "tree": "Игры > Magic Chess: Go Go > Алмазы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8822,7 +8822,7 @@
  "topup:marvel_rivals:100_lattices": {
   "category_id": 139911,
   "tree": "Игры > Marvel Rivals > Валюта > 100",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8831,7 +8831,7 @@
  "topup:marvel_rivals:500_lattices": {
   "category_id": 139912,
   "tree": "Игры > Marvel Rivals > Валюта > 500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8840,7 +8840,7 @@
  "topup:marvel_rivals:1000_lattices": {
   "category_id": 139913,
   "tree": "Игры > Marvel Rivals > Валюта > 1000",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8849,7 +8849,7 @@
  "topup:marvel_rivals:2180_lattices": {
   "category_id": 139914,
   "tree": "Игры > Marvel Rivals > Валюта > 2180",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8858,7 +8858,7 @@
  "topup:marvel_rivals:5680_lattices": {
   "category_id": 139915,
   "tree": "Игры > Marvel Rivals > Валюта > 5680",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -8867,7 +8867,7 @@
  "topup:marvel_rivals:11680_lattices": {
   "category_id": 139916,
   "tree": "Игры > Marvel Rivals > Валюта > 11680",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -9155,7 +9155,7 @@
  "topup:mobile_legends_global:weekly_pass": {
   "category_id": 111655,
   "tree": "Игры > Mobile Legends: Bang Bang > Пропуски > Алмазный пропуск > Глобал (Весь мир)",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -9164,7 +9164,7 @@
  "topup:mobile_legends_global:twilight_pass": {
   "category_id": 91382,
   "tree": "Игры > Mobile Legends: Bang Bang > Пропуски > Сумеречный пропуск > Глобал (Весь мир)",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -9326,7 +9326,7 @@
  "topup:mobile_legends_ru:weekly_pass": {
   "category_id": 100318681,
   "tree": "Игры > Mobile Legends: Bang Bang > Пропуски > Алмазный пропуск > Россия",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13070,7 +13070,7 @@
  "giftcard:pubg_battlegrounds_global:100_g_coin": {
   "category_id": 100402103,
   "tree": "Игры > PUBG > Монеты/G-Coins > 100",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13079,7 +13079,7 @@
  "giftcard:pubg_battlegrounds_global:500_10_g_coin": {
   "category_id": 100402105,
   "tree": "Игры > PUBG > Монеты/G-Coins > 510",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13088,7 +13088,7 @@
  "giftcard:pubg_battlegrounds_global:1000_50_g_coin": {
   "category_id": 100402107,
   "tree": "Игры > PUBG > Монеты/G-Coins > 1050",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13097,7 +13097,7 @@
  "giftcard:pubg_battlegrounds_global:2500_200_g_coin": {
   "category_id": 100402109,
   "tree": "Игры > PUBG > Монеты/G-Coins > 2700",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13106,7 +13106,7 @@
  "giftcard:pubg_battlegrounds_global:5000_500_g_coin": {
   "category_id": 100402111,
   "tree": "Игры > PUBG > Монеты/G-Coins > 5500",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13115,7 +13115,7 @@
  "giftcard:pubg_battlegrounds_global:10000_1200_g_coin": {
   "category_id": 100402113,
   "tree": "Игры > PUBG > Монеты/G-Coins > 11200",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13349,7 +13349,7 @@
  "topup:pubg_mobile_auto:elite_pass_lv1_50": {
   "category_id": 147291,
   "tree": "Игры > PUBG mobile > Пропуск",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13376,7 +13376,7 @@
  "topup:pubg_mobile_auto:elite_pass_lv1_100": {
   "category_id": 147291,
   "tree": "Игры > PUBG mobile > Пропуск",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13385,7 +13385,7 @@
  "topup:pubg_mobile_auto:elite_pass_plus_lv1_100": {
   "category_id": 147291,
   "tree": "Игры > PUBG mobile > Пропуск",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13421,7 +13421,7 @@
  "topup:pubg_new_state:300_nc": {
   "category_id": 113619,
   "tree": "Игры > PUBG: NEW STATE > NC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13430,7 +13430,7 @@
  "topup:pubg_new_state:1580_nc": {
   "category_id": 113619,
   "tree": "Игры > PUBG: NEW STATE > NC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13439,7 +13439,7 @@
  "topup:pubg_new_state:3850_nc": {
   "category_id": 113619,
   "tree": "Игры > PUBG: NEW STATE > NC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13448,7 +13448,7 @@
  "topup:pubg_new_state:10230_nc": {
   "category_id": 113619,
   "tree": "Игры > PUBG: NEW STATE > NC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13457,7 +13457,7 @@
  "topup:pubg_new_state:16800_nc": {
   "category_id": 113619,
   "tree": "Игры > PUBG: NEW STATE > NC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13466,7 +13466,7 @@
  "topup:pubg_new_state:35000_nc": {
   "category_id": 113619,
   "tree": "Игры > PUBG: NEW STATE > NC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13475,7 +13475,7 @@
  "topup:punishing_gray_raven:android_5_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13484,7 +13484,7 @@
  "topup:punishing_gray_raven:ios_5_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13493,7 +13493,7 @@
  "topup:punishing_gray_raven:android_28_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13502,7 +13502,7 @@
  "topup:punishing_gray_raven:ios_28_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13511,7 +13511,7 @@
  "topup:punishing_gray_raven:android_34_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13520,7 +13520,7 @@
  "topup:punishing_gray_raven:ios_34_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13529,7 +13529,7 @@
  "topup:punishing_gray_raven:android_59_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13538,7 +13538,7 @@
  "topup:punishing_gray_raven:ios_59_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13547,7 +13547,7 @@
  "topup:punishing_gray_raven:android_71_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13556,7 +13556,7 @@
  "topup:punishing_gray_raven:ios_71_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13565,7 +13565,7 @@
  "topup:punishing_gray_raven:android_119_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13574,7 +13574,7 @@
  "topup:punishing_gray_raven:ios_119_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13583,7 +13583,7 @@
  "topup:punishing_gray_raven:android_299_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13592,7 +13592,7 @@
  "topup:punishing_gray_raven:ios_299_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13601,7 +13601,7 @@
  "topup:punishing_gray_raven:android_600_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13610,7 +13610,7 @@
  "topup:punishing_gray_raven:ios_600_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13619,7 +13619,7 @@
  "topup:punishing_gray_raven:android_1215_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13628,7 +13628,7 @@
  "topup:punishing_gray_raven:ios_1215_rainbow_cards": {
   "category_id": 128842,
   "tree": "Игры > Punishing: Gray Raven > Rainbow Cards",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13637,7 +13637,7 @@
  "topup:r6_mobile_global:250_first_purchase_only": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13646,7 +13646,7 @@
  "topup:r6_mobile_global:50_platinum": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13655,7 +13655,7 @@
  "topup:r6_mobile_global:110_platinum": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13664,7 +13664,7 @@
  "topup:r6_mobile_global:300_platinum": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13673,7 +13673,7 @@
  "topup:r6_mobile_global:600_first_purchase_only": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13682,7 +13682,7 @@
  "topup:r6_mobile_global:650_platinum": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13691,7 +13691,7 @@
  "topup:r6_mobile_global:1350_platinum": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13700,7 +13700,7 @@
  "topup:r6_mobile_global:2700_first_purchase_only": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13709,7 +13709,7 @@
  "topup:r6_mobile_global:3500_platinum": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13718,7 +13718,7 @@
  "topup:r6_mobile_global:7000_first_purchase_only": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13727,7 +13727,7 @@
  "topup:r6_mobile_global:7250_platinum": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -13736,7 +13736,7 @@
  "topup:r6_mobile_global:11250_platinum": {
   "category_id": 100314031,
   "tree": "Игры > Rainbow Six Mobile > Платина",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16715,7 +16715,7 @@
  "topup:silver_and_blood:special_bundle_i": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16724,7 +16724,7 @@
  "topup:silver_and_blood:special_bundle_ii": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16733,7 +16733,7 @@
  "topup:silver_and_blood:519_moonflow": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16742,7 +16742,7 @@
  "topup:silver_and_blood:new_moon_voucher": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16751,7 +16751,7 @@
  "topup:silver_and_blood:special_bundle_iii": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16760,7 +16760,7 @@
  "topup:silver_and_blood:1039_moonflow": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16769,7 +16769,7 @@
  "topup:silver_and_blood:crescent_moon_voucher": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16778,7 +16778,7 @@
  "topup:silver_and_blood:full_moon_voucher": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16787,7 +16787,7 @@
  "topup:silver_and_blood:2079_moonflow": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16796,7 +16796,7 @@
  "topup:silver_and_blood:boon_voucher": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16805,7 +16805,7 @@
  "topup:silver_and_blood:3134_moonflow": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16814,7 +16814,7 @@
  "topup:silver_and_blood:5774_moonflow": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -16823,7 +16823,7 @@
  "topup:silver_and_blood:8399_moonflow": {
   "category_id": 180547,
   "tree": "Игры > Silver and Blood > Донат",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18803,7 +18803,7 @@
  "topup:stumble_guys:250_gems": {
   "category_id": 102345,
   "tree": "Игры > Stumble Guys > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18812,7 +18812,7 @@
  "topup:stumble_guys:800_gems": {
   "category_id": 102345,
   "tree": "Игры > Stumble Guys > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18821,7 +18821,7 @@
  "topup:stumble_guys:120_tokens": {
   "category_id": 102345,
   "tree": "Игры > Stumble Guys > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18830,7 +18830,7 @@
  "topup:stumble_guys:1600_gems_75_tokens": {
   "category_id": 102345,
   "tree": "Игры > Stumble Guys > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18839,7 +18839,7 @@
  "topup:stumble_guys:5000_gems_275_tokens": {
   "category_id": 102345,
   "tree": "Игры > Stumble Guys > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18848,7 +18848,7 @@
  "topup:stumble_guys:1300_tokens": {
   "category_id": 102345,
   "tree": "Игры > Stumble Guys > Валюта",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18857,7 +18857,7 @@
  "topup:super_sus:100_goldstar": {
   "category_id": 105563,
   "tree": "Игры > Super Sus > Gold Stars",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18866,7 +18866,7 @@
  "topup:super_sus:weekly_card": {
   "category_id": 100400381,
   "tree": "Игры > Super Sus > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -18875,7 +18875,7 @@
  "topup:super_sus:310_goldstar": {
   "category_id": 105563,
   "tree": "Игры > Super Sus > Gold Stars",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18884,7 +18884,7 @@
  "topup:super_sus:520_goldstar": {
   "category_id": 105563,
   "tree": "Игры > Super Sus > Gold Stars",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18893,7 +18893,7 @@
  "topup:super_sus:super_pass": {
   "category_id": 100400381,
   "tree": "Игры > Super Sus > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -18902,7 +18902,7 @@
  "topup:super_sus:1060_goldstar": {
   "category_id": 105563,
   "tree": "Игры > Super Sus > Gold Stars",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18911,7 +18911,7 @@
  "topup:super_sus:super_pass_bundle": {
   "category_id": 100400381,
   "tree": "Игры > Super Sus > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -18920,7 +18920,7 @@
  "topup:super_sus:monthly_card": {
   "category_id": 100400381,
   "tree": "Игры > Super Sus > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -18929,7 +18929,7 @@
  "topup:super_sus:super_vip_card": {
   "category_id": 100400381,
   "tree": "Игры > Super Sus > Пропуски",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": true,
@@ -18938,7 +18938,7 @@
  "topup:super_sus:2180_goldstar": {
   "category_id": 105563,
   "tree": "Игры > Super Sus > Gold Stars",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18947,7 +18947,7 @@
  "topup:super_sus:5600_goldstar": {
   "category_id": 105563,
   "tree": "Игры > Super Sus > Gold Stars",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18956,7 +18956,7 @@
  "topup:undawn_global:55_rc": {
   "category_id": 105549,
   "tree": "Игры > Undawn > RC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18965,7 +18965,7 @@
  "topup:undawn_global:170_rc": {
   "category_id": 105549,
   "tree": "Игры > Undawn > RC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18974,7 +18974,7 @@
  "topup:undawn_global:285_rc": {
   "category_id": 105549,
   "tree": "Игры > Undawn > RC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18983,7 +18983,7 @@
  "topup:undawn_global:575_rc": {
   "category_id": 105549,
   "tree": "Игры > Undawn > RC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -18992,7 +18992,7 @@
  "topup:undawn_global:1160_rc": {
   "category_id": 105549,
   "tree": "Игры > Undawn > RC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19001,7 +19001,7 @@
  "topup:undawn_global:1750_rc": {
   "category_id": 105549,
   "tree": "Игры > Undawn > RC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19010,7 +19010,7 @@
  "topup:undawn_global:2375_rc": {
   "category_id": 105549,
   "tree": "Игры > Undawn > RC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19019,7 +19019,7 @@
  "topup:undawn_global:2700_rc": {
   "category_id": 105549,
   "tree": "Игры > Undawn > RC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19028,7 +19028,7 @@
  "topup:undawn_global:6200_rc": {
   "category_id": 105549,
   "tree": "Игры > Undawn > RC",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19037,7 +19037,7 @@
  "giftcard:wild_rift_ae:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19046,7 +19046,7 @@
  "giftcard:wild_rift_ae:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19055,7 +19055,7 @@
  "giftcard:wild_rift_bh:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19064,7 +19064,7 @@
  "giftcard:wild_rift_bh:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19073,7 +19073,7 @@
  "giftcard:wild_rift_br:3275_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19082,7 +19082,7 @@
  "giftcard:wild_rift_br:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19091,7 +19091,7 @@
  "giftcard:wild_rift_br:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19100,7 +19100,7 @@
  "giftcard:wild_rift_by:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19109,7 +19109,7 @@
  "giftcard:wild_rift_by:3275_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19118,7 +19118,7 @@
  "giftcard:wild_rift_by:10000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19127,7 +19127,7 @@
  "giftcard:wild_rift_by:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19136,7 +19136,7 @@
  "giftcard:wild_rift_by:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19145,7 +19145,7 @@
  "giftcard:wild_rift_by:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19154,7 +19154,7 @@
  "giftcard:wild_rift_eu:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19163,7 +19163,7 @@
  "giftcard:wild_rift_eu:3275_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19172,7 +19172,7 @@
  "giftcard:wild_rift_eu:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19181,7 +19181,7 @@
  "giftcard:wild_rift_eu:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19190,7 +19190,7 @@
  "giftcard:wild_rift_eu:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19199,7 +19199,7 @@
  "giftcard:wild_rift_eu:10000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19208,7 +19208,7 @@
  "giftcard:wild_rift_kw:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19217,7 +19217,7 @@
  "giftcard:wild_rift_my:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19226,7 +19226,7 @@
  "giftcard:wild_rift_my:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19235,7 +19235,7 @@
  "giftcard:wild_rift_my:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19244,7 +19244,7 @@
  "giftcard:wild_rift_ph:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19253,7 +19253,7 @@
  "giftcard:wild_rift_ph:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19262,7 +19262,7 @@
  "giftcard:wild_rift_ph:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19271,7 +19271,7 @@
  "giftcard:wild_rift_ph:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19280,7 +19280,7 @@
  "giftcard:wild_rift_ru:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19289,7 +19289,7 @@
  "giftcard:wild_rift_ru:10000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19298,7 +19298,7 @@
  "giftcard:wild_rift_ru:2910_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19307,7 +19307,7 @@
  "giftcard:wild_rift_ru:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19316,7 +19316,7 @@
  "giftcard:wild_rift_ru:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19325,7 +19325,7 @@
  "giftcard:wild_rift_ru:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19334,7 +19334,7 @@
  "giftcard:wild_rift_sa:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19343,7 +19343,7 @@
  "giftcard:wild_rift_sg:10000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19352,7 +19352,7 @@
  "giftcard:wild_rift_sg:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19361,7 +19361,7 @@
  "giftcard:wild_rift_sg:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19370,7 +19370,7 @@
  "giftcard:wild_rift_sg:3275_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19379,7 +19379,7 @@
  "giftcard:wild_rift_sg:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19388,7 +19388,7 @@
  "giftcard:wild_rift_tr:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19397,7 +19397,7 @@
  "giftcard:wild_rift_tr:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19406,7 +19406,7 @@
  "giftcard:wild_rift_tr:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19415,7 +19415,7 @@
  "giftcard:wild_rift_tr:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19424,7 +19424,7 @@
  "giftcard:wild_rift_ua:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19433,7 +19433,7 @@
  "giftcard:wild_rift_ua:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19442,7 +19442,7 @@
  "giftcard:wild_rift_ua:10000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19451,7 +19451,7 @@
  "giftcard:wild_rift_ua:3275_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19460,7 +19460,7 @@
  "giftcard:wild_rift_ua:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19469,7 +19469,7 @@
  "giftcard:wild_rift_ua:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19478,7 +19478,7 @@
  "giftcard:wild_rift_uk:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19487,7 +19487,7 @@
  "giftcard:wild_rift_uk:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19496,7 +19496,7 @@
  "giftcard:wild_rift_us:10000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19505,7 +19505,7 @@
  "giftcard:wild_rift_us:3275_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19514,7 +19514,7 @@
  "giftcard:wild_rift_us:425_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19523,7 +19523,7 @@
  "giftcard:wild_rift_us:4800_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19532,7 +19532,7 @@
  "giftcard:wild_rift_us:1000_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19541,7 +19541,7 @@
  "giftcard:wild_rift_us:1850_wc": {
   "category_id": 62715,
   "tree": "Игры > League of Legends: Wild Rift > Wild Cores",
-  "fee": 0.025,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19566,9 +19566,9 @@
   "note": null
  },
  "topup:wuthering_waves:lunite_subscription": {
-  "category_id": 116322,
-  "tree": "Игры > Wuthering Waves > Lunite Subscription",
-  "fee": 0.02,
+  "category_id": 100417259,
+  "tree": "Игры > Wuthering Waves > Подписка на луниты > Пополнение по ID",
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19910,7 +19910,7 @@
  "topup:zenless_zone_zero_global:60_monochromes": {
   "category_id": 133148,
   "tree": "Games > Zenless Zone Zero > Monochromes > Top-up by ID > 60",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19919,7 +19919,7 @@
  "topup:zenless_zone_zero_global:300_30_monochromes": {
   "category_id": 133149,
   "tree": "Игры > Zenless Zone Zero > Монохромы > Пополнение по ID > 300+30",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19928,7 +19928,7 @@
  "topup:zenless_zone_zero_global:980_110_monochromes": {
   "category_id": 133150,
   "tree": "Игры > Zenless Zone Zero > Монохромы > Пополнение по ID > 980+110",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19937,7 +19937,7 @@
  "topup:zenless_zone_zero_global:1980_260_monochromes": {
   "category_id": 133151,
   "tree": "Игры > Zenless Zone Zero > Монохромы > Пополнение по ID > 1980+260",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19946,7 +19946,7 @@
  "topup:zenless_zone_zero_global:3280_600_monochromes": {
   "category_id": 133152,
   "tree": "Игры > Zenless Zone Zero > Монохромы > Пополнение по ID > 3280+600",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19955,7 +19955,7 @@
  "topup:zenless_zone_zero_global:6480_1600_monochromes": {
   "category_id": 133153,
   "tree": "Игры > Zenless Zone Zero > Монохромы > Пополнение по ID > 6480+1600",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19964,7 +19964,7 @@
  "topup:zenless_zone_zero_global:inter_knot_membership": {
   "category_id": 118823,
   "tree": "Игры > Zenless Zone Zero > Интернот подписка > Пополнение по ID > 30 дней",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19973,7 +19973,7 @@
  "topup:zepeto:7_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19982,7 +19982,7 @@
  "topup:zepeto:4680_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -19991,7 +19991,7 @@
  "topup:zepeto:14_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20000,7 +20000,7 @@
  "topup:zepeto:10200_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20009,7 +20009,7 @@
  "topup:zepeto:29_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20018,7 +20018,7 @@
  "topup:zepeto:28_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20027,7 +20027,7 @@
  "topup:zepeto:9700_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20036,7 +20036,7 @@
  "topup:zepeto:21000_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20045,7 +20045,7 @@
  "topup:zepeto:60_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20054,7 +20054,7 @@
  "topup:zepeto:58_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20063,7 +20063,7 @@
  "topup:zepeto:25200_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20072,7 +20072,7 @@
  "topup:zepeto:38900_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20081,7 +20081,7 @@
  "topup:zepeto:125_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20090,7 +20090,7 @@
  "topup:zepeto:40700_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20099,7 +20099,7 @@
  "topup:zepeto:128_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20108,7 +20108,7 @@
  "topup:zepeto:62800_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20117,7 +20117,7 @@
  "topup:zepeto:196_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20126,7 +20126,7 @@
  "topup:zepeto:110000_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20135,7 +20135,7 @@
  "topup:zepeto:323_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20144,7 +20144,7 @@
  "topup:zepeto:234000_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20153,7 +20153,7 @@
  "topup:zepeto:770_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20162,7 +20162,7 @@
  "topup:zepeto:300000_coins": {
   "category_id": 123052,
   "tree": "Игры > Zepeto > Валюта > Coins",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,
@@ -20171,7 +20171,7 @@
  "topup:zepeto:1000_zems": {
   "category_id": 113647,
   "tree": "Игры > Zepeto > Валюта > Земы",
-  "fee": 0.02,
+  "fee": 0.04,
   "payment_fee": 0.027,
   "via_fallback": false,
   "review": false,

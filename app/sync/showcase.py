@@ -70,7 +70,9 @@ def fetch_offers(v2: GGSellV2Client, sleep: Callable[[float], None] = time.sleep
 
 
 def sync_listings(session: Session, offers: dict[int, dict[str, Any]]) -> dict[str, int]:
-    status_changed = archived = price_changed = 0
+    """Комиссии GGSell тоже берём с витрины: GGSell меняет их без
+    предупреждения (Delta Coins: 2% → 4%), а цена лота закладывает комиссию."""
+    status_changed = archived = price_changed = fee_changed = 0
     for listing in session.scalars(select(Listing).where(Listing.status != ListingStatus.ARCHIVED)):
         offer = offers.get(listing.ggsell_offer_id)
         if offer is None:
@@ -88,8 +90,18 @@ def sync_listings(session: Session, offers: dict[int, dict[str, Any]]) -> dict[s
                             listing.ggsell_offer_id, live_price, listing.price_rub)
                 listing.price_rub = live_price
                 price_changed += 1
+        category = offer.get("category") or {}
+        if category.get("fee") is not None and category.get("payment_fee") is not None:
+            fee = Decimal(str(category["fee"]))
+            payment_fee = Decimal(str(category["payment_fee"]))
+            if (fee, payment_fee) != (listing.ggsell_fee, listing.ggsell_payment_fee):
+                logger.info("Лот %s: комиссия GGSell %s+%s, у нас записана %s+%s — беру с витрины",
+                            listing.ggsell_offer_id, fee, payment_fee, listing.ggsell_fee, listing.ggsell_payment_fee)
+                listing.ggsell_fee, listing.ggsell_payment_fee = fee, payment_fee
+                fee_changed += 1
     session.commit()
-    return {"status_changed": status_changed, "archived": archived, "price_changed_on_ggsell": price_changed}
+    return {"status_changed": status_changed, "archived": archived, "price_changed_on_ggsell": price_changed,
+            "fee_changed": fee_changed}
 
 
 # ----------------------------------------------------------------------

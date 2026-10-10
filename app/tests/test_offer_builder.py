@@ -138,3 +138,17 @@ def test_unsupported_source_type():
     p = position("CS2", "Prime", source_type=SourceType.STEAM_GIFT)
     with pytest.raises(ValueError):
         build_offer(p, CURRENCY_CATEGORY, CONFIG, webhook_url=None)
+
+
+def test_long_title_shortened_to_ggsell_limit():
+    """Arena Breakout: «Quarterly Premium Battle Pass Bundle + Activation Pass
+    Bundle» — английское название вышло длиннее 100 символов, GGSell отказал."""
+    long_name = "Quarterly Premium Battle Pass Bundle + Activation Pass Bundle + Extra Supply Crate Bonus"
+    draft = build_offer(position("Arena Breakout — " + long_name, long_name), CURRENCY_CATEGORY, CONFIG,
+                        webhook_url=None, fz_fields=MLBB_FIELDS)
+
+    for lang in ("ru", "en"):
+        title = draft.payload[f"title_{lang}"]
+        assert len(title) <= 100
+        assert title.startswith("Arena Breakout Global* Quarterly")
+        assert "…" in title and title.endswith("Автодоставка" if lang == "ru" else "Auto delivery")
