@@ -47,8 +47,8 @@ class Listing(TimestampMixin, Base):
 
     # Категория GGSell лота и её комиссии на момент выставления (доли: 0.02 =
     # 2%) — удерживаются из цены, поэтому входят в расчёт price_rub
-    # (app/pricing/calculator.py, GGSellFees). GGSell может менять комиссии —
-    # храним, из каких считали.
+    # (app/pricing/calculator.py, GGSellFees). GGSell меняет комиссии без
+    # предупреждения — синхронизация берёт их с витрины (showcase.sync_listings).
     ggsell_category_id: Mapped[Optional[int]] = mapped_column(nullable=True)
     ggsell_fee: Mapped[Decimal] = mapped_column(Numeric(6, 4), default=Decimal(0), server_default="0")
     ggsell_payment_fee: Mapped[Decimal] = mapped_column(

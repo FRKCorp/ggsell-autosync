@@ -34,7 +34,7 @@
       "",
       "{rule}",
       "{select_rule}",
-      "⚙️ После оплаты бот выдаст вам товар. Товар выдаётся автоматически 24/7, но если у вас будут вопросы по заказу, то получить поддержку можно с 11 до 01:00 по мск.",
+      "⚙️ После оплаты бот выдаст вам товар. Товар выдаётся автоматически 24/7, но если у вас будут вопросы по заказу, то получить поддержку можно с 11 до 22:00 по мск.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -51,7 +51,7 @@
       "",
       "{rule}",
       "{select_rule}",
-      "⚙️ After payment the bot delivers the item automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "⚙️ After payment the bot delivers the item automatically 24/7. If you have questions about your order, support is available from 11:00 to 22:00 Moscow time.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -65,8 +65,8 @@
     "rule_many_fields_ru": "❗️ Пожалуйста, вводите {fields} каждый в соответствующее поле без лишних символов! СКОБКИ ПИСАТЬ НЕ НУЖНО!",
     "rule_one_field_en": "❗️ Please enter your {fields} in the corresponding field without extra characters! NO BRACKETS!",
     "rule_many_fields_en": "❗️ Please enter {fields} each in its own field without extra characters! NO BRACKETS!",
-    "instructions_ru": "Товар будет зачислен на указанный аккаунт автоматически, обычно в течение 2-10 минут после оплаты. Если возникнут вопросы по заказу — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
-    "instructions_en": "The item will be credited to the specified account automatically, usually within 2-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time.",
+    "instructions_ru": "Товар будет зачислен на указанный аккаунт автоматически, обычно в течение 2-10 минут после оплаты. Если возникнут вопросы по заказу — напишите в чат заказа, поддержка работает с 11:00 до 22:00 по МСК.",
+    "instructions_en": "The item will be credited to the specified account automatically, usually within 2-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 22:00 Moscow time.",
     "select_rule_ru": "❗️ Сервер выберите из списка при оформлении заказа — по умолчанию там стоит «— выберите сервер —».",
     "select_rule_en": "❗️ Choose your server from the list when placing the order — by default it says «— choose a server —»."
   },
@@ -76,7 +76,7 @@
       "🚀 Автодоставка обычно занимает 1-5 минут.",
       "🌎 {region_text}",
       "",
-      "⚙️ После оплаты бот пришлёт код в чат заказа автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 01:00 по мск.",
+      "⚙️ После оплаты бот пришлёт код в чат заказа автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 22:00 по мск.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -90,7 +90,7 @@
       "🚀 Auto delivery usually takes 1-5 minutes.",
       "🌎 {region_text}",
       "",
-      "⚙️ After payment the bot sends the code to the order chat automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "⚙️ After payment the bot sends the code to the order chat automatically 24/7. If you have questions about your order, support is available from 11:00 to 22:00 Moscow time.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -99,8 +99,8 @@
       "❗ Before buying, make sure your account region matches the card region — a card of another region will not activate.",
       "❗ Any refund caused by your mistake (for example, your account's region does not match) is made with a deduction of up to 20%. If the fault is ours, you will get a full refund."
     ],
-    "instructions_ru": "Код придёт в чат заказа сразу после оплаты. Активируйте его в {service} на аккаунте нужного региона. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
-    "instructions_en": "The code will arrive in the order chat right after payment. Redeem it in {service} on an account of the matching region. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time."
+    "instructions_ru": "Код придёт в чат заказа сразу после оплаты. Активируйте его в {service} на аккаунте нужного региона. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 22:00 по МСК.",
+    "instructions_en": "The code will arrive in the order chat right after payment. Redeem it in {service} on an account of the matching region. If you have any questions, write to the order chat; support works from 11:00 to 22:00 Moscow time."
   },
   "regions": {
     "topup": {
@@ -218,7 +218,7 @@
       "Зачислено на ваш аккаунт: {item}.",
       "Данные пополнения: {account}.",
       "",
-      "Если товар не появился в игре в течение 10 минут — перезайдите в игру. Остались вопросы — напишите сюда, поддержка с 11:00 до 01:00 по МСК.",
+      "Если товар не появился в игре в течение 10 минут — перезайдите в игру. Остались вопросы — напишите сюда, поддержка с 11:00 до 22:00 по МСК.",
       "Спасибо за покупку! Будем рады вашему отзыву 🙌"
     ],
     "giftcard": [
@@ -227,7 +227,7 @@
       "{codes}",
       "",
       "Активируйте его в {service} на аккаунте нужного региона.",
-      "Остались вопросы — напишите сюда, поддержка с 11:00 до 01:00 по МСК.",
+      "Остались вопросы — напишите сюда, поддержка с 11:00 до 22:00 по МСК.",
       "Спасибо за покупку! Будем рады вашему отзыву 🙌"
     ],
     "steam_topup": [
@@ -235,7 +235,7 @@
       "Баланс Steam пополнен на {quantity} {unit}.",
       "Данные пополнения: {account}.",
       "",
-      "Если баланс не обновился в течение 10 минут — перезайдите в Steam. Остались вопросы — напишите сюда, поддержка с 11:00 до 01:00 по МСК.",
+      "Если баланс не обновился в течение 10 минут — перезайдите в Steam. Остались вопросы — напишите сюда, поддержка с 11:00 до 22:00 по МСК.",
       "Спасибо за покупку! Будем рады вашему отзыву 🙌"
     ],
     "telegram_stars": [
@@ -243,7 +243,7 @@
       "Звёзды Telegram ({quantity} шт.) отправлены на ваш аккаунт.",
       "Данные: {account}.",
       "",
-      "Остались вопросы — напишите сюда, поддержка с 11:00 до 01:00 по МСК.",
+      "Остались вопросы — напишите сюда, поддержка с 11:00 до 22:00 по МСК.",
       "Спасибо за покупку! Будем рады вашему отзыву 🙌"
     ],
     "telegram_premium": [
@@ -251,7 +251,7 @@
       "Telegram {item} оформлен на ваш аккаунт.",
       "Данные: {account}.",
       "",
-      "Остались вопросы — напишите сюда, поддержка с 11:00 до 01:00 по МСК.",
+      "Остались вопросы — напишите сюда, поддержка с 11:00 до 22:00 по МСК.",
       "Спасибо за покупку! Будем рады вашему отзыву 🙌"
     ]
   },
@@ -264,7 +264,7 @@
       "",
       "❗️ Укажите ЛОГИН Steam — тот, что вводите при входе, а НЕ никнейм. Узнать логин: store.steampowered.com/account/ (строка «Аккаунт …»).",
       "❗️ Перед оплатой убедитесь, что валюта вашего кошелька Steam — {unit}.",
-      "⚙️ После оплаты заказ выполняется автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 01:00 по мск.",
+      "⚙️ После оплаты заказ выполняется автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 22:00 по мск.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -281,7 +281,7 @@
       "",
       "❗️ Enter your Steam LOGIN (the one you sign in with), NOT your nickname. Find it at store.steampowered.com/account/.",
       "❗️ Before paying make sure your Steam wallet currency is {unit}.",
-      "⚙️ After payment the order is fulfilled automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "⚙️ After payment the order is fulfilled automatically 24/7. If you have questions about your order, support is available from 11:00 to 22:00 Moscow time.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -290,8 +290,8 @@
       "❗ If the order is successfully fulfilled to an incorrectly entered {enter_fields}, the service is considered fulfilled.",
       "❗ Any refund caused by your mistake is made with a deduction of up to 20%. If the fault is ours, you will get a full refund."
     ],
-    "instructions_ru": "Заказ будет выполнен автоматически, обычно в течение 1-10 минут после оплаты. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
-    "instructions_en": "The order will be fulfilled automatically, usually within 1-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time."
+    "instructions_ru": "Заказ будет выполнен автоматически, обычно в течение 1-10 минут после оплаты. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 22:00 по МСК.",
+    "instructions_en": "The order will be fulfilled automatically, usually within 1-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 22:00 Moscow time."
   },
   "telegram_stars": {
     "description_ru": [
@@ -301,7 +301,7 @@
       "🌎 {region_text}",
       "",
       "❗️ Укажите username Telegram (например, @durov). Проверьте, что username задан в настройках Telegram.",
-      "⚙️ После оплаты заказ выполняется автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 01:00 по мск.",
+      "⚙️ После оплаты заказ выполняется автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 22:00 по мск.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -317,7 +317,7 @@
       "🌎 {region_text}",
       "",
       "❗️ Enter your Telegram username (e.g. @durov). Make sure the username is set in Telegram settings.",
-      "⚙️ After payment the order is fulfilled automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "⚙️ After payment the order is fulfilled automatically 24/7. If you have questions about your order, support is available from 11:00 to 22:00 Moscow time.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -326,8 +326,8 @@
       "❗ If the order is successfully fulfilled to an incorrectly entered {enter_fields}, the service is considered fulfilled.",
       "❗ Any refund caused by your mistake is made with a deduction of up to 20%. If the fault is ours, you will get a full refund."
     ],
-    "instructions_ru": "Заказ будет выполнен автоматически, обычно в течение 1-10 минут после оплаты. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
-    "instructions_en": "The order will be fulfilled automatically, usually within 1-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time."
+    "instructions_ru": "Заказ будет выполнен автоматически, обычно в течение 1-10 минут после оплаты. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 22:00 по МСК.",
+    "instructions_en": "The order will be fulfilled automatically, usually within 1-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 22:00 Moscow time."
   },
   "telegram_premium": {
     "description_ru": [
@@ -336,7 +336,7 @@
       "🌎 {region_text}",
       "",
       "❗️ Укажите username Telegram (например, @durov). Проверьте, что username задан в настройках Telegram.",
-      "⚙️ После оплаты заказ выполняется автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 01:00 по мск.",
+      "⚙️ После оплаты заказ выполняется автоматически 24/7. Если у вас будут вопросы по заказу, получить поддержку можно с 11 до 22:00 по мск.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -351,7 +351,7 @@
       "🌎 {region_text}",
       "",
       "❗️ Enter your Telegram username (e.g. @durov). Make sure the username is set in Telegram settings.",
-      "⚙️ After payment the order is fulfilled automatically 24/7. If you have questions about your order, support is available from 11:00 to 01:00 Moscow time.",
+      "⚙️ After payment the order is fulfilled automatically 24/7. If you have questions about your order, support is available from 11:00 to 22:00 Moscow time.",
       "",
       "━━━━━━━━━━━━━━━━━━━━",
       "",
@@ -360,7 +360,7 @@
       "❗ If the order is successfully fulfilled to an incorrectly entered {enter_fields}, the service is considered fulfilled.",
       "❗ Any refund caused by your mistake is made with a deduction of up to 20%. If the fault is ours, you will get a full refund."
     ],
-    "instructions_ru": "Заказ будет выполнен автоматически, обычно в течение 1-10 минут после оплаты. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 01:00 по МСК.",
-    "instructions_en": "The order will be fulfilled automatically, usually within 1-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 01:00 Moscow time."
+    "instructions_ru": "Заказ будет выполнен автоматически, обычно в течение 1-10 минут после оплаты. Если возникнут вопросы — напишите в чат заказа, поддержка работает с 11:00 до 22:00 по МСК.",
+    "instructions_en": "The order will be fulfilled automatically, usually within 1-10 minutes after payment. If you have any questions, write to the order chat; support works from 11:00 to 22:00 Moscow time."
   }
 }
