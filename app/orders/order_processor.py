@@ -43,6 +43,7 @@ from sqlalchemy import select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app import settings
 from app.clients.fazercards import FazerCardsClient, FazerCardsError, FazerCardsRateLimitError
 from app.clients.ggsell import GGSellError, GGSellV1Client
 from app.models.listing import Listing
@@ -392,6 +393,26 @@ def describe_check_error(error: Exception) -> str:
     return f"{UNEXPECTED_MARKER}: {type(error).__name__}: {error}"
 
 
+def sale_below_cost(session: Session, ctx: "OrderContext", live_price_usd: Decimal) -> Optional[str]:
+    """Причина для ручного разбора, если продажа не покрывает закупку у FZ.
+
+    Сравниваем то, что реально получено с продажи (выплата GGSell после
+    комиссий, по курсу из панели), с ценой FZ прямо сейчас. Так ловится
+    любая причина убытка: цена у FZ выросла между обновлениями, цену лота
+    вручную снизили на GGSell, скидка — при любой наценке."""
+    fees = ctx.listing.ggsell_fee + ctx.listing.ggsell_payment_fee
+    payout_rub = ctx.seller_payout_rub or ctx.price_at_sale_rub * (Decimal(1) - fees)
+    rate = settings.get_decimal(session, settings.USD_RUB_RATE)
+    payout_usd = payout_rub / rate
+    cost_usd = live_price_usd * ctx.quantity
+    if payout_usd >= cost_usd:
+        return None
+    return (
+        f"продажа ниже себестоимости: получено {payout_rub} ₽ = ${payout_usd:.4f} по курсу {rate}, "
+        f"а у FazerCards сейчас ${cost_usd:.4f} (убыток ${cost_usd - payout_usd:.4f})"
+    )
+
+
 def price_check_failed(invoice_id: str, error: Exception, buyer_data: Any) -> tuple[str, str]:
     """(причина, текст алерта), когда цену перед закупкой проверить не удалось."""
     reason = f"проверка цены у FZ не удалась — {describe_check_error(error)}"
@@ -564,6 +585,17 @@ def process_new_order(
             session, order, problem,
             f"Заказ {invoice_id}: {problem}. Заказ у FZ НЕ сделан. "
             f"Данные покупателя: {ctx.buyer_data}. Требуется ручная обработка.",
+        )
+
+    try:
+        loss = sale_below_cost(session, ctx, live_price_usd)
+    except Exception as e:  # noqa: BLE001 — не смогли посчитать — тоже не покупаем вслепую
+        loss = f"не удалось сверить выручку с себестоимостью: {type(e).__name__}: {e}"
+    if loss:
+        return _to_manual_review(
+            session, order, loss,
+            f"Заказ {invoice_id}: {loss}. Заказ у FZ НЕ сделан. Данные покупателя: {ctx.buyer_data}. "
+            f"Решите вручную: выдать товар (в убыток) или вернуть деньги.",
         )
 
     no_retry = SourceType(ctx.position.source_type) in NO_RETRY_SOURCE_TYPES

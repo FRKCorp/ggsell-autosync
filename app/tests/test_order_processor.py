@@ -95,6 +95,8 @@ def fz_order(status="completed", order_id="ord-9001", **extra):
 
 
 def clients(item_id=OFFER_ID, **info_kwargs):
+    if item_id == CARD_OFFER_ID:  # реальная цена карты $24.58: 2659 ₽, выплата после комиссий
+        info_kwargs = {"amount": 2659.0, "profit": 2480.0, **info_kwargs}
     fz = MagicMock()
     fz.get_topup_offers.return_value = topup_offers()
     fz.get_giftcard_offers.return_value = card_offers()
@@ -350,3 +352,56 @@ def test_listing_not_found_raises(session, config, listings):
     fz, v1 = clients(item_id=999999)
     with pytest.raises(OrderProcessingError):
         run(session, fz, v1, config)
+
+
+# ----------------------------------------------------------------------
+# Продажа ниже себестоимости: выплата с GGSell против цены FZ сейчас
+# ----------------------------------------------------------------------
+
+
+def card_sale(session, config, amount, profit, live_price="24.58"):
+    fz, v1 = clients(item_id=CARD_OFFER_ID, amount=amount, profit=profit)
+    fz.get_giftcard_offers.return_value = card_offers(price=live_price)
+    fz.order_giftcard.return_value = fz_order("completed", cards=["CODE-1"])
+    order, alert = run(session, fz, v1, config)
+    return order, alert, fz
+
+
+def test_manual_half_price_on_ggsell_is_not_bought(session, config, listings):
+    """Клиент вручную поставил цену лота в 2 раза ниже и купил."""
+    order, alert, fz = card_sale(session, config, amount=1330.0, profit=1240.0)
+
+    assert order.status == OrderStatus.MANUAL_REVIEW
+    assert "ниже себестоимости" in order.error_message
+    fz.order_giftcard.assert_not_called()
+    assert "НЕ сделан" in alert.call_args.args[0]
+
+
+def test_fz_price_rise_below_deviation_threshold_still_caught(session, config, listings):
+    """Наценка 1%: цена у FZ выросла на 3% между обновлениями — порог 5% это
+    пропустил бы, сверка выплаты с себестоимостью — нет."""
+    payout = Decimal("24.58") * Decimal("1.01") * 95  # выплата при наценке 1%
+    order, _, fz = card_sale(session, config, amount=float(payout) + 150, profit=float(payout),
+                             live_price=str(Decimal("24.58") * Decimal("1.03")))
+
+    assert order.status == OrderStatus.MANUAL_REVIEW and "ниже себестоимости" in order.error_message
+    fz.order_giftcard.assert_not_called()
+
+
+def test_one_percent_markup_sale_is_delivered(session, config, listings):
+    payout = Decimal("24.58") * Decimal("1.01") * 95
+    order, alert, fz = card_sale(session, config, amount=float(payout) + 150, profit=float(payout))
+
+    assert order.status == OrderStatus.DELIVERED
+    fz.order_giftcard.assert_called_once()
+    alert.assert_not_called()
+
+
+def test_without_profit_payout_is_estimated_from_amount_and_fees(session, config, listings):
+    listing = session.scalar(select(Listing).where(Listing.ggsell_offer_id == CARD_OFFER_ID))
+    listing.ggsell_fee, listing.ggsell_payment_fee = Decimal("0.04"), Decimal("0.027")
+    session.commit()
+
+    cheap, _, _ = card_sale(session, config, amount=2400.0, profit=None)  # 2400 × 0.933 < 24.58 × 95
+
+    assert cheap.status == OrderStatus.MANUAL_REVIEW and "ниже себестоимости" in cheap.error_message

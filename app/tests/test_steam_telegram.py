@@ -192,8 +192,10 @@ def make_listing(session, external_id, kinds):
     return listing
 
 
-def order_info(option_name, value, cnt_goods="100.0", amount=133.0):
-    return {"content": {"item_id": 777, "amount": amount, "profit": 123.4, "cnt_goods": cnt_goods,
+def order_info(option_name, value, cnt_goods="100.0", amount=None):
+    # Оплачено по цене лота (1.72 ₽ за единицу), выплата — за вычетом комиссий GGSell.
+    amount = amount if amount is not None else round(float(cnt_goods) * 1.72, 2)
+    return {"content": {"item_id": 777, "amount": amount, "profit": round(amount * 0.93, 2), "cnt_goods": cnt_goods,
                         "date_pay": "2026-10-05T20:45:38+03:00",
                         "options": [{"id": 1, "name": option_name, "user_data": value}]}}
 
@@ -286,3 +288,15 @@ def test_premium_order(session):
     fz.buy_telegram_premium.assert_called_once_with("@durov", 6, idempotency_key=INVOICE)
     assert order.quantity == 1
     assert "Telegram Premium на 6 мес. оформлен" in v1.create_message.call_args.args[1]
+
+
+def test_stars_paid_below_cost_for_quantity_goes_to_manual_review(session):
+    """Себестоимость — цена звезды × количество: 1000 звёзд за цену 100 не покупаем."""
+    make_listing(session, "telegram_stars:stars", [SourceType.TELEGRAM_STARS])
+    fz = fz_client()
+
+    order, _, alert = run(session, fz, order_info("Username Telegram", "durov", cnt_goods="1000.0", amount=172.0))
+
+    fz.buy_telegram_stars.assert_not_called()
+    assert order.status == OrderStatus.MANUAL_REVIEW and "ниже себестоимости" in order.error_message
+    assert "НЕ сделан" in alert.call_args.args[0]
