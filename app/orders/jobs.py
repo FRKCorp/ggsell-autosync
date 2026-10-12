@@ -127,6 +127,10 @@ def sweep_missed_orders(
             session.rollback()
             errors += 1
             logger.error("Заказ %s: страховочная обработка не удалась: %s", invoice_id, e)
+        except Exception:  # noqa: BLE001 — сбой одного заказа не останавливает остальные
+            session.rollback()
+            errors += 1
+            logger.exception("Заказ %s: страховочная обработка упала", invoice_id)
     return {"found": len(targets), "processed": processed, "errors": errors}
 
 

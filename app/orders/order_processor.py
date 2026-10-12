@@ -52,6 +52,7 @@ from app.offers.options import BuyerDataError, buyer_fields_for, map_buyer_data_
 from app.orders.delivery import format_delivery_message
 from app.orders.notifications import REPLY_HINT, notify_admin
 from app.pricing.calculator import PricingConfig, check_price_deviation
+from app.sync.fz_catalog import UNEXPECTED_MARKER, UnexpectedFzResponse, parse_fz_price
 
 logger = logging.getLogger(__name__)
 
@@ -234,30 +235,49 @@ def verify_price_before_charge(
     fz_fields, deviation_percent) — fields из того же ответа (только у
     топапов, иначе []), чтобы перевести данные покупателя в формат FZ без
     лишнего запроса.
+
+    Неожиданный ответ FZ (товара нет в ответе, цена 0 / не число, в базе нет
+    нормальной цены) — UnexpectedFzResponse или другое исключение:
+    process_new_order отправит заказ на ручной разбор, ничего не покупая.
     """
+    if not position.last_known_price_usd or position.last_known_price_usd <= 0:
+        raise UnexpectedFzResponse(
+            f"в базе нет нормальной цены позиции ({position.last_known_price_usd}) — "
+            "при синхронизации FZ отдавал неправильные данные"
+        )
     fz_fields: list[dict[str, Any]] = []
     if position.source_type == SourceType.TOPUP:
         data = fz_client.get_topup_offers(position.fz_category_id)
-        offer = next(o for o in data["offers"] if o["offer_id"] == position.fz_offer_id)
-        live_price = Decimal(offer["price_usd"])
+        offer = next((o for o in data["offers"] if o["offer_id"] == position.fz_offer_id), None)
+        if offer is None:
+            raise UnexpectedFzResponse(f"номинала {position.fz_offer_id!r} нет в ответе FZ")
+        live_price = parse_fz_price(offer.get("price_usd"))
         fz_fields = data.get("fields", [])
     elif position.source_type == SourceType.GIFTCARD:
         data = fz_client.get_giftcard_offers(position.fz_category_id)
-        offer = next(o for o in data["offers"] if o["card_id"] == position.fz_offer_id)
-        live_price = Decimal(offer["price_usd"])
+        offer = next((o for o in data["offers"] if o["card_id"] == position.fz_offer_id), None)
+        if offer is None:
+            raise UnexpectedFzResponse(f"карты {position.fz_offer_id!r} нет в ответе FZ")
+        live_price = parse_fz_price(offer.get("price_usd"))
     elif position.source_type == SourceType.STEAM_GIFT:
         data = fz_client.get_steam_gift_offers(position.fz_appid)
-        offer = next(o for o in data["offers"] if o["sub_id"] == position.fz_sub_id)
-        region_price = next(r["price"] for r in offer["regions"] if r["region"] == position.region)
-        live_price = Decimal(region_price)
+        offer = next((o for o in data["offers"] if o["sub_id"] == position.fz_sub_id), None)
+        region_price = offer and next(
+            (r["price"] for r in offer["regions"] if r["region"] == position.region), None
+        )
+        if region_price is None:
+            raise UnexpectedFzResponse(f"sub_id {position.fz_sub_id!r} / {position.region} нет в ответе FZ")
+        live_price = parse_fz_price(region_price)
     elif buyer_fields_for(position.source_type):
         # Steam top-up / Telegram: цена единицы (или плана) из тех же эндпоинтов,
         # что и при синхронизации (fz_special.py).
         from app.sync.fz_special import fetch_specs
 
-        spec = next(s for s in fetch_specs(fz_client, SourceType(position.source_type))
-                    if s.external_id == position.external_id)
-        live_price = spec.price_usd
+        spec = next((s for s in fetch_specs(fz_client, SourceType(position.source_type))
+                     if s.external_id == position.external_id), None)
+        if spec is None:
+            raise UnexpectedFzResponse(f"{position.external_id} нет в ответе FZ")
+        live_price = parse_fz_price(spec.price_usd)
         fz_fields = buyer_fields_for(position.source_type)
     else:
         raise OrderProcessingError(f"Неизвестный source_type: {position.source_type}")
@@ -364,6 +384,57 @@ def describe_fz_error(error: Exception) -> str:
     return f"FazerCards недоступен: {type(error).__name__}: {error}"
 
 
+def describe_check_error(error: Exception) -> str:
+    if isinstance(error, (FazerCardsError, httpx.TransportError)):
+        return describe_fz_error(error)
+    if isinstance(error, UnexpectedFzResponse):
+        return str(error)
+    return f"{UNEXPECTED_MARKER}: {type(error).__name__}: {error}"
+
+
+def price_check_failed(invoice_id: str, error: Exception, buyer_data: Any) -> tuple[str, str]:
+    """(причина, текст алерта), когда цену перед закупкой проверить не удалось."""
+    reason = f"проверка цены у FZ не удалась — {describe_check_error(error)}"
+    return reason, (
+        f"Заказ {invoice_id}: {reason}. Заказ у FZ НЕ сделан. "
+        f"Данные покупателя: {buyer_data}. Требуется ручная обработка (выдать вручную или вернуть деньги)."
+    )
+
+
+def _verify_price_with_retries(
+    fz_client: FazerCardsClient, position: Position, config: PricingConfig, sleep: Callable[[float], None]
+) -> tuple[bool, Decimal, list[dict[str, Any]], Decimal]:
+    """Сбой сети / 5xx при проверке цены — повторяем, как и сам заказ;
+    остальное (и временный сбой после всех попыток) — наружу, в ручной разбор."""
+    for attempt in range(1, MAX_FZ_ORDER_RETRIES + 1):
+        try:
+            return verify_price_before_charge(fz_client, position, config)
+        except (FazerCardsError, httpx.TransportError) as e:
+            if not is_transient_fz_error(e) or attempt == MAX_FZ_ORDER_RETRIES:
+                raise
+            logger.warning("Проверка цены у FZ (%s), попытка %d: %s", position.external_id, attempt,
+                           describe_fz_error(e))
+            sleep(FZ_ORDER_RETRY_DELAY_SECONDS)
+    raise AssertionError("недостижимо")
+
+
+def _unreadable_fz_answer(session: Session, order: Order, fz_response: Any, error: Exception) -> Order:
+    """FZ принял заказ, но его ответ (или выдачу по нему) разобрать не удалось.
+    Заказ у FZ мог пройти — выдавать вслепую или повторять нельзя, только человеку."""
+    fz_order_id, fz_ordered_at = order.fz_order_id, order.fz_ordered_at
+    session.rollback()  # на случай, если сбой был в БД — иначе не сохранить ручной разбор
+    order.fz_order_id = order.fz_order_id or fz_order_id
+    order.fz_ordered_at = order.fz_ordered_at or fz_ordered_at
+    logger.exception("Заказ %s: не разобран ответ FZ", order.ggsell_invoice_id)
+    return _to_manual_review(
+        session, order,
+        f"{UNEXPECTED_MARKER} на заказ: {type(error).__name__}: {error}",
+        f"Заказ {order.ggsell_invoice_id}: FZ принял заказ, но его ответ не удалось разобрать "
+        f"({type(error).__name__}: {error}). Заказ у FZ МОГ пройти — проверьте в кабинете FazerCards, "
+        f"прежде чем выдавать вручную или возвращать деньги. Ответ FZ: {str(fz_response)[:500]}",
+    )
+
+
 def fz_order_of(response: dict[str, Any]) -> dict[str, Any]:
     """Ответ FZ на заказ и GET /orders/{id} — {"ok": true, "order": {...}}."""
     return response.get("order", response)
@@ -448,9 +519,13 @@ def process_new_order(
         logger.info("Заказ %s уже в статусе %s — пропускаю", invoice_id, order.status)
         return order
 
-    price_ok, live_price_usd, fz_fields, deviation = verify_price_before_charge(
-        fz_client, ctx.position, pricing_config
-    )
+    try:
+        price_ok, live_price_usd, fz_fields, deviation = _verify_price_with_retries(
+            fz_client, ctx.position, pricing_config, sleep
+        )
+    except Exception as e:  # noqa: BLE001 — любой сбой проверки цены: не покупаем, отдаём человеку
+        session.rollback()
+        return _to_manual_review(session, order, *price_check_failed(invoice_id, e, ctx.buyer_data))
     order.price_deviation_percent = deviation.quantize(Decimal("0.01"))
     if not price_ok:
         order.status = OrderStatus.PRICE_REJECTED
@@ -482,6 +557,8 @@ def process_new_order(
         problem = check_before_order(fz_client, ctx.position, topup_fields, ctx.quantity)
     except (FazerCardsError, httpx.TransportError) as e:
         problem = f"проверка у FZ не удалась — {describe_fz_error(e)}"
+    except Exception as e:  # noqa: BLE001 — странный ответ FZ: не покупаем
+        problem = f"проверка у FZ не удалась — {describe_check_error(e)}"
     if problem:
         return _to_manual_review(
             session, order, problem,
@@ -530,7 +607,10 @@ def process_new_order(
         )
 
     order.fz_ordered_at = datetime.now(timezone.utc)
-    return _apply_fz_result(session, ggsell_v1, order, fz_response)
+    try:
+        return _apply_fz_result(session, ggsell_v1, order, fz_response)
+    except Exception as e:  # noqa: BLE001
+        return _unreadable_fz_answer(session, order, fz_response, e)
 
 
 def poll_upstream_orders(
@@ -553,7 +633,10 @@ def poll_upstream_orders(
             logger.warning("Опрос FZ по заказу %s не удался: %s", order.ggsell_invoice_id, describe_fz_error(e))
             response = None
         if response is not None:
-            _apply_fz_result(session, ggsell_v1, order, response)
+            try:
+                _apply_fz_result(session, ggsell_v1, order, response)
+            except Exception as e:  # noqa: BLE001 — один странный ответ не останавливает опрос остальных
+                _unreadable_fz_answer(session, order, response, e)
         if order.status == OrderStatus.ORDERED_UPSTREAM:
             ordered_at = order.fz_ordered_at
             if ordered_at is not None and ordered_at.tzinfo is None:

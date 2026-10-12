@@ -147,6 +147,12 @@ def upload_positions(
                 say(f"❌ {position.external_id}: опции: {e}")
             continue
 
+        if not position.last_known_price_usd or position.last_known_price_usd <= 0:
+            # Цена 0 от FZ при импорте — лот вышел бы за копейки.
+            report.errors[position.external_id] = (
+                f"цена поставщика {position.last_known_price_usd} — лот не создан, повторите импорт каталога"
+            )
+            continue
         fz_fields = special_fields or (fields.get(position.fz_category_id) if is_topup else [])
         try:
             draft = build_offer(position, category, config, webhook_url=webhook_url, fz_fields=fz_fields)

@@ -22,10 +22,17 @@ from typing import Any, Callable, Optional
 
 from sqlalchemy.orm import Session
 
-from app.clients.fazercards import FazerCardsClient, FazerCardsError
+from app.clients.fazercards import FazerCardsClient
 from app.models.position import Position, SourceType
 from app.regions import GLOBAL
-from app.sync.fz_catalog import GONE_MARKER, ImportResult, _apply_price
+from app.sync.fz_catalog import (
+    GONE_MARKER,
+    ImportResult,
+    UnexpectedFzResponse,
+    _apply_price,
+    fetch_error_text,
+    parse_fz_price,
+)
 
 # Лимиты FZ на одно пополнение Steam — в эквиваленте USD (документация FZ,
 # виджет Steam top-up: «минимум всегда эквивалент 0,10 USD, максимум 1 000 USD»).
@@ -197,13 +204,18 @@ def refresh_special_positions(
     for source_type, group in by_type.items():
         try:
             specs = {s.external_id: s for s in fetch_specs(fz, source_type)}
-        except FazerCardsError as e:
-            results.extend((p, None, f"FazerCards error {e.status_code}: {e.error}") for p in group)
+        except Exception as e:  # noqa: BLE001 — странный ответ по одному типу не валит синхронизацию
+            results.extend((p, None, fetch_error_text(e)) for p in group)
             continue
         for p in group:
             spec = specs.get(p.external_id)
             if spec is None:
                 results.append((p, None, f"{p.external_id} {GONE_MARKER} в ответе FZ"))
+                continue
+            try:
+                parse_fz_price(spec.price_usd)  # цена 0 / отрицательная — не сохраняем
+            except UnexpectedFzResponse as e:
+                results.append((p, None, str(e)))
                 continue
             results.append((p, _apply_spec(session, spec), None))
     return results

@@ -36,7 +36,7 @@ from app.models.position import Position, SourceType
 from app.orders.notifications import notify_admin
 from app.pricing.calculator import GGSellFees, PricingConfig, is_margin_safe
 from app.pricing.listing_price import listing_price_rub
-from app.sync.fz_catalog import is_gone_error
+from app.sync.fz_catalog import is_gone_error, is_unexpected_fz_error
 
 logger = logging.getLogger(__name__)
 
@@ -143,10 +143,14 @@ def check_availability(
     listed = set(session.scalars(
         select(Listing.position_id).where(Listing.status != ListingStatus.ARCHIVED)
     ))
-    gone, back, out, restocked = [], [], [], []
+    gone, back, out, restocked, unexpected = [], [], [], [], []
     for position, result, error in refresh_results:
         is_listed = position.id in listed
         if error:
+            # Цена 0 / не число / нет поля — цену не меняли; сообщаем при каждой
+            # синхронизации, пока FZ отдаёт такое (это не «пропало»).
+            if is_unexpected_fz_error(error) and is_listed:
+                unexpected.append(f"{position.name} — {error}")
             # Временный сбой FZ (5xx, 429, сеть) — состояние не меняем.
             if is_gone_error(error) and position.fz_missing_since is None:
                 position.fz_missing_since = now
@@ -177,7 +181,12 @@ def check_availability(
         alert(f"✅ Снова есть у FazerCards ({len(back)}):\n{_short_list(back)}")
     if restocked:
         alert(f"✅ Снова в наличии у FazerCards ({len(restocked)}):\n{_short_list(restocked)}")
-    return {"gone": len(gone), "back": len(back), "out_of_stock": len(out), "restocked": len(restocked)}
+    if unexpected:
+        alert(f"❗ FazerCards вернул неправильные данные ({len(unexpected)}) — цены этих лотов не изменены. "
+              f"При покупке цена перепроверяется: если ответ всё ещё неправильный, заказ уйдёт на ручной "
+              f"разбор, товар не покупается:\n{_short_list(unexpected)}")
+    return {"gone": len(gone), "back": len(back), "out_of_stock": len(out), "restocked": len(restocked),
+            "unexpected": len(unexpected)}
 
 
 # ----------------------------------------------------------------------
@@ -215,12 +224,15 @@ def push_prices(
     pause_seconds: float = 0.2,
     sleep: Callable[[float], None] = time.sleep,
     alert: Callable[[str], None] = notify_admin,
+    listings: Optional[list[Listing]] = None,
 ) -> PushReport:
+    """listings — только эти лоты (проверка scripts/check_zero_price.py); по умолчанию — все."""
     threshold = threshold_percent if threshold_percent is not None else price_change_threshold()
     report = PushReport()
-    listings = session.scalars(
-        select(Listing).where(Listing.status != ListingStatus.ARCHIVED).order_by(Listing.id)
-    ).all()
+    if listings is None:
+        listings = session.scalars(
+            select(Listing).where(Listing.status != ListingStatus.ARCHIVED).order_by(Listing.id)
+        ).all()
     for listing in listings:
         position = listing.position
         if position.fz_missing_since is not None or not position.last_known_price_usd:

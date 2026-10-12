@@ -12,9 +12,10 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from decimal import Decimal
-from typing import Optional
+from decimal import Decimal, InvalidOperation
+from typing import Any, Optional
 
+import httpx
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -350,6 +351,54 @@ def _apply_price_to_position(
 
 
 GONE_MARKER = "больше не найден"
+UNEXPECTED_MARKER = "неожиданный ответ FazerCards"
+
+
+class UnexpectedFzResponse(ValueError):
+    """Ответ FZ не похож на обычный: цена 0, отрицательная или не число, нет
+    нужного поля. Такие данные не сохраняем и не продаём по ним — позиция
+    остаётся с прежней ценой, админ получает алерт."""
+
+    def __init__(self, detail: str):
+        super().__init__(f"{UNEXPECTED_MARKER}: {detail}")
+
+
+def parse_fz_price(value: Any) -> Decimal:
+    """Цена из ответа FZ, только если это положительное число. Цену 0 нельзя
+    принимать: из неё получился бы лот за копейки (так у клиента уже было)."""
+    try:
+        price = Decimal(str(value).strip())
+    except (InvalidOperation, ValueError):
+        raise UnexpectedFzResponse(f"цена {value!r} — не число") from None
+    if not price.is_finite() or price <= 0:
+        raise UnexpectedFzResponse(f"цена {value!r}")
+    return price
+
+
+def is_unexpected_fz_error(error: Optional[str]) -> bool:
+    return bool(error) and UNEXPECTED_MARKER in error
+
+
+def fetch_error_text(error: Exception) -> str:
+    """Текст ошибки запроса к FZ для refresh_all_positions. Формат «FazerCards
+    error N» понимают is_gone_error и fz_errors_alert."""
+    if isinstance(error, FazerCardsError):
+        return f"FazerCards error {error.status_code}: {error.error}"
+    if isinstance(error, httpx.TransportError):
+        return f"FazerCards: сбой связи ({type(error).__name__})"
+    if isinstance(error, UnexpectedFzResponse):
+        return str(error)
+    return f"{UNEXPECTED_MARKER}: {type(error).__name__}: {error}"
+
+
+def _refresh_one(
+    session: Session, position: Position, raw_price: Any, raw_payload: dict
+) -> tuple[Position, Optional[ImportResult], Optional[str]]:
+    try:
+        price = parse_fz_price(raw_price)
+    except UnexpectedFzResponse as e:
+        return position, None, str(e)
+    return position, _apply_price_to_position(session, position, price, raw_payload), None
 
 
 def is_gone_error(error: Optional[str]) -> bool:
@@ -360,7 +409,7 @@ def is_gone_error(error: Optional[str]) -> bool:
 
 
 def refresh_all_positions(
-    session: Session, client: FazerCardsClient
+    session: Session, client: FazerCardsClient, positions: Optional[list[Position]] = None
 ) -> list[tuple[Position, Optional[ImportResult], Optional[str]]]:
     """Обновляет цену ВСЕХ Position в БД, ГРУППИРУЯ запросы к FazerCards по
     категории (topup/giftcard) или appid (steam_gift) — один запрос на группу
@@ -372,9 +421,13 @@ def refresh_all_positions(
     каждую позицию либо успешный ImportResult, либо текст ошибки (например,
     вся категория или конкретный offer_id больше не существует). Публичная
     сигнатура не изменилась — app/sync/jobs.py править не нужно.
+
+    positions — только эти позиции (проверка scripts/check_zero_price.py);
+    по умолчанию — все.
     """
     results: list[tuple[Position, Optional[ImportResult], Optional[str]]] = []
-    positions = session.scalars(select(Position)).all()
+    if positions is None:
+        positions = session.scalars(select(Position)).all()
 
     topup_groups: dict[str, list[Position]] = {}
     giftcard_groups: dict[str, list[Position]] = {}
@@ -393,14 +446,15 @@ def refresh_all_positions(
         else:
             results.append((p, None, f"Неизвестный source_type: {p.source_type}"))
 
+    # Сбой или странный ответ по одной категории не останавливает синхронизацию
+    # остальных — ошибка записывается позициям этой категории.
     for category_id, group in topup_groups.items():
         try:
             data = client.get_topup_offers(category_id)
-        except FazerCardsError as e:
-            for p in group:
-                results.append((p, None, f"FazerCards error {e.status_code}: {e.error}"))
+            offers_by_id = {o["offer_id"]: o for o in data.get("offers", [])}
+        except Exception as e:  # noqa: BLE001
+            results.extend((p, None, fetch_error_text(e)) for p in group)
             continue
-        offers_by_id = {o["offer_id"]: o for o in data.get("offers", [])}
         for p in group:
             offer = offers_by_id.get(p.fz_offer_id)
             if offer is None:
@@ -408,17 +462,15 @@ def refresh_all_positions(
                     (p, None, f"offer_id={p.fz_offer_id!r} больше не найден в категории {category_id!r}")
                 )
                 continue
-            result = _apply_price_to_position(session, p, Decimal(offer["price_usd"]), offer)
-            results.append((p, result, None))
+            results.append(_refresh_one(session, p, offer.get("price_usd"), offer))
 
     for category_id, group in giftcard_groups.items():
         try:
             data = client.get_giftcard_offers(category_id)
-        except FazerCardsError as e:
-            for p in group:
-                results.append((p, None, f"FazerCards error {e.status_code}: {e.error}"))
+            offers_by_id = {o["card_id"]: o for o in data.get("offers", [])}
+        except Exception as e:  # noqa: BLE001
+            results.extend((p, None, fetch_error_text(e)) for p in group)
             continue
-        offers_by_id = {o["card_id"]: o for o in data.get("offers", [])}
         for p in group:
             offer = offers_by_id.get(p.fz_offer_id)
             if offer is None:
@@ -426,17 +478,15 @@ def refresh_all_positions(
                     (p, None, f"card_id={p.fz_offer_id!r} больше не найден в категории {category_id!r}")
                 )
                 continue
-            result = _apply_price_to_position(session, p, Decimal(offer["price_usd"]), offer)
-            results.append((p, result, None))
+            results.append(_refresh_one(session, p, offer.get("price_usd"), offer))
 
     for appid, group in steam_groups.items():
         try:
             data = client.get_steam_gift_offers(appid)
-        except FazerCardsError as e:
-            for p in group:
-                results.append((p, None, f"FazerCards error {e.status_code}: {e.error}"))
+            offers_by_sub_id = {o["sub_id"]: o for o in data.get("offers", [])}
+        except Exception as e:  # noqa: BLE001
+            results.extend((p, None, fetch_error_text(e)) for p in group)
             continue
-        offers_by_sub_id = {o["sub_id"]: o for o in data.get("offers", [])}
         for p in group:
             offer = offers_by_sub_id.get(p.fz_sub_id)
             if offer is None:
@@ -444,17 +494,20 @@ def refresh_all_positions(
                     (p, None, f"sub_id={p.fz_sub_id!r} больше не найден для appid={appid!r}")
                 )
                 continue
-            region_price = next(
-                (r["price"] for r in offer.get("regions", []) if r.get("region") == p.region),
-                None,
-            )
+            try:
+                region_price = next(
+                    (r["price"] for r in offer.get("regions", []) if r.get("region") == p.region),
+                    None,
+                )
+            except Exception as e:  # noqa: BLE001
+                results.append((p, None, fetch_error_text(e)))
+                continue
             if region_price is None:
                 results.append(
                     (p, None, f"регион {p.region!r} больше не найден для sub_id={p.fz_sub_id!r}")
                 )
                 continue
-            result = _apply_price_to_position(session, p, Decimal(region_price), offer)
-            results.append((p, result, None))
+            results.append(_refresh_one(session, p, region_price, offer))
 
     if special:
         from app.sync.fz_special import refresh_special_positions  # fz_special импортирует этот модуль
