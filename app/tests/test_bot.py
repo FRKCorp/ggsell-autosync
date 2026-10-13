@@ -302,6 +302,21 @@ def test_reply_to_alert_sends_to_buyer_after_confirmation(bot, factory):
     assert bot.services.send_to_buyer.call_count == 1
 
 
+def test_late_button_answer_is_not_shown_as_error(bot):
+    """Отправка покупателю шла долго (GGSell тормозил) — Telegram уже не
+    принимает ответ на нажатие. Сообщение ушло, «❗ Ошибка» показывать нельзя."""
+    bot.tg.answer_callback_query.side_effect = RuntimeError(
+        "Bad Request: query is too old and response timeout expired or query ID is invalid")
+    bot.handle_update(msg("Ваш код: ABCD-1234", reply_to="Заказ 53081129: ..."))
+    token = callbacks(last_markup(bot))[0].split(":")[1]
+
+    bot.handle_update(click(f"send:{token}"))
+
+    bot.services.send_to_buyer.assert_called_once()
+    assert "✅ Отправлено покупателю заказа 53081129" in edited(bot)[0]
+    assert not any("Ошибка" in text for text in sent(bot))
+
+
 def test_reply_cancelled(bot):
     bot.handle_update(msg("текст", reply_to="Заказ 53081129: ..."))
     token = callbacks(last_markup(bot))[1].split(":")[1]

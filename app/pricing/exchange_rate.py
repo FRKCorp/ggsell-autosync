@@ -35,40 +35,45 @@ class ExchangeRateError(Exception):
     pass
 
 
-def parse_cbr_xml(content: bytes) -> Decimal:
-    """USD из XML ЦБ: <Valute><CharCode>USD</CharCode><Nominal>1</Nominal>
-    <Value>83,5588</Value>. Кодировка windows-1251 объявлена в заголовке."""
+def parse_cbr_xml(content: bytes, code: str = "USD") -> Decimal:
+    """Рублей за 1 единицу валюты из XML ЦБ: <Valute><CharCode>USD</CharCode>
+    <Nominal>1</Nominal><Value>83,5588</Value>. Кодировка windows-1251
+    объявлена в заголовке."""
     root = ET.fromstring(content)
     for valute in root.iter("Valute"):
-        if valute.findtext("CharCode") == "USD":
+        if valute.findtext("CharCode") == code:
             value = Decimal(valute.findtext("Value").replace(",", "."))
             nominal = Decimal(valute.findtext("Nominal") or "1")
             return value / nominal
-    raise ExchangeRateError("В ответе ЦБ нет курса USD")
+    raise ExchangeRateError(f"В ответе ЦБ нет курса {code}")
 
 
-def parse_cbr_json(data: dict) -> Decimal:
-    usd = data["Valute"]["USD"]
-    return Decimal(str(usd["Value"])) / Decimal(str(usd.get("Nominal", 1)))
+def parse_cbr_json(data: dict, code: str = "USD") -> Decimal:
+    valute = data["Valute"][code]
+    return Decimal(str(valute["Value"])) / Decimal(str(valute.get("Nominal", 1)))
 
 
-def fetch_cbr_usd_rub(http_get: Optional[Callable[[str], httpx.Response]] = None) -> Decimal:
-    """Курс ЦБ: сначала cbr.ru, при ошибке — зеркало."""
+def fetch_cbr_rub_rate(code: str, http_get: Optional[Callable[[str], httpx.Response]] = None) -> Decimal:
+    """Курс ЦБ (рублей за 1 единицу валюты): сначала cbr.ru, при ошибке — зеркало."""
     get = http_get or (lambda url: httpx.get(url, timeout=15, follow_redirects=True))
     errors = []
     try:
         response = get(CBR_XML_URL)
         response.raise_for_status()
-        return parse_cbr_xml(response.content)
+        return parse_cbr_xml(response.content, code)
     except Exception as e:  # noqa: BLE001 — любой сбой источника → пробуем запасной
         errors.append(f"cbr.ru: {e}")
     try:
         response = get(CBR_JSON_MIRROR_URL)
         response.raise_for_status()
-        return parse_cbr_json(response.json())
+        return parse_cbr_json(response.json(), code)
     except Exception as e:  # noqa: BLE001
         errors.append(f"cbr-xml-daily: {e}")
     raise ExchangeRateError("; ".join(errors))
+
+
+def fetch_cbr_usd_rub(http_get: Optional[Callable[[str], httpx.Response]] = None) -> Decimal:
+    return fetch_cbr_rub_rate("USD", http_get)
 
 
 def apply_premium(cbr_rate: Decimal, premium_percent: Decimal) -> Decimal:

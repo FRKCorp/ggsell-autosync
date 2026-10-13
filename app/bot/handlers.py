@@ -239,7 +239,14 @@ class BotApp:
             self._edit(chat_id, message_id, "Отменено — покупателю ничего не отправлено.")
         elif action == "done":
             notice = self._close_order(session, chat_id, message_id, arg, query["message"].get("text", ""))
-        self.tg.answer_callback_query(query["id"], notice)
+        try:
+            self.tg.answer_callback_query(query["id"], notice)
+        except Exception as e:  # noqa: BLE001
+            # Ответ на нажатие только убирает «часики» у кнопки. Telegram принимает
+            # его ограниченное время: если действие шло долго (GGSell медленно
+            # отвечал), приходит «query is too old» — само действие уже выполнено,
+            # показывать это как ошибку нельзя.
+            logger.warning("Ответ на нажатие кнопки не принят Telegram: %s", e)
 
     # ------------------------------------------------------------------
     # Экраны

@@ -53,6 +53,7 @@ from app.offers.options import BuyerDataError, buyer_fields_for, map_buyer_data_
 from app.orders.delivery import format_delivery_message
 from app.orders.notifications import REPLY_HINT, notify_admin
 from app.pricing.calculator import PricingConfig, check_price_deviation
+from app.pricing.exchange_rate import fetch_cbr_rub_rate
 from app.sync.fz_catalog import UNEXPECTED_MARKER, UnexpectedFzResponse, parse_fz_price
 
 logger = logging.getLogger(__name__)
@@ -114,6 +115,9 @@ class OrderContext:
     buyer_data: dict[str, str]
     price_at_sale_rub: Decimal
     seller_payout_rub: Optional[Decimal] = None
+    # Валюта сумм заказа (currency_type): обычно RUB, но покупатель может
+    # заплатить в USD или EUR — тогда amount и profit приходят в ней.
+    currency: str = "RUB"
     # Сколько единиц купили — у лотов с ценой за единицу (калькулятор GGSell:
     # сумма пополнения Steam, число звёзд), иначе 1.
     quantity: int = 1
@@ -159,6 +163,7 @@ def build_order_context(
         # оплачено 10 ₽). Нет amount — цена лота как запасной вариант.
         price_at_sale_rub=_decimal(order_info.get("amount")) or listing.price_rub,
         seller_payout_rub=_decimal(order_info.get("profit")),
+        currency=str(order_info.get("currency_type") or "RUB").upper(),
         quantity=order_quantity(order_info, listing.position),
     )
 
@@ -393,22 +398,37 @@ def describe_check_error(error: Exception) -> str:
     return f"{UNEXPECTED_MARKER}: {type(error).__name__}: {error}"
 
 
+def payout_in_usd(
+    session: Session, payout: Decimal, currency: str, fetch_rate: Optional[Callable[[str], Decimal]] = None
+) -> tuple[Decimal, str]:
+    """Выплата в долларах и как пересчитали: USD — как есть, RUB — по курсу
+    из панели (ЦБ + надбавка, по нему же считаются цены лотов), другие
+    валюты (EUR…) — по кросс-курсу ЦБ на сегодня."""
+    if currency == "USD":
+        return payout, "в долларах"
+    if currency == "RUB":
+        rate = settings.get_decimal(session, settings.USD_RUB_RATE)
+        return payout / rate, f"по курсу {rate}"
+    fetch_rate = fetch_rate or fetch_cbr_rub_rate
+    cross = fetch_rate(currency) / fetch_rate("USD")
+    return payout * cross, f"по курсу ЦБ {currency}/USD {cross:.4f}"
+
+
 def sale_below_cost(session: Session, ctx: "OrderContext", live_price_usd: Decimal) -> Optional[str]:
     """Причина для ручного разбора, если продажа не покрывает закупку у FZ.
 
     Сравниваем то, что реально получено с продажи (выплата GGSell после
-    комиссий, по курсу из панели), с ценой FZ прямо сейчас. Так ловится
-    любая причина убытка: цена у FZ выросла между обновлениями, цену лота
-    вручную снизили на GGSell, скидка — при любой наценке."""
+    комиссий, в валюте оплаты → в доллары), с ценой FZ прямо сейчас. Так
+    ловится любая причина убытка: цена у FZ выросла между обновлениями, цену
+    лота вручную снизили на GGSell, скидка — при любой наценке."""
     fees = ctx.listing.ggsell_fee + ctx.listing.ggsell_payment_fee
-    payout_rub = ctx.seller_payout_rub or ctx.price_at_sale_rub * (Decimal(1) - fees)
-    rate = settings.get_decimal(session, settings.USD_RUB_RATE)
-    payout_usd = payout_rub / rate
+    payout = ctx.seller_payout_rub or ctx.price_at_sale_rub * (Decimal(1) - fees)
+    payout_usd, how = payout_in_usd(session, payout, ctx.currency)
     cost_usd = live_price_usd * ctx.quantity
     if payout_usd >= cost_usd:
         return None
     return (
-        f"продажа ниже себестоимости: получено {payout_rub} ₽ = ${payout_usd:.4f} по курсу {rate}, "
+        f"продажа ниже себестоимости: получено {payout} {ctx.currency} = ${payout_usd:.4f} ({how}), "
         f"а у FazerCards сейчас ${cost_usd:.4f} (убыток ${cost_usd - payout_usd:.4f})"
     )
 

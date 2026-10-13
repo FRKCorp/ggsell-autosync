@@ -69,12 +69,13 @@ def listings(session):
     session.commit()
 
 
-def order_info(item_id=OFFER_ID, user_data="player123", amount=82.0, profit=78.15, paid=True):
+def order_info(item_id=OFFER_ID, user_data="player123", amount=82.0, profit=78.15, paid=True, currency="RUB"):
     """get_order_info в формате, снятом с живых заказов (22.09, 01.10)."""
     return {"content": {
         "item_id": item_id,
         "amount": amount,
         "profit": profit,
+        "currency_type": currency,
         "date_pay": "2026-10-01T17:47:37+03:00" if paid else None,
         "options": [{"id": 1, "name": "Unique ID", "user_data": user_data, "user_data_id": 1}],
     }}
@@ -359,8 +360,8 @@ def test_listing_not_found_raises(session, config, listings):
 # ----------------------------------------------------------------------
 
 
-def card_sale(session, config, amount, profit, live_price="24.58"):
-    fz, v1 = clients(item_id=CARD_OFFER_ID, amount=amount, profit=profit)
+def card_sale(session, config, amount, profit, live_price="24.58", currency="RUB"):
+    fz, v1 = clients(item_id=CARD_OFFER_ID, amount=amount, profit=profit, currency=currency)
     fz.get_giftcard_offers.return_value = card_offers(price=live_price)
     fz.order_giftcard.return_value = fz_order("completed", cards=["CODE-1"])
     order, alert = run(session, fz, v1, config)
@@ -405,3 +406,37 @@ def test_without_profit_payout_is_estimated_from_amount_and_fees(session, config
     cheap, _, _ = card_sale(session, config, amount=2400.0, profit=None)  # 2400 × 0.933 < 24.58 × 95
 
     assert cheap.status == OrderStatus.MANUAL_REVIEW and "ниже себестоимости" in cheap.error_message
+
+
+# Покупатель может заплатить в USD или EUR — суммы заказа тогда в этой валюте.
+
+
+def test_usd_payment_compared_in_dollars(session, config, listings):
+    order, alert, fz = card_sale(session, config, amount=28.9, profit=26.95, currency="USD")  # > $24.58
+
+    assert order.status == OrderStatus.DELIVERED
+    alert.assert_not_called()
+
+
+def test_usd_payment_below_cost_goes_manual(session, config, listings):
+    order, _, fz = card_sale(session, config, amount=25.0, profit=23.3, currency="USD")  # < $24.58
+
+    assert order.status == OrderStatus.MANUAL_REVIEW
+    assert "23.3 USD" in order.error_message and "в долларах" in order.error_message
+    fz.order_giftcard.assert_not_called()
+
+
+def test_eur_payment_converted_by_cbr_cross_rate(session, config, listings):
+    rates = {"EUR": Decimal("100"), "USD": Decimal("85")}  # 1 EUR = 1.176 USD
+    with patch("app.orders.order_processor.fetch_cbr_rub_rate", side_effect=rates.get):
+        ok, _, _ = card_sale(session, config, amount=24.0, profit=22.5, currency="EUR")  # $26.47
+
+    assert ok.status == OrderStatus.DELIVERED
+
+
+def test_unknown_rate_goes_manual_not_bought(session, config, listings):
+    with patch("app.orders.order_processor.fetch_cbr_rub_rate", side_effect=RuntimeError("cbr down")):
+        order, alert, fz = card_sale(session, config, amount=24.0, profit=22.5, currency="EUR")
+
+    assert order.status == OrderStatus.MANUAL_REVIEW and "не удалось сверить" in order.error_message
+    fz.order_giftcard.assert_not_called()
