@@ -26152,5 +26152,113 @@
     ]
    }
   ]
+ },
+ "Oxide Survival Island": {
+  "fz_categories": [
+   "oxide_survival_island"
+  ],
+  "roots": [
+   {
+    "id": 144350,
+    "title": "Oxide: Survival island",
+    "content_type": "game",
+    "fee": 0.15,
+    "payment_fee": 0.027,
+    "tree": "Игры > Oxide: Survival island",
+    "has_children": true,
+    "children": [
+     {
+      "id": 144352,
+      "title": "Accounts",
+      "content_type": "accounts",
+      "fee": 0.2,
+      "payment_fee": 0.027,
+      "tree": "Games > Oxide: Survival island > Accounts",
+      "has_children": false
+     },
+     {
+      "id": 144353,
+      "title": "Монеты",
+      "content_type": "currency",
+      "fee": 0.04,
+      "payment_fee": 0.027,
+      "tree": "Игры > Oxide: Survival island > Монеты",
+      "has_children": false
+     },
+     {
+      "id": 144355,
+      "title": "Премиум",
+      "content_type": "item",
+      "fee": 0.07,
+      "payment_fee": 0.027,
+      "tree": "Игры > Oxide: Survival island > Премиум",
+      "has_children": false
+     },
+     {
+      "id": 144357,
+      "title": "Items",
+      "content_type": "item",
+      "fee": 0.02,
+      "payment_fee": 0.027,
+      "tree": "Games > Oxide: Survival island > Items",
+      "has_children": false
+     },
+     {
+      "id": 100323835,
+      "title": "Legendary Crates",
+      "content_type": "item",
+      "fee": 0.02,
+      "payment_fee": 0.027,
+      "tree": "Games > Oxide: Survival island > Legendary Crates",
+      "has_children": false
+     },
+     {
+      "id": 100323837,
+      "title": "Буст и фарм",
+      "content_type": "service",
+      "fee": 0.07,
+      "payment_fee": 0.027,
+      "tree": "Игры > Oxide: Survival island > Буст и фарм",
+      "has_children": false
+     },
+     {
+      "id": 100323839,
+      "title": "Билеты",
+      "content_type": "currency",
+      "fee": 0.02,
+      "payment_fee": 0.027,
+      "tree": "Игры > Oxide: Survival island > Билеты",
+      "has_children": false
+     },
+     {
+      "id": 100323841,
+      "title": "Боевой пропуск",
+      "content_type": "item",
+      "fee": 0.04,
+      "payment_fee": 0.027,
+      "tree": "Игры > Oxide: Survival island > Боевой пропуск",
+      "has_children": false
+     },
+     {
+      "id": 100323843,
+      "title": "Skins",
+      "content_type": "item",
+      "fee": 0.02,
+      "payment_fee": 0.027,
+      "tree": "Games > Oxide: Survival island > Skins",
+      "has_children": false
+     },
+     {
+      "id": 100323845,
+      "title": "Other",
+      "content_type": "other",
+      "fee": 0.07,
+      "payment_fee": 0.027,
+      "tree": "Games > Oxide: Survival island > Other",
+      "has_children": false
+     }
+    ]
+   }
+  ]
  }
 }

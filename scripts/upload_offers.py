@@ -15,12 +15,13 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import json
 import os
 import sys
 
 from dotenv import load_dotenv
-from sqlalchemy import select
+from sqlalchemy import or_, select
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -28,16 +29,31 @@ from app.clients.fazercards import FazerCardsClient  # noqa: E402
 from app.clients.ggsell import GGSellV2Client  # noqa: E402
 from app.db import SessionLocal  # noqa: E402
 from app.models.position import Position  # noqa: E402
-from app.offers.categories import SPECIAL_CATEGORIES  # noqa: E402
+from app.offers.categories import SPECIAL_CATEGORIES, CategoryTree, resolve_positions  # noqa: E402
 from app.offers.uploader import FieldsSource, default_webhook_url, upload_positions  # noqa: E402
 from app.pricing.exchange_rate import refresh_rate  # noqa: E402
 from app.pricing.listing_price import load_pricing_config  # noqa: E402
+
+SELECTED_CONFIGS = ("selected_topup_categories.json", "selected_giftcard_categories.json")
+
+
+def load_json(data_dir: str, name: str):
+    with open(os.path.join(data_dir, name), encoding="utf-8") as f:
+        return json.load(f)
+
+
+def matches_only(external_id: str, only: list[str]) -> bool:
+    """--only: префикс external_id или шаблон с * («giftcard:app_store_itunes_us*»)."""
+    return not only or any(
+        fnmatch.fnmatchcase(external_id, pattern) if any(c in pattern for c in "*?[") else external_id.startswith(pattern)
+        for pattern in only
+    )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Автозалив черновиков на GGSell")
     parser.add_argument("--limit", type=int, help="максимум новых лотов за запуск")
-    parser.add_argument("--only", action="append", default=[], help="префикс external_id (можно несколько)")
+    parser.add_argument("--only", action="append", default=[], help="префикс external_id или шаблон с * (можно несколько)")
     parser.add_argument("--dry-run", action="store_true", help="только собрать карточки, без GGSell")
     parser.add_argument("--pause", type=float, default=0.5, help="пауза между созданием лотов, с")
     args = parser.parse_args()
@@ -59,12 +75,14 @@ def main() -> None:
     config = load_pricing_config(session)
     print(f"Курс {config.exchange_rate_usd_to_rub} ₽/$, глобальная наценка {config.markup_percent}%, вебхук {webhook_url}")
 
-    known = list(category_map) + list(SPECIAL_CATEGORIES)  # Steam/Telegram — категории заданы в коде
-    query = select(Position).where(Position.external_id.in_(known)).order_by(Position.id)
-    positions = [
-        p for p in session.scalars(query)
-        if not args.only or any(p.external_id.startswith(prefix) for prefix in args.only)
-    ]
+    # Позиции из карты категорий, Steam/Telegram (категории заданы в коде) и
+    # новые позиции выбранных категорий FZ, которых в карте ещё нет.
+    known = list(category_map) + list(SPECIAL_CATEGORIES)
+    selected = [item["category_id"] for name in SELECTED_CONFIGS for item in load_json(data_dir, name)["items"]]
+    query = select(Position).where(
+        or_(Position.external_id.in_(known), Position.fz_category_id.in_(selected))
+    ).order_by(Position.id)
+    positions = [p for p in session.scalars(query) if matches_only(p.external_id, args.only)]
     print(f"Позиций к обработке: {len(positions)}{' (dry run)' if args.dry_run else ''}")
 
     with GGSellV2Client(
@@ -75,6 +93,27 @@ def main() -> None:
         api_key=os.getenv("FAZERCARDS_API_KEY"),
         base_url=os.getenv("FAZERCARDS_BASE_URL", "https://api.fzr.cards/api/v2"),
     ) as fz:
+        unmapped = [p for p in positions if p.external_id not in category_map and p.external_id not in SPECIAL_CATEGORIES]
+        if unmapped:
+            print(f"Новых позиций без категории в карте: {len(unmapped)} — подбираю по правилам")
+
+            def fetch_children(node_id: int) -> list:
+                response = v2.list_categories(parent_id=node_id)
+                return response.get("data", response) if isinstance(response, dict) else response
+
+            tree = CategoryTree(load_json(data_dir, "ggsell_category_tree.json"), fetch_children=fetch_children)
+            resolved, failed = resolve_positions(unmapped, load_json(data_dir, "ggsell_category_rules.json"), tree)
+            category_map.update(resolved)
+            for external_id, entry in resolved.items():
+                mark = "  ⚠️ проверьте категорию" if entry["via_fallback"] or entry["review"] else ""
+                print(f"  🗂 {external_id} → {entry['tree']}{mark}")
+            by_reason: dict[str, list[str]] = {}
+            for external_id, reason in failed.items():
+                by_reason.setdefault(reason, []).append(external_id)
+            for reason, ids in by_reason.items():
+                more = f" и ещё {len(ids) - 3}" if len(ids) > 3 else ""
+                print(f"  ⏭ не выставляются ({len(ids)}): {', '.join(ids[:3])}{more} — {reason}")
+
         report = upload_positions(
             session, v2, positions, category_map, config, FieldsSource(fz, fallback_fields),
             webhook_url=webhook_url, pause_seconds=args.pause, limit=args.limit,

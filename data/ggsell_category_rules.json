@@ -158,6 +158,14 @@
   "apex_legends_mobile_*": [{"node": 62681}],
   "apex_legendstm_*": [{"node": 98124, "by": ["nominal"]}],
   "pubg_mobile": [{"node": 100321879, "by": ["nominal"]}],
+  "oxide_survival_island": [
+    {"match": "coin|монет", "node": 144353},
+    {"match": "premium|vip|премиум", "node": 144355},
+    {"match": "pass|пропуск", "node": 100323841},
+    {"match": "ticket|билет", "node": 100323839},
+    {"match": "crate|chest|ящик|сундук", "node": 100323835},
+    {"node": 100323845, "review": true, "note": "Oxide: тип товара не распознан — лот в «Other», проверьте категорию"}
+  ],
   "pubg_battlegrounds_global": [{"node": 100402101, "by": ["nominal"]}],
   "razer_gold_*": [{"node": null, "note": "У Razer Gold на GGSell есть только подкатегория «Аккаунты» — листа под подарочные карты нет, а в корень лот не создать. Вариант: спросить поддержку GGSell / клиента."}]
 }

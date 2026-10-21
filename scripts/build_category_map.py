@@ -28,6 +28,7 @@ from app.models.position import Position  # noqa: E402
 from app.offers.categories import (  # noqa: E402
     CategoryNotResolved,
     CategoryTree,
+    map_entry,
     resolve_category,
     rules_for,
 )
@@ -87,15 +88,7 @@ def main() -> None:
             except CategoryNotResolved as e:
                 unresolved[f"{p.fz_category_id}: {e}"].append(offer_name)
                 continue
-            result[p.external_id] = {
-                "category_id": choice.category_id,
-                "tree": choice.tree,
-                "fee": choice.fee,
-                "payment_fee": choice.payment_fee,
-                "via_fallback": choice.via_fallback,
-                "review": choice.review,
-                "note": choice.note,
-            }
+            result[p.external_id] = map_entry(choice)
             if choice.via_fallback:
                 fallback[f"{p.fz_category_id} → {choice.tree}"].append(offer_name)
             if choice.review:

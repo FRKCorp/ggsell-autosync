@@ -104,6 +104,8 @@
     { "category_id": "app_store_itunes_se", "region": "SE" },
     { "category_id": "app_store_itunes_tr", "region": "TR" },
     { "category_id": "app_store_itunes_uk", "region": "UK" },
+    { "category_id": "app_store_itunes_us", "region": "US" },
+    { "category_id": "app_store_itunes_hk", "region": "HK" },
 
     { "category_id": "playstation_ae", "region": "AE" },
     { "category_id": "playstation_ar", "region": "AR" },

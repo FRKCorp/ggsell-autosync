@@ -249,3 +249,37 @@ def resolve_category(
             note=rule.get("note"),
         )
     raise CategoryNotResolved(f"ни одно правило не подошло к {offer_name!r}")
+
+
+def map_entry(choice: CategoryChoice) -> dict[str, Any]:
+    """Запись data/ggsell_category_map.json для выбранной категории."""
+    return {
+        "category_id": choice.category_id,
+        "tree": choice.tree,
+        "fee": choice.fee,
+        "payment_fee": choice.payment_fee,
+        "via_fallback": choice.via_fallback,
+        "review": choice.review,
+        "note": choice.note,
+    }
+
+
+def resolve_positions(
+    positions: list[Any], all_rules: dict[str, Any], tree: CategoryTree
+) -> tuple[dict[str, dict[str, Any]], dict[str, str]]:
+    """Категории для позиций, которых нет в готовой карте (FZ добавил номинал
+    или категорию): по тем же правилам, что и build_category_map.
+    Возвращает ({external_id: запись карты}, {external_id: причина неудачи})."""
+    resolved: dict[str, dict[str, Any]] = {}
+    failed: dict[str, str] = {}
+    for position in positions:
+        rules = rules_for(all_rules, position.fz_category_id)
+        if rules is None:
+            failed[position.external_id] = f"нет правил подбора для категории {position.fz_category_id}"
+            continue
+        offer_name = (position.raw_payload or {}).get("name", position.name)
+        try:
+            resolved[position.external_id] = map_entry(resolve_category(tree, rules, offer_name, position.region))
+        except Exception as e:  # noqa: BLE001 — одна позиция (или сбой GGSell) не валит остальные
+            failed[position.external_id] = str(e)
+    return resolved, failed
