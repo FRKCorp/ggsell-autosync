@@ -49,6 +49,7 @@ from app.clients.ggsell import GGSellError, GGSellV1Client
 from app.models.listing import Listing
 from app.models.order import Order, OrderStatus
 from app.models.position import Position, SourceType, is_unit_priced
+from app.offers.builder import nominal_title
 from app.offers.options import BuyerDataError, buyer_fields_for, map_buyer_data_to_fz_fields
 from app.orders.delivery import format_delivery_message
 from app.orders.notifications import REPLY_HINT, notify_admin
@@ -121,6 +122,25 @@ class OrderContext:
     # Сколько единиц купили — у лотов с ценой за единицу (калькулятор GGSell:
     # сумма пополнения Steam, число звёзд), иначе 1.
     quantity: int = 1
+    # Групповой лот: номинал из заказа не определился — заказ на ручной разбор.
+    nominal_error: Optional[str] = None
+
+
+def resolve_group_nominal(listing: Listing, options: list[dict[str, Any]]) -> tuple[Optional[Position], Optional[str]]:
+    """Купленный номинал группового лота: вариант по user_data_id (id варианта
+    GGSell), запасной путь — по подписи («50 TRY»). (позиция, None) или
+    (None, причина)."""
+    by_id = {v.ggsell_variant_id: v for v in listing.variants if v.ggsell_variant_id is not None}
+    by_title = {nominal_title(v.position).casefold(): v for v in listing.variants}
+    chosen = [o for o in options if listing.ggsell_option_id is None or o.get("id") == listing.ggsell_option_id]
+    for option in chosen or options:
+        variant = by_id.get(option.get("user_data_id"))
+        if variant is None:
+            variant = by_title.get(" ".join(str(option.get("user_data") or "").split()).casefold())
+        if variant is not None:
+            return variant.position, None
+    picked = ", ".join(f"{o.get('name')}: {o.get('user_data')} (id {o.get('user_data_id')})" for o in options) or "нет"
+    return None, f"не удалось определить номинал по заказу (выбрано: {picked})"
 
 
 def order_quantity(order_info: dict[str, Any], position: Position) -> int:
@@ -153,18 +173,23 @@ def build_order_context(
     listing = find_listing_by_offer_id(session, offer_id)
     if listing is None:
         raise OrderProcessingError(f"Listing с ggsell_offer_id={offer_id} не найден в БД")
+    position, nominal_error = listing.position, None
+    if listing.is_group:
+        selected, nominal_error = resolve_group_nominal(listing, order_info.get("options", []))
+        position = selected or listing.position
 
     return OrderContext(
         invoice_id=invoice_id,
         listing=listing,
-        position=listing.position,
+        position=position,
+        nominal_error=nominal_error,
         buyer_data=extract_buyer_data(order_info.get("options", [])),
         # Реально оплаченная сумма, а не цена лота (пилот 01.10: лот 67 ₽,
         # оплачено 10 ₽). Нет amount — цена лота как запасной вариант.
         price_at_sale_rub=_decimal(order_info.get("amount")) or listing.price_rub,
         seller_payout_rub=_decimal(order_info.get("profit")),
         currency=str(order_info.get("currency_type") or "RUB").upper(),
-        quantity=order_quantity(order_info, listing.position),
+        quantity=order_quantity(order_info, position),
     )
 
 
@@ -175,6 +200,7 @@ def get_or_create_order(session: Session, ctx: OrderContext) -> Order:
     order = Order(
         ggsell_invoice_id=ctx.invoice_id,
         listing_id=ctx.listing.id,
+        position_id=ctx.position.id if ctx.listing.is_group and ctx.nominal_error is None else None,
         status=OrderStatus.PENDING,
         buyer_data=ctx.buyer_data,
         price_at_sale_rub=ctx.price_at_sale_rub,
@@ -489,7 +515,7 @@ def fz_order_of(response: dict[str, Any]) -> dict[str, Any]:
 def deliver_order(
     session: Session, ggsell_v1: GGSellV1Client, order: Order, fz_response: dict[str, Any]
 ) -> Order:
-    position = order.listing.position
+    position = order.position or order.listing.position
     message = format_delivery_message(position, order.buyer_data or {}, fz_response, quantity=order.quantity or 1)
     if message is None:
         return _to_manual_review(
@@ -559,6 +585,12 @@ def process_new_order(
     if not claim_order(session, order):
         logger.info("Заказ %s уже в статусе %s — пропускаю", invoice_id, order.status)
         return order
+    if ctx.nominal_error:
+        return _to_manual_review(
+            session, order, ctx.nominal_error,
+            f"Заказ {invoice_id}: {ctx.nominal_error}. Заказ у FZ НЕ сделан. "
+            f"Данные покупателя: {ctx.buyer_data}. Требуется ручная обработка (выдать вручную или вернуть деньги).",
+        )
 
     try:
         price_ok, live_price_usd, fz_fields, deviation = _verify_price_with_retries(
