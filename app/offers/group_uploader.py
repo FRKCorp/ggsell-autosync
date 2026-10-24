@@ -126,6 +126,21 @@ def sync_variants(
     return len(missing)
 
 
+def attach_nominals(
+    session: Session, v2: GGSellV2Client, listing: Listing, draft: GroupOfferDraft,
+    sleep: Callable[[float], None] = time.sleep,
+) -> int:
+    """Параметр «Номинал» и варианты на оффере лота (создаётся недостающее).
+    Возвращает, сколько вариантов создано."""
+    option = call_with_retry(ensure_nominal_option, v2, listing.ggsell_offer_id, draft, sleep=sleep)
+    listing.ggsell_option_id = option["id"]
+    session.commit()
+    added = call_with_retry(sync_variants, session, v2, listing, option, draft, sleep=sleep)
+    listing.options_attached = True
+    session.commit()
+    return added
+
+
 def upload_groups(
     session: Session,
     v2: GGSellV2Client,
@@ -197,12 +212,7 @@ def upload_groups(
             report.existing += 1
 
         try:
-            option = call_with_retry(ensure_nominal_option, v2, listing.ggsell_offer_id, draft, sleep=sleep)
-            listing.ggsell_option_id = option["id"]
-            session.commit()
-            added = call_with_retry(sync_variants, session, v2, listing, option, draft, sleep=sleep)
-            listing.options_attached = True
-            session.commit()
+            added = attach_nominals(session, v2, listing, draft, sleep=sleep)
         except Exception as e:  # noqa: BLE001
             session.rollback()
             report.errors[fz_category_id] = f"параметр/варианты (лот {listing.ggsell_offer_id}, повторный запуск досоздаст): {e}"

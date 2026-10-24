@@ -32,6 +32,7 @@ from sqlalchemy.orm import Session
 
 from app.clients.ggsell import GGSellError, GGSellV2Client, call_with_retry
 from app.models.listing import Listing, ListingStatus
+from app.models.listing_variant import ListingVariant
 from app.models.position import Position, SourceType
 from app.offers.options import options_list
 from app.orders.notifications import notify_admin
@@ -144,6 +145,9 @@ def check_availability(
     now = now or datetime.now(timezone.utc)
     listed = set(session.scalars(
         select(Listing.position_id).where(Listing.status != ListingStatus.ARCHIVED)
+    )) | set(session.scalars(  # номиналы групповых лотов
+        select(ListingVariant.position_id).join(Listing)
+        .where(Listing.status != ListingStatus.ARCHIVED, ListingVariant.status == "active")
     ))
     gone, back, out, restocked, unexpected = [], [], [], [], []
     for position, result, error in refresh_results:
