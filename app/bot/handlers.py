@@ -175,7 +175,7 @@ class BotApp:
             elif kind == "lot_markup":
                 listing = session.get(Listing, args[0])
                 set_listing_markup(listing, value)
-                done = f"✅ Наценка лота «{listing.position.name}»: {views.fmt_num(value)}%."
+                done = f"✅ Наценка лота «{views.listing_title(listing)}»: {views.fmt_num(value)}%."
             else:
                 raise RuntimeError(f"Неизвестное состояние ввода: {kind}")
         except ValueError as e:
@@ -225,7 +225,7 @@ class BotApp:
         elif action == "lotmk":
             listing = session.get(Listing, int(arg))
             self.state[chat_id] = ("lot_markup", listing.id)
-            self.tg.send_message(chat_id, f"Пришлите наценку в % для «{listing.position.name}». /cancel — отмена.")
+            self.tg.send_message(chat_id, f"Пришлите наценку в % для «{views.listing_title(listing)}». /cancel — отмена.")
         elif action == "lotreset":
             listing = session.get(Listing, int(arg))
             set_listing_markup(listing, None)

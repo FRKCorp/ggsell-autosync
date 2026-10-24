@@ -458,3 +458,65 @@ def test_sync_request_waits_while_sync_is_running(factory, monkeypatch):
 
     assert check_price_sync_request(scheduler) is True  # синхронизация закончилась — запускаем
     scheduler.modify_job.assert_called_once()
+
+
+# ----------------------------------------------------------------------
+# Групповые лоты
+# ----------------------------------------------------------------------
+
+
+def add_group(factory):
+    from app.models import ListingVariant
+
+    with factory() as s:
+        cards = [Position(external_id=f"giftcard:app_store_itunes_tr:{n}_try", source_type=SourceType.GIFTCARD,
+                          fz_category_id="app_store_itunes_tr", fz_offer_id=f"{n}_try", region="TR",
+                          name=f"App Store & iTunes (TR) — {n} TRY", raw_payload={"name": f"{n} TRY"},
+                          last_known_price_usd=Decimal(usd)) for n, usd in ((10, "0.21"), (50, "1.02"))]
+        listing = Listing(position=cards[0], ggsell_offer_id=103721751, status=ListingStatus.DRAFT,
+                          price_rub=Decimal("23"), price_source_usd_at_sync=Decimal("0.21"), is_group=True,
+                          ggsell_option_id=8978128, ggsell_fee=Decimal("0.06"), ggsell_payment_fee=Decimal("0.027"))
+        for i, (card, rub) in enumerate(zip(cards, ("23", "110"))):
+            listing.variants.append(ListingVariant(position=card, ggsell_variant_id=72400001 + i, sort_order=i,
+                                                   price_rub=Decimal(rub), price_source_usd_at_sync=card.last_known_price_usd))
+        s.add(listing)
+        s.add(Order(ggsell_invoice_id="56000001", listing=listing, position=cards[1], status=OrderStatus.MANUAL_REVIEW,
+                    buyer_data={"Номинал": "50 TRY"}, price_at_sale_rub=Decimal("110"), error_message="Insufficient balance"))
+        s.commit()
+
+
+def test_group_lot_found_by_nominal_and_card_lists_nominals(bot, factory):
+    add_group(factory)
+
+    bot.handle_update(msg("/lot iTunes TR 50"))
+
+    card = sent(bot)[0]
+    assert "App Store & iTunes (TR) — 2 номинала" in card and "групповой" in card
+    assert "Цена на витрине: от 23 ₽" in card
+    assert "• 10 TRY: 23 ₽" in card and "• 50 TRY: 110 ₽" in card and "FZ $1.02" in card
+
+
+def test_orders_show_bought_nominal(bot, factory):
+    add_group(factory)
+
+    bot.handle_update(msg(views.BTN_ORDERS))
+    bot.handle_update(msg(views.BTN_MANUAL))
+
+    assert "App Store & iTunes (TR) — 50 TRY · 110 ₽" in sent(bot)[0]
+    assert any("Заказ 56000001" in t and "— 50 TRY" in t for t in sent(bot)[1:])
+
+
+def test_group_lot_markup_prompt_uses_group_title(bot, factory):
+    add_group(factory)
+    with factory() as s:
+        listing_id = s.scalar(select(Listing).where(Listing.is_group.is_(True))).id
+
+    bot.handle_update(click(f"lotmk:{listing_id}"))
+
+    assert "2 номинала" in sent(bot)[-1]
+
+
+@pytest.mark.parametrize("n, word", [(1, "номинал"), (2, "номинала"), (4, "номинала"), (5, "номиналов"),
+                                     (11, "номиналов"), (13, "номиналов"), (21, "номинал"), (23, "номинала")])
+def test_nominals_word(n, word):
+    assert views.nominals_word(n) == word

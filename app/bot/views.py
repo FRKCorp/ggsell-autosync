@@ -8,14 +8,17 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from typing import Any, Optional
 
-from sqlalchemy import func, or_, select
-from sqlalchemy.orm import Session
+from sqlalchemy import and_, func, or_, select
+from sqlalchemy.orm import Session, aliased
 
 from app import settings
+from app.clients.telegram import truncate
 from app.models.listing import Listing, ListingStatus
+from app.models.listing_variant import ListingVariant
 from app.models.order import Order, OrderStatus
 from app.models.position import Position
 from app.pricing.exchange_rate import current_rate
+from app.pricing.group_price import target_price
 from app.pricing.listing_price import effective_markup, listing_price_rub, load_pricing_config
 
 MSK = timezone(timedelta(hours=3))  # в Москве нет перехода на летнее время
@@ -163,8 +166,15 @@ def pricer_panel(session: Session) -> tuple[str, dict]:
 # ----------------------------------------------------------------------
 
 
+def order_product(order: Order) -> str:
+    """Что купили: у группового лота — выбранный номинал."""
+    if order.position is not None:
+        return order.position.name
+    return order.listing.position.name if order.listing else "?"
+
+
 def _order_line(order: Order) -> str:
-    name = order.listing.position.name if order.listing else "?"
+    name = order_product(order)
     return (f"{fmt_time(order.created_at)} · Заказ {order.ggsell_invoice_id} · "
             f"{ORDER_STATUS_NAMES.get(OrderStatus(order.status), order.status)}\n"
             f"   {name} · {fmt_num(order.price_at_sale_rub)} ₽")
@@ -189,7 +199,7 @@ def manual_order_card(order: Order) -> tuple[str, dict]:
     data = "\n".join(f"   {k}: {v}" for k, v in (order.buyer_data or {}).items())
     text = (
         f"Заказ {order.ggsell_invoice_id} — {ORDER_STATUS_NAMES.get(OrderStatus(order.status), order.status)}\n"
-        f"{order.listing.position.name if order.listing else '?'}\n"
+        f"{order_product(order)}\n"
         f"Оплачено: {fmt_num(order.price_at_sale_rub)} ₽, создан {fmt_time(order.created_at)}\n"
         + (f"Данные покупателя:\n{data}\n" if data else "")
         + f"Причина: {order.error_message or '—'}\n\n"
@@ -203,29 +213,80 @@ def manual_order_card(order: Order) -> tuple[str, dict]:
 # ----------------------------------------------------------------------
 
 
+def nominals_word(n: int) -> str:
+    if n % 10 == 1 and n % 100 != 11:
+        return "номинал"
+    if 2 <= n % 10 <= 4 and not 12 <= n % 100 <= 14:
+        return "номинала"
+    return "номиналов"
+
+
+def listing_title(listing: Listing) -> str:
+    """Название лота для бота: у группового — категория без номинала."""
+    if listing.is_group:
+        n = len(listing.variants)
+        return f"{listing.position.name.split(' — ', 1)[0]} — {n} {nominals_word(n)}"
+    return listing.position.name
+
+
 def find_listings(session: Session, query: str, limit: int = 10) -> list[Listing]:
+    """Поиск по id или по словам названия; групповой лот находится и по
+    названию любого своего номинала («iTunes TR 50»)."""
     query = query.strip()
     stmt = select(Listing).join(Listing.position).where(Listing.status != ListingStatus.ARCHIVED)
     if query.isdigit():
         stmt = stmt.where(or_(Listing.ggsell_offer_id == int(query), Listing.id == int(query)))
     else:
-        for word in query.split():
-            stmt = stmt.where(Position.name.ilike(f"%{word}%"))
+        words = query.split()
+        nominal = aliased(Position)
+        in_group = select(ListingVariant.listing_id).join(nominal, ListingVariant.position_id == nominal.id).where(
+            *[nominal.name.ilike(f"%{word}%") for word in words])
+        stmt = stmt.where(or_(and_(*[Position.name.ilike(f"%{word}%") for word in words]), Listing.id.in_(in_group)))
     return session.scalars(stmt.order_by(Position.name).limit(limit)).all()
 
 
 def lot_search_results(listings: list[Listing], query: str) -> tuple[str, Optional[dict]]:
     if not listings:
         return f"По запросу «{query}» лотов не найдено. Пришлите id лота GGSell или часть названия.", None
-    rows = [[button(f"{l.position.name} · {fmt_num(l.price_rub)} ₽"[:60], f"lot:{l.id}")] for l in listings]
+    rows = [[button(f"{listing_title(l)} · {'от ' if l.is_group else ''}{fmt_num(l.price_rub)} ₽"[:60], f"lot:{l.id}")]
+            for l in listings]
     more = "\n(показаны первые 10 — уточните запрос)" if len(listings) == 10 else ""
     return f"Найдено: {len(listings)}. Выберите лот:{more}", inline(*rows)
+
+
+def _group_lines(listing: Listing, config) -> list[str]:
+    """Номиналы группового лота: цена на витрине, расчётная, цена FZ."""
+    lines = []
+    for variant in sorted(listing.variants, key=lambda v: v.sort_order):
+        position = variant.position
+        mark = "" if variant.status == "active" else " · скрыт"
+        if position.fz_missing_since is not None:
+            mark += " · нет у FZ"
+        lines.append(f"  • {position.raw_payload.get('name', position.name)}: {fmt_num(variant.price_rub)} ₽ "
+                     f"(расчёт {fmt_num(target_price(listing, variant, config))}, FZ ${fmt_num(position.last_known_price_usd)}){mark}")
+    return lines
 
 
 def lot_card(session: Session, listing: Listing) -> tuple[str, dict]:
     config = load_pricing_config(session)
     markup = effective_markup(config, listing.markup_percent)
     status = LISTING_STATUS_NAMES.get(listing.status, listing.status)
+    if listing.is_group:
+        text = "\n".join([
+            f"🏷 {listing_title(listing)}",
+            f"Лот GGSell {listing.ggsell_offer_id} · {status} · групповой (параметр «Номинал»)",
+            "",
+            f"Цена на витрине: от {fmt_num(listing.price_rub)} ₽",
+            f"Наценка: {fmt_num(markup)}% " + ("(индивидуальная)" if listing.markup_percent is not None else "(глобальная)"),
+            f"Комиссия GGSell: {fmt_num((listing.ggsell_fee + listing.ggsell_payment_fee) * 100)}%",
+            "",
+            "Номиналы:",
+            *_group_lines(listing, config),
+        ])
+        rows = [[button("✏️ Своя наценка", f"lotmk:{listing.id}")]]
+        if listing.markup_percent is not None:
+            rows.append([button("↩️ Вернуть глобальную", f"lotreset:{listing.id}")])
+        return truncate(text), inline(*rows)
     text = "\n".join([
         f"🏷 {listing.position.name}",
         f"Лот GGSell {listing.ggsell_offer_id} · {status}",
