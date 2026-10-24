@@ -6,6 +6,9 @@
     python scripts/upload_offers.py                         # все позиции из карты категорий
 На сервере: docker compose exec app python scripts/upload_offers.py ...
 
+Номиналы групповых категорий (data/grouped_categories.json, App Store)
+заливаются одним лотом на категорию с параметром «Номинал».
+
 Повторный запуск безопасен: уже созданные лоты пропускаются, недоделанные
 (без опций) — доделываются. Лоты — только черновики (клиент сам ставит
 обложки и публикует). Вебхук — GGSELL_WEBHOOK_URL из .env, поэтому боевой
@@ -30,6 +33,8 @@ from app.clients.ggsell import GGSellV2Client  # noqa: E402
 from app.db import SessionLocal  # noqa: E402
 from app.models.position import Position  # noqa: E402
 from app.offers.categories import SPECIAL_CATEGORIES, CategoryTree, resolve_positions  # noqa: E402
+from app.offers.group_uploader import upload_groups  # noqa: E402
+from app.offers.groups import group_positions, is_grouped  # noqa: E402
 from app.offers.uploader import FieldsSource, default_webhook_url, upload_positions  # noqa: E402
 from app.pricing.exchange_rate import refresh_rate  # noqa: E402
 from app.pricing.listing_price import load_pricing_config  # noqa: E402
@@ -83,7 +88,14 @@ def main() -> None:
         or_(Position.external_id.in_(known), Position.fz_category_id.in_(selected))
     ).order_by(Position.id)
     positions = [p for p in session.scalars(query) if matches_only(p.external_id, args.only)]
-    print(f"Позиций к обработке: {len(positions)}{' (dry run)' if args.dry_run else ''}")
+    # Групповую категорию берём целиком, даже если --only выбрал один номинал.
+    group_categories = sorted({p.fz_category_id for p in positions if is_grouped(p)})
+    singles = [p for p in positions if not is_grouped(p)]
+    group_members = list(session.scalars(
+        select(Position).where(Position.fz_category_id.in_(group_categories)).order_by(Position.id)
+    )) if group_categories else []
+    print(f"Позиций к обработке: {len(singles)}, групповых категорий: {len(group_categories)}"
+          f"{' (dry run)' if args.dry_run else ''}")
 
     with GGSellV2Client(
         api_key=os.getenv("GGSELL_API_KEY"),
@@ -93,7 +105,8 @@ def main() -> None:
         api_key=os.getenv("FAZERCARDS_API_KEY"),
         base_url=os.getenv("FAZERCARDS_BASE_URL", "https://api.fzr.cards/api/v2"),
     ) as fz:
-        unmapped = [p for p in positions if p.external_id not in category_map and p.external_id not in SPECIAL_CATEGORIES]
+        unmapped = [p for p in singles + group_members
+                    if p.external_id not in category_map and p.external_id not in SPECIAL_CATEGORIES]
         if unmapped:
             print(f"Новых позиций без категории в карте: {len(unmapped)} — подбираю по правилам")
 
@@ -115,16 +128,25 @@ def main() -> None:
                 print(f"  ⏭ не выставляются ({len(ids)}): {', '.join(ids[:3])}{more} — {reason}")
 
         report = upload_positions(
-            session, v2, positions, category_map, config, FieldsSource(fz, fallback_fields),
+            session, v2, singles, category_map, config, FieldsSource(fz, fallback_fields),
             webhook_url=webhook_url, pause_seconds=args.pause, limit=args.limit,
             dry_run=args.dry_run, on_progress=lambda message: print(message, flush=True),
+        )
+        group_report = upload_groups(
+            session, v2, group_positions(group_members), category_map, config,
+            webhook_url=webhook_url, pause_seconds=args.pause, dry_run=args.dry_run,
+            on_progress=lambda message: print(message, flush=True),
         )
     session.close()
 
     print(f"\nГотово: {report.summary()}")
-    for external_id, error in report.errors.items():
-        print(f"  ❌ {external_id}: {error}")
-    sys.exit(1 if report.errors else 0)
+    print(f"Групповые лоты: {group_report.summary()}")
+    if group_report.pending_conversion:
+        print(f"  ⏳ ждут перевода в групповые лоты (scripts/group_offers.py): {', '.join(group_report.pending_conversion)}")
+    errors = {**report.errors, **group_report.errors}
+    for key, error in errors.items():
+        print(f"  ❌ {key}: {error}")
+    sys.exit(1 if errors else 0)
 
 
 if __name__ == "__main__":

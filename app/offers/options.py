@@ -162,7 +162,7 @@ def attach_topup_options(
     if not specs:
         return []
 
-    existing = {o["title_ru"]: o for o in _options_list(v2.list_offer_options(offer_id))}
+    existing = {o["title_ru"]: o for o in options_list(v2.list_offer_options(offer_id))}
     missing = [s.option for s in specs if s.option["title_ru"] not in existing]
     if missing:
         v2.create_or_update_options(offer_id, missing)
@@ -170,7 +170,7 @@ def attach_topup_options(
     with_variants = [s for s in specs if s.variants]
     if with_variants:
         if missing:
-            existing = {o["title_ru"]: o for o in _options_list(v2.list_offer_options(offer_id))}
+            existing = {o["title_ru"]: o for o in options_list(v2.list_offer_options(offer_id))}
         for spec in with_variants:
             created = existing.get(spec.option["title_ru"])
             if created is None:
@@ -180,10 +180,10 @@ def attach_topup_options(
             if not created.get("variants"):
                 v2.create_or_update_variants(offer_id, created["id"], spec.variants)
 
-    return _options_list(v2.list_offer_options(offer_id))
+    return options_list(v2.list_offer_options(offer_id))
 
 
-def _options_list(response: Any) -> list[dict[str, Any]]:
+def options_list(response: Any) -> list[dict[str, Any]]:
     if isinstance(response, dict):
         return response.get("data", response.get("options", []))
     return response or []
