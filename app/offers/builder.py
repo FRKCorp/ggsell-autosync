@@ -160,7 +160,9 @@ def game_name(position: Position) -> str:
         kept = [part for part in parts if part.casefold() not in drop]
         return f" ({', '.join(kept)})" if kept else ""
 
-    return " ".join(_PARENS.sub(keep_only_meaningful, category_part).split())
+    name = " ".join(_PARENS.sub(keep_only_meaningful, category_part).split())
+    # GGSell показывает «&» в названии лота как «&amp;» — «App Store & iTunes» → «App Store / iTunes».
+    return name.replace(" & ", " / ").replace("&", " and ")
 
 
 # ----------------------------------------------------------------------
@@ -350,3 +352,128 @@ def build_offer(
         price_usd=position.last_known_price_usd,
         fz_fields=fz_fields if source_type != SourceType.GIFTCARD else [],
     )
+
+
+# ----------------------------------------------------------------------
+# Групповая карточка: несколько номиналов через параметр «Номинал»
+# ----------------------------------------------------------------------
+
+
+@dataclass
+class VariantDraft:
+    """Номинал группового лота: подпись варианта и полная цена номинала."""
+
+    position: Position
+    title_ru: str
+    title_en: str
+    price_rub: Decimal
+
+
+@dataclass
+class GroupOfferDraft:
+    """create_offer (цена — базового номинала) + параметр «Номинал» и его варианты."""
+
+    payload: dict[str, Any]
+    option: dict[str, Any]
+    variants: list[VariantDraft]
+    category_id: int
+    fees: GGSellFees
+
+    @property
+    def base(self) -> VariantDraft:
+        return self.variants[0]
+
+
+def nominal_title(position: Position) -> str:
+    """Подпись варианта — номинал как у FZ: «25 GBP»."""
+    return " ".join((position.raw_payload or {}).get("name", position.name.split(" — ", 1)[-1]).split())
+
+
+def _nominals_text(titles: list[str]) -> str:
+    """«5 GBP, 10 GBP, 50 GBP» → «5, 10, 50 GBP» (если валюта у всех одна)."""
+    matches = [_CURRENCY_ONLY.match(t) for t in titles]
+    currencies = {m.group(2) for m in matches if m}
+    if all(matches) and len(currencies) == 1:
+        return ", ".join(m.group(1).strip() for m in matches) + f" {currencies.pop()}"
+    return ", ".join(titles)
+
+
+def build_group_offer(
+    members: list[Position],
+    category: dict[str, Any],
+    config: PricingConfig,
+    *,
+    option_title_ru: str,
+    option_title_en: str,
+    webhook_url: Optional[str],
+    markup_percent: Optional[Decimal] = None,
+    templates: Optional[dict[str, Any]] = None,
+    terms_data: Optional[dict[str, Any]] = None,
+) -> GroupOfferDraft:
+    """members — номиналы группы по возрастанию цены (app/offers/groups.py),
+    первый — базовый. category — запись карты категорий базового номинала."""
+    if not members:
+        raise ValueError("В группе нет номиналов")
+    templates = templates or load_templates()
+    terms_data = terms_data or load_terms()
+    base = members[0]
+    region = base.region or GLOBAL
+    game = game_name(base)
+    block = templates["giftcard_group"]
+    titles = [nominal_title(p) for p in members]
+    currencies = {m.group(2) for m in (_CURRENCY_ONLY.match(t) for t in titles) if m}
+    currency = f" ({next(iter(currencies))})" if len(currencies) == 1 else ""
+    option_titles = {"ru": option_title_ru, "en": option_title_en}
+
+    texts = {}
+    for lang in ("ru", "en"):
+        item = terms_data["giftcard_item"][lang] + currency
+        values = {
+            "game": game,
+            "region": region,
+            "item": item,
+            "tag": templates["tag"]["giftcard"][lang],
+            "region_text": region_text(region, SourceType.GIFTCARD, lang, templates),
+            "service": game,
+            "nominals": _nominals_text(titles),
+            "option": option_titles[lang],
+        }
+        texts[lang] = {
+            "title": _fit_title(templates["title"][lang], values),
+            "description": _render_lines(block[f"description_{lang}"], values),
+            "instructions": block[f"instructions_{lang}"].format(**values),
+        }
+
+    fees = GGSellFees.from_category(category.get("fee"), category.get("payment_fee"))
+    variants = [
+        VariantDraft(position=p, title_ru=t, title_en=t,
+                     price_rub=price_rub(p.last_known_price_usd, config, fees, markup_percent))
+        for p, t in zip(members, titles)
+    ]
+    payload = {
+        "title_ru": texts["ru"]["title"],
+        "title_en": texts["en"]["title"],
+        "description_ru": texts["ru"]["description"],
+        "description_en": texts["en"]["description"],
+        "instructions_ru": texts["ru"]["instructions"],
+        "instructions_en": texts["en"]["instructions"],
+        "cover_image_ru": placeholder_cover_base64(),
+        "price": float(variants[0].price_rub),
+        "currency": "RUB",
+        "category_id": category["category_id"],
+        "is_autoselling": False,
+        "min_quantity": 1,
+        "max_quantity": 1,
+        "is_unlimited_quantity": True,
+        "delivery": "auto",
+    }
+    if webhook_url:
+        payload["notification_settings"] = {
+            "type": "url", "url": webhook_url, "http_method": "POST", "is_disabled": False, "is_default": False,
+        }
+    option = {
+        "type": "radio_button", "status": "active", "title_ru": option_title_ru, "title_en": option_title_en,
+        "is_required": True, "position": 0,
+    }
+    return GroupOfferDraft(payload=payload, option=option, variants=variants,
+                           category_id=category["category_id"], fees=fees)
