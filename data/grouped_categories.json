@@ -1,0 +1,8 @@
+{
+  "_comment": "Категории FZ, номиналы которых продаются одним лотом с параметром «Номинал» (app/offers/groups.py). Ключ — category_id FZ или шаблон с *. max_price_usd — номиналы дороже не продаются (у App Store модерация GGSell требует максимальный номинал не дороже $100 в эквиваленте, допуск 5%). Один лот — одна категория FZ (у App Store — один регион).",
+  "app_store_itunes_*": {
+    "max_price_usd": 105,
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  }
+}
