@@ -124,6 +124,23 @@ def test_status(bot):
     assert "Баланс FazerCards: 1.5000 USD" in text
 
 
+@pytest.mark.parametrize("status, shown", [("on_review", "на проверке 1"), ("blocked_by_admin", "blocked_by_admin 1")])
+def test_status_and_lot_card_with_moderation_statuses(bot, factory, status, shown):
+    """Лот на проверке модератором (защищённая категория) или с незнакомым
+    статусом GGSell не ломает «Статус» и карточку лота."""
+    with factory() as s:
+        s.scalar(select(Listing)).status = status
+        s.commit()
+
+    bot.handle_update(msg(views.BTN_STATUS))
+    bot.handle_update(msg("/lot 103310519"))
+
+    status_text, card = sent(bot)
+    assert shown in status_text
+    assert "Ошибка" not in status_text and "Ошибка" not in card
+    assert "Лот GGSell 103310519" in card
+
+
 def test_status_without_fz_balance(bot):
     bot.services.fz_balance.side_effect = RuntimeError("403 subscription_inactive")
 

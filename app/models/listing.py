@@ -23,6 +23,7 @@ class ListingStatus(str, enum.Enum):
     ACTIVE = "active"
     PAUSED = "paused"
     ARCHIVED = "archived"
+    ON_REVIEW = "on_review"  # проверка модератором GGSell (защищённые категории)
 
 
 class Listing(TimestampMixin, Base):

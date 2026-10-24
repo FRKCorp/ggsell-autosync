@@ -39,6 +39,7 @@ LISTING_STATUS_NAMES = {
     ListingStatus.PAUSED: "на паузе",
     ListingStatus.DRAFT: "черновик",
     ListingStatus.ARCHIVED: "удалён",
+    ListingStatus.ON_REVIEW: "на проверке",
 }
 NEEDS_ATTENTION = (OrderStatus.MANUAL_REVIEW, OrderStatus.PRICE_REJECTED)
 
@@ -117,7 +118,7 @@ def status_text(session: Session, fz_balance: Optional[dict[str, Any]] = None,
         f"Каталог FZ: {positions} позиций" + (f", пропало у FZ: {missing}" if missing else "")
         + (f", нет в наличии: {out_of_stock}" if out_of_stock else ""),
         "Лоты GGSell: " + (", ".join(
-            f"{LISTING_STATUS_NAMES.get(ListingStatus(s), s)} {n}" for s, n in sorted(listings.items())
+            f"{LISTING_STATUS_NAMES.get(s, s)} {n}" for s, n in sorted(listings.items())
         ) or "нет"),
         "Заказы за 24 ч: " + (", ".join(
             f"{ORDER_STATUS_NAMES.get(OrderStatus(s), s)} {n}" for s, n in sorted(orders.items())
@@ -224,7 +225,7 @@ def lot_search_results(listings: list[Listing], query: str) -> tuple[str, Option
 def lot_card(session: Session, listing: Listing) -> tuple[str, dict]:
     config = load_pricing_config(session)
     markup = effective_markup(config, listing.markup_percent)
-    status = LISTING_STATUS_NAMES.get(ListingStatus(listing.status), listing.status)
+    status = LISTING_STATUS_NAMES.get(listing.status, listing.status)
     text = "\n".join([
         f"🏷 {listing.position.name}",
         f"Лот GGSell {listing.ggsell_offer_id} · {status}",
