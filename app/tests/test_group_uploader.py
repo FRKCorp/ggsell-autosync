@@ -44,14 +44,28 @@ class FakeGGSell:
         self.variant_calls += 1
         option = next(o for o in self.options[offer_id] if o["id"] == option_id)
         for variant in variants:
-            option["variants"].append(dict(variant, id=next(self.ids)))
+            existing = next((v for v in option["variants"] if "id" in variant and v["id"] == variant["id"]), None)
+            if existing is not None:
+                existing.update(variant)  # с id — обновление, как у GGSell
+            else:
+                option["variants"].append(dict(variant, id=next(self.ids)))
         if self.fail_variants_after_create:
             self.fail_variants_after_create = False
             raise ConnectionError("обрыв после создания вариантов")
         return {"data": []}
 
+    def patch_offer(self, offer_id, payload):
+        self.offers[offer_id].update(payload)
+        return {"data": {}}
+
     def variants(self, offer_id):
         return self.options[offer_id][0]["variants"]
+
+    def totals(self, offer_id):
+        """{подпись варианта: итоговая цена на витрине}."""
+        base = Decimal(str(self.offers[offer_id]["price"]))
+        sign = {"increase": 1, "decrease": -1}
+        return {v["title_ru"]: base + sign[v["impact_type"]] * Decimal(str(v["price"])) for v in self.variants(offer_id)}
 
 
 @pytest.fixture

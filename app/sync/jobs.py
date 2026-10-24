@@ -17,7 +17,14 @@ from app.orders.notifications import notify_admin
 from app.pricing.exchange_rate import current_rate, refresh_rate
 from app.pricing.listing_price import load_pricing_config
 from app.sync.fz_catalog import refresh_all_positions
-from app.sync.showcase import check_availability, fetch_offers, fz_errors_alert, push_prices, sync_listings
+from app.sync.showcase import (
+    check_availability,
+    fetch_offers,
+    fz_errors_alert,
+    push_prices,
+    sync_group_variants,
+    sync_listings,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -130,6 +137,9 @@ def sync_showcase(session, force: bool = False) -> str:
         ) as v2:
             synced = sync_listings(session, fetch_offers(v2))
             logger.info("Лоты GGSell: %s", synced)
+            variants = sync_group_variants(session, v2)
+            if any(variants.values()):
+                logger.info("Варианты групповых лотов: %s", variants)
 
             if not settings.pricer_enabled(session):
                 logger.info("Прайсер выключен — цены на GGSell не отправляю")

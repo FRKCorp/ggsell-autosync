@@ -33,8 +33,10 @@ from sqlalchemy.orm import Session
 from app.clients.ggsell import GGSellError, GGSellV2Client, call_with_retry
 from app.models.listing import Listing, ListingStatus
 from app.models.position import Position, SourceType
+from app.offers.options import options_list
 from app.orders.notifications import notify_admin
 from app.pricing.calculator import GGSellFees, PricingConfig, is_margin_safe
+from app.pricing.group_price import apply_group_update, plan_group_update
 from app.pricing.listing_price import listing_price_rub
 from app.sync.fz_catalog import is_gone_error, is_unexpected_fz_error
 
@@ -202,12 +204,14 @@ class PushReport:
     margin_fixes: list[str] = field(default_factory=list)  # лоты, где цена уже не давала мин. маржу
     deleted_on_ggsell: int = 0
     errors: dict[int, str] = field(default_factory=dict)
+    variants_patched: int = 0  # надбавки вариантов групповых лотов
 
     def summary(self) -> str:
         return (
             f"обновлено={self.patched}, без изменений={self.unchanged}, "
             f"ниже порога={self.skipped_below_threshold}, защита маржи={len(self.margin_fixes)}, "
             f"удалены на GGSell={self.deleted_on_ggsell}, ошибок={len(self.errors)}"
+            + (f", вариантов групповых лотов={self.variants_patched}" if self.variants_patched else "")
         )
 
 
@@ -234,6 +238,11 @@ def push_prices(
             select(Listing).where(Listing.status != ListingStatus.ARCHIVED).order_by(Listing.id)
         ).all()
     for listing in listings:
+        if listing.is_group:
+            _push_group(session, v2, listing, config, threshold, report, sleep)
+            if pause_seconds:
+                sleep(pause_seconds)
+            continue
         position = listing.position
         if position.fz_missing_since is not None or not position.last_known_price_usd:
             report.unchanged += 1  # у FZ позиции нет — цену поставщика не знаем
@@ -275,10 +284,102 @@ def push_prices(
 
     if report.margin_fixes:
         alert(
-            f"⚠️ У {len(report.margin_fixes)} лотов цена на GGSell давала маржу ниже "
+            f"⚠️ У {len(report.margin_fixes)} лотов (номиналов) цена на GGSell давала маржу ниже "
             f"{config.min_margin_percent}% (выросла цена поставщика или цену меняли вручную) — "
             f"цены пересчитаны:\n{_short_list(report.margin_fixes)}"
         )
     if report.errors:
         alert(f"❗ Не удалось обновить цену у {len(report.errors)} лотов на GGSell — см. логи.")
     return report
+
+
+# ----------------------------------------------------------------------
+# Групповые лоты: надбавки вариантов «Номинал»
+# ----------------------------------------------------------------------
+
+
+def _push_group(
+    session: Session,
+    v2: GGSellV2Client,
+    listing: Listing,
+    config: PricingConfig,
+    threshold: Decimal,
+    report: PushReport,
+    sleep: Callable[[float], None],
+) -> None:
+    """Цена лота (базовый номинал) и надбавки вариантов. Если что-то не
+    отправилось, в БД не пишем ничего: следующая синхронизация прочитает
+    фактическое состояние с витрины (sync_group_variants) и выровняет."""
+    update = plan_group_update(listing, config, threshold)
+    if update.empty:
+        report.unchanged += 1
+        return
+    try:
+        if update.base_changed:
+            call_with_retry(v2.patch_offer, listing.ggsell_offer_id, {"price": float(update.base_price)},
+                            sleep=sleep, retry_network=True)
+        if update.variants:
+            call_with_retry(v2.create_or_update_variants, listing.ggsell_offer_id, listing.ggsell_option_id,
+                            update.variants, sleep=sleep, retry_network=True)
+    except GGSellError as e:
+        if e.status_code == 404:
+            listing.status = ListingStatus.ARCHIVED
+            report.deleted_on_ggsell += 1
+        else:
+            report.errors[listing.ggsell_offer_id] = f"{e.status_code}: {e.payload}"
+        session.commit()
+        return
+    apply_group_update(listing, update)
+    session.commit()
+    report.patched += 1
+    report.variants_patched += len(update.variants)
+    report.margin_fixes.extend(update.margin_fixes)
+
+
+def _variant_total(base_price: Decimal, variant: dict[str, Any]) -> Decimal:
+    """Итоговая цена варианта на витрине: база ± надбавка (fixed или percent)."""
+    amount = Decimal(str(variant.get("price") or 0))
+    if variant.get("discount_type") == "percent":
+        amount = base_price * amount / 100
+    sign = -1 if variant.get("impact_type") == "decrease" else 1
+    return (base_price + sign * amount).quantize(Decimal("0.01"))
+
+
+def sync_group_variants(
+    session: Session, v2: GGSellV2Client, sleep: Callable[[float], None] = time.sleep
+) -> dict[str, int]:
+    """Фактические надбавки и статусы вариантов групповых лотов — с витрины, как
+    цены отдельных лотов в sync_listings: изменённую вручную надбавку прайсер
+    вернёт к расчётной, а после частичного сбоя отправки цены выровняются."""
+    changed = hidden = errors = 0
+    group_listings = session.scalars(select(Listing).where(
+        Listing.is_group.is_(True), Listing.status != ListingStatus.ARCHIVED, Listing.ggsell_option_id.is_not(None),
+    )).all()
+    for listing in group_listings:
+        try:
+            response = call_with_retry(v2.list_offer_options, listing.ggsell_offer_id, sleep=sleep, retry_network=True)
+        except GGSellError as e:
+            errors += 1
+            logger.warning("Варианты лота %s не получены: %s", listing.ggsell_offer_id, e)
+            continue
+        option = next((o for o in options_list(response) if o.get("id") == listing.ggsell_option_id), None)
+        on_ggsell = {v["id"]: v for v in (option or {}).get("variants") or []}
+        for variant in listing.variants:
+            if variant.ggsell_variant_id is None:
+                continue
+            live = on_ggsell.get(variant.ggsell_variant_id)
+            if live is None:
+                if variant.status != "hidden":
+                    logger.warning("Лот %s: вариант %s удалён на GGSell", listing.ggsell_offer_id, variant.ggsell_variant_id)
+                    variant.status = "hidden"
+                    hidden += 1
+                continue
+            status = "active" if live.get("status", "active") == "active" else "hidden"
+            total = _variant_total(listing.price_rub, live)
+            if total != variant.price_rub or status != variant.status:
+                logger.info("Лот %s, %s: на GGSell %s ₽ (%s), у нас %s ₽ — беру с витрины", listing.ggsell_offer_id,
+                            variant.position.name, total, status, variant.price_rub)
+                variant.price_rub, variant.status = total, status
+                changed += 1
+    session.commit()
+    return {"variants_changed_on_ggsell": changed, "variants_hidden": hidden, "errors": errors}
