@@ -1,9 +1,8 @@
 """Лот на GGSell, привязанный к позиции каталога FazerCards.
 
-Один Position может иметь несколько Listing только в переходный период
-(например, при смене архитектуры маппинга) — в норме связь 1:1, но FK
-намеренно не unique, чтобы не блокировать будущий переход на модель
-"один оффер = группа позиций через variants".
+Обычный лот — один номинал (позиция FZ). Групповой лот (is_group) —
+несколько номиналов одной категории FZ через параметр «Номинал»: номиналы —
+в listing_variants, position — базовый номинал.
 """
 
 from __future__ import annotations
@@ -64,5 +63,14 @@ class Listing(TimestampMixin, Base):
     # записывается сразу после create_offer, до опций, — если опции не
     # повесились, повторный автозалив досоздаёт только их.
     options_attached: Mapped[bool] = mapped_column(default=False, server_default="false")
+
+    # Групповой лот: несколько номиналов в одном оффере через параметр
+    # «Номинал» (app/models/listing_variant.py). position — базовый (самый
+    # дешёвый) номинал, price_rub — его цена.
+    is_group: Mapped[bool] = mapped_column(default=False, server_default="false")
+    ggsell_option_id: Mapped[Optional[int]] = mapped_column(nullable=True)
+    variants: Mapped[list["ListingVariant"]] = relationship(  # noqa: F821
+        back_populates="listing", order_by="ListingVariant.sort_order"
+    )
 
     orders: Mapped[list["Order"]] = relationship(back_populates="listing")  # noqa: F821

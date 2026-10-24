@@ -55,6 +55,11 @@ class Order(TimestampMixin, Base):
     listing_id: Mapped[int] = mapped_column(ForeignKey("listings.id"))
     listing: Mapped["Listing"] = relationship(back_populates="orders")  # noqa: F821
 
+    # Купленный номинал. У группового лота — выбранный покупателем вариант,
+    # у обычного — пусто (номинал = listing.position).
+    position_id: Mapped[Optional[int]] = mapped_column(ForeignKey("positions.id"), nullable=True)
+    position: Mapped[Optional["Position"]] = relationship()  # noqa: F821
+
     status: Mapped[OrderStatus] = mapped_column(String(20), default=OrderStatus.PENDING)
 
     # Данные, введённые покупателем при оформлении (options[].user_data из
