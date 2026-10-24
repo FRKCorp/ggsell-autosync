@@ -40,6 +40,10 @@ class FakeBatchGGSell(FakeGGSell):
 
     def _job(self, offer_ids, status):
         job_id = f"job-{len(self.jobs)}"
+        if status == "paused" and any(self.offers[i]["status"] == "on_review" for i in offer_ids):
+            # Как GGSell 24.10: лот на проверке на паузу не ставится — задача failed.
+            self.jobs[job_id] = {"status": "failed", "results": [{"code": "INVALID_OPERATION"}]}
+            return {"success": True, "job_id": job_id}
         done = 0 if self.fail_batch else len(offer_ids)
         if not self.fail_batch:
             for offer_id in offer_ids:
@@ -195,8 +199,7 @@ def test_failed_batch_leaves_db_untouched_and_rerun_retries(session):
 
 def test_drafts_and_deleted_lots_not_paused(session):
     v2 = FakeBatchGGSell()
-    lots = add_single_lots(session, v2, (10, "0.21", 23))
-    lots += add_single_lots(session, v2, (50, "1.02", 110), status="on_review")  # на проверке — тоже на паузу
+    lots = add_single_lots(session, v2, (10, "0.21", 23), (50, "1.02", 110))
     draft = add_single_lots(session, v2, (100, "2.02", 210), status="draft")[0]
     gone = add_single_lots(session, v2, (200, "4.04", 420))[0]
     v2.offers.pop(gone.ggsell_offer_id)  # удалён на GGSell вручную
@@ -206,6 +209,23 @@ def test_drafts_and_deleted_lots_not_paused(session):
     assert report.retired[CAT] == [lots[1].ggsell_offer_id]
     assert v2.offers[draft.ggsell_offer_id]["status"] == "draft"
     assert draft.status == ListingStatus.ARCHIVED and gone.status == ListingStatus.ARCHIVED
+
+
+def test_lot_on_review_waits_in_pause_mode_deleted_with_delete(session):
+    v2 = FakeBatchGGSell()
+    add_single_lots(session, v2, (10, "0.21", 23), (50, "1.02", 110))
+    reviewed = add_single_lots(session, v2, (100, "2.02", 210), status="on_review")[0]
+
+    report = run(session, v2)
+
+    assert report.errors == {} and report.on_review == {CAT: [reviewed.ggsell_offer_id]}
+    assert reviewed.status == "on_review" and v2.offers[reviewed.ggsell_offer_id]["status"] == "on_review"
+    assert len(report.retired[CAT]) == 1  # 50 TRY — на паузу
+
+    report = run(session, v2, mode=DELETE)
+
+    assert reviewed.ggsell_offer_id in report.retired[CAT] and reviewed.ggsell_offer_id not in v2.offers
+    assert reviewed.status == ListingStatus.ARCHIVED
 
 
 def test_cheapest_lot_used_when_base_nominal_has_no_lot(session):

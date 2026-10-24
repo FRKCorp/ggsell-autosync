@@ -98,6 +98,9 @@ def main() -> None:
         for category, ids in report.retired.items():
             if category not in report.converted:
                 print(f"  🧹 {category}: групповой лот уже есть, лишних лотов {action}: {len(ids)}")
+    for category, ids in report.on_review.items():
+        print(f"  🕓 {category}: лоты на проверке GGSell, на паузу их поставить нельзя: {', '.join(map(str, ids))} — "
+              f"повторите запуск после проверки или удалите их (--delete)")
     for category, n in report.over_limit.items():
         print(f"  💲 {category}: номиналов дороже лимита (не продаются): {n}")
     if report.nothing:

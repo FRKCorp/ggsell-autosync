@@ -32,6 +32,9 @@ PAUSE = "pause"
 DELETE = "delete"
 # Статусы GGSell, в которых лот не продаётся — ставить на паузу нечего.
 NOT_SELLING = {"draft", "paused"}
+# Лот на проверке GGSell на паузу не ставится (INVALID_OPERATION «cannot be
+# pause», проверено 24.10) — только удаляется; в режиме паузы ждём проверки.
+ON_REVIEW = "on_review"
 TEXT_FIELDS = ("title_ru", "title_en", "description_ru", "description_en", "instructions_ru", "instructions_en")
 
 
@@ -41,6 +44,7 @@ class ConversionReport:
     existing: int = 0
     variants_added: dict[str, int] = field(default_factory=dict)
     retired: dict[str, list[int]] = field(default_factory=dict)  # категория FZ → лоты на паузу/удалённые
+    on_review: dict[str, list[int]] = field(default_factory=dict)  # на проверке GGSell — пауза невозможна
     over_limit: dict[str, int] = field(default_factory=dict)  # номиналов дороже лимита
     nothing: list[str] = field(default_factory=list)  # нет лотов — групповой создаст upload_offers.py
     empty: list[str] = field(default_factory=list)  # нет номиналов в продаже
@@ -52,6 +56,7 @@ class ConversionReport:
             f"переведено в групповые={len(self.converted)}, уже групповые={self.existing}, "
             f"вариантов добавлено={sum(self.variants_added.values())}, "
             f"отдельных лотов {action}={sum(len(ids) for ids in self.retired.values())}, "
+            f"на проверке GGSell={sum(len(ids) for ids in self.on_review.values())}, "
             f"без лотов={len(self.nothing)}, без номиналов={len(self.empty)}, ошибок={len(self.errors)}"
         )
 
@@ -165,8 +170,12 @@ def convert_groups(
         if selection.over_limit:
             report.over_limit[fz_category_id] = len(selection.over_limit)
         others = [l for l in live if l is not target]
-        to_retire = [l.ggsell_offer_id for l in others
-                     if mode == DELETE or offers[l.ggsell_offer_id].get("status") not in NOT_SELLING]
+        live_status = {l.ggsell_offer_id: offers[l.ggsell_offer_id].get("status") for l in others}
+        waiting = [i for i, s in live_status.items() if mode == PAUSE and s == ON_REVIEW]
+        to_retire = [i for i, s in live_status.items()
+                     if mode == DELETE or (s not in NOT_SELLING and i not in waiting)]
+        if waiting:
+            report.on_review[fz_category_id] = waiting
 
         category = lot_category(target, category_map, selection.base)
         if category is None:
@@ -227,12 +236,13 @@ def convert_groups(
                 continue
             report.retired[fz_category_id] = to_retire
         for listing in singles:
-            if listing is not target and listing.status != ListingStatus.ARCHIVED:
+            if listing is not target and listing.ggsell_offer_id not in waiting and listing.status != ListingStatus.ARCHIVED:
                 listing.status = ListingStatus.ARCHIVED
         session.commit()
-        say(f"✅ {fz_category_id} → {target.ggsell_offer_id}: {len(draft.variants)} номиналов (от {draft.base.price_rub} ₽)"
+        say(f"✅ {fz_category_id} → {target.ggsell_offer_id}: номиналов {len(draft.variants)} (от {draft.base.price_rub} ₽)"
             f"{f', добавлено вариантов {added}' if added else ''}"
-            f"{f', отдельных лотов убрано {len(to_retire)}' if to_retire else ''}")
+            f"{f', отдельных лотов убрано {len(to_retire)}' if to_retire else ''}"
+            f"{f', на проверке GGSell (не на паузе) {len(waiting)}' if waiting else ''}")
         if pause_seconds:
             sleep(pause_seconds)
     return report
