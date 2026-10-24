@@ -61,7 +61,7 @@ def update_offer_texts(
     sleep: Callable[[float], None] = time.sleep,
     on_progress: Callable[[str], None] = lambda message: None,
 ) -> TextUpdateReport:
-    """offers — {offer_id: оффер} из showcase.fetch_offers."""
+    """offers — {offer_id: оффер} из showcase.fetch_known_offers."""
     report = TextUpdateReport()
     listings = session.scalars(
         select(Listing).where(Listing.status != ListingStatus.ARCHIVED).order_by(Listing.id)

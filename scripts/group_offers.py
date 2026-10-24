@@ -32,13 +32,14 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.clients.ggsell import GGSellError, GGSellV2Client  # noqa: E402
 from app.db import SessionLocal  # noqa: E402
+from app.models.listing import Listing  # noqa: E402
 from app.models.position import Position  # noqa: E402
 from app.offers.group_conversion import DELETE, PAUSE, convert_groups  # noqa: E402
 from app.offers.groups import group_positions, is_grouped  # noqa: E402
 from app.offers.uploader import default_webhook_url  # noqa: E402
 from app.pricing.exchange_rate import refresh_rate  # noqa: E402
 from app.pricing.listing_price import load_pricing_config  # noqa: E402
-from app.sync.showcase import fetch_offers  # noqa: E402
+from app.sync.showcase import fetch_known_offers  # noqa: E402
 
 
 def main() -> None:
@@ -75,7 +76,11 @@ def main() -> None:
     ) as v2:
         print("Загружаю лоты с GGSell…", flush=True)
         try:
-            offers = fetch_offers(v2)
+            # Все лоты групповых категорий, в том числе archived в БД: лот на паузе
+            # или на проверке GGSell ещё существует (на проверке — нет в общем списке).
+            offer_ids = session.scalars(select(Listing.ggsell_offer_id).join(Listing.position).where(
+                Position.fz_category_id.in_(list(groups))))
+            offers = fetch_known_offers(session, v2, offer_ids)
         except GGSellError as e:
             sys.exit(f"GGSell не отдал список лотов ({e.status_code}) — ничего не изменено, попробуйте позже")
         report = convert_groups(
@@ -88,7 +93,7 @@ def main() -> None:
     if args.dry_run:
         for category, offer_id in report.converted.items():
             n = len(groups[category].members)
-            print(f"  🔄 {category}: лот {offer_id} станет групповым ({n} номиналов), "
+            print(f"  🔄 {category}: лот {offer_id} станет групповым (номиналов: {n}), "
                   f"лишних лотов {action}: {len(report.retired.get(category, []))}")
         for category, ids in report.retired.items():
             if category not in report.converted:

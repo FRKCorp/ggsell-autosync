@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.clients.ggsell import GGSellError, GGSellV2Client  # noqa: E402
 from app.db import SessionLocal  # noqa: E402
 from app.offers.text_update import update_offer_texts  # noqa: E402
-from app.sync.showcase import fetch_offers  # noqa: E402
+from app.sync.showcase import fetch_known_offers  # noqa: E402
 
 
 def main() -> None:
@@ -48,7 +48,7 @@ def main() -> None:
     ) as v2:
         print("Загружаю лоты с GGSell…", flush=True)
         try:
-            offers = fetch_offers(v2)
+            offers = fetch_known_offers(session, v2)
         except GGSellError as e:
             sys.exit(f"GGSell не отдал список лотов ({e.status_code}) — ничего не изменено, попробуйте позже")
         for old, new in pairs:

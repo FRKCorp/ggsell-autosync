@@ -195,7 +195,8 @@ def test_failed_batch_leaves_db_untouched_and_rerun_retries(session):
 
 def test_drafts_and_deleted_lots_not_paused(session):
     v2 = FakeBatchGGSell()
-    lots = add_single_lots(session, v2, (10, "0.21", 23), (50, "1.02", 110))
+    lots = add_single_lots(session, v2, (10, "0.21", 23))
+    lots += add_single_lots(session, v2, (50, "1.02", 110), status="on_review")  # на проверке — тоже на паузу
     draft = add_single_lots(session, v2, (100, "2.02", 210), status="draft")[0]
     gone = add_single_lots(session, v2, (200, "4.04", 420))[0]
     v2.offers.pop(gone.ggsell_offer_id)  # удалён на GGSell вручную

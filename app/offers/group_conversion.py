@@ -145,7 +145,7 @@ def convert_groups(
     sleep: Callable[[float], None] = time.sleep,
     on_progress: Optional[Callable[[str], None]] = None,
 ) -> ConversionReport:
-    """offers — лоты с витрины GGSell (showcase.fetch_offers): по ним видно,
+    """offers — лоты с витрины GGSell (showcase.fetch_known_offers): по ним видно,
     какие лоты ещё существуют и в каком статусе."""
     if mode not in (PAUSE, DELETE):
         raise ValueError(f"mode: {PAUSE!r} или {DELETE!r}, не {mode!r}")
@@ -198,6 +198,7 @@ def convert_groups(
                 say(f"❌ {fz_category_id}: лот {target.ggsell_offer_id} не переведён ({e.status_code})")
                 continue
             target.is_group = True
+            target.status = offers[target.ggsell_offer_id].get("status", target.status)
             target.position_id = selection.base.id
             target.price_rub = draft.base.price_rub
             target.price_source_usd_at_sync = selection.base.last_known_price_usd

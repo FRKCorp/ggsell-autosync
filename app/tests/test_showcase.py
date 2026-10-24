@@ -15,7 +15,10 @@ from app.pricing.calculator import PricingConfig
 from app.pricing.listing_price import listing_price_rub
 from app.sync import jobs
 from app.sync.fz_catalog import is_gone_error
-from app.sync.showcase import check_availability, fetch_offers, fz_errors_alert, push_prices, sync_listings
+from app.clients.ggsell import GGSellError
+from app.sync.showcase import (
+    check_availability, fetch_known_offers, fetch_offers, fz_errors_alert, push_prices, sync_listings,
+)
 
 CONFIG = PricingConfig(Decimal("87.7367"), Decimal("15"), Decimal("3"), Decimal("5"))
 NOW = datetime(2026, 10, 1, 12, 0, tzinfo=timezone.utc)
@@ -245,10 +248,41 @@ def test_sync_listings_statuses(session):
     result = sync_listings(session, {1: offer(1, "active", float(published.price_rub)),
                                      3: offer(3, "draft", float(same.price_rub))})
 
-    assert result == {"status_changed": 1, "archived": 1, "price_changed_on_ggsell": 0, "fee_changed": 0}
+    assert result == {"status_changed": 1, "archived": 1, "revived": 0, "price_changed_on_ggsell": 0, "fee_changed": 0}
     assert published.status == "active"
     assert deleted.status == ListingStatus.ARCHIVED
     assert same.status == ListingStatus.DRAFT
+
+
+def test_lots_on_review_fetched_one_by_one(session):
+    """24.10: list_offers не отдаёт лоты на проверке GGSell — без дозапроса
+    синхронизация пометила бы их удалёнными."""
+    add_listing(session, "a", "10", 1)
+    add_listing(session, "b", "10", 2)  # на проверке
+    add_listing(session, "c", "10", 3)  # удалён
+    add_listing(session, "d", "10", 4)  # удалён, GGSell отдаёт archived
+    v2 = MagicMock()
+    v2.list_offers.return_value = {"data": [offer(1, "draft", 0)], "pagination": {"has_next_page": False}}
+    on_review = {2: {"data": offer(2, "on_review", 0)}, 4: {"data": offer(4, "archived", 0)}}
+    v2.get_offer.side_effect = lambda i: on_review[i] if i in on_review else (_ for _ in ()).throw(
+        GGSellError(404, {"errors": [{"code": "NOT_FOUND"}]}))
+
+    offers = fetch_known_offers(session, v2, sleep=lambda s: None)
+    sync_listings(session, offers)
+
+    assert {i: o["status"] for i, o in offers.items()} == {1: "draft", 2: "on_review"}
+    statuses = {l.ggsell_offer_id: l.status for l in session.query(Listing)}
+    assert statuses == {1: "draft", 2: "on_review", 3: "archived", 4: "archived"}
+
+
+def test_archived_lot_active_again_revived(session):
+    _, lot = add_listing(session, "a", "10", 1, status=ListingStatus.ARCHIVED)
+    _, paused = add_listing(session, "b", "10", 2, status=ListingStatus.ARCHIVED)
+
+    result = sync_listings(session, {1: offer(1, "active", float(lot.price_rub)),
+                                     2: offer(2, "paused", float(paused.price_rub))})
+
+    assert result["revived"] == 1 and lot.status == "active" and paused.status == ListingStatus.ARCHIVED
 
 
 def test_fee_change_on_ggsell_updates_listing_and_price(session):

@@ -72,10 +72,44 @@ def fetch_offers(v2: GGSellV2Client, sleep: Callable[[float], None] = time.sleep
         page += 1
 
 
+def fetch_known_offers(
+    session: Session, v2: GGSellV2Client, offer_ids: Optional[Iterable[int]] = None,
+    sleep: Callable[[float], None] = time.sleep,
+) -> dict[int, dict[str, Any]]:
+    """fetch_offers + дозапрос лотов, которых нет в списке: list_offers не
+    отдаёт лоты на проверке GGSell (on_review, проверено 24.10) — без
+    дозапроса они считались бы удалёнными. Удалённый лот — 404 или status
+    archived. offer_ids — какие лоты проверить (по умолчанию все неархивные из БД)."""
+    offers = fetch_offers(v2, sleep=sleep)
+    if offer_ids is None:
+        offer_ids = session.scalars(select(Listing.ggsell_offer_id).where(Listing.status != ListingStatus.ARCHIVED))
+    for offer_id in list(offer_ids):
+        if offer_id in offers:
+            continue
+        try:
+            offer = call_with_retry(v2.get_offer, offer_id, sleep=sleep, retry_network=True)
+        except GGSellError as e:
+            if e.status_code == 404:
+                continue
+            raise
+        offer = offer.get("data", offer) if isinstance(offer, dict) else offer
+        if offer.get("status") != ListingStatus.ARCHIVED:
+            offers[offer_id] = offer
+    return offers
+
+
 def sync_listings(session: Session, offers: dict[int, dict[str, Any]]) -> dict[str, int]:
     """Комиссии GGSell тоже берём с витрины: GGSell меняет их без
     предупреждения (Delta Coins: 2% → 4%), а цена лота закладывает комиссию."""
-    status_changed = archived = price_changed = fee_changed = 0
+    status_changed = archived = price_changed = fee_changed = revived = 0
+    # Лот, помеченный удалённым, снова продаётся: так было с лотами на проверке
+    # GGSell, пока их не дозапрашивали (fetch_known_offers), или его вернули вручную.
+    for listing in session.scalars(select(Listing).where(Listing.status == ListingStatus.ARCHIVED)):
+        offer = offers.get(listing.ggsell_offer_id)
+        if offer is not None and offer.get("status") == ListingStatus.ACTIVE:
+            logger.warning("Лот %s снова активен на GGSell — возвращаю в работу", listing.ggsell_offer_id)
+            listing.status = ListingStatus.ACTIVE
+            revived += 1
     for listing in session.scalars(select(Listing).where(Listing.status != ListingStatus.ARCHIVED)):
         offer = offers.get(listing.ggsell_offer_id)
         if offer is None:
@@ -103,8 +137,8 @@ def sync_listings(session: Session, offers: dict[int, dict[str, Any]]) -> dict[s
                 listing.ggsell_fee, listing.ggsell_payment_fee = fee, payment_fee
                 fee_changed += 1
     session.commit()
-    return {"status_changed": status_changed, "archived": archived, "price_changed_on_ggsell": price_changed,
-            "fee_changed": fee_changed}
+    return {"status_changed": status_changed, "archived": archived, "revived": revived,
+            "price_changed_on_ggsell": price_changed, "fee_changed": fee_changed}
 
 
 # ----------------------------------------------------------------------
