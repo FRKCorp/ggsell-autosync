@@ -41,6 +41,8 @@ from app.pricing.exchange_rate import refresh_rate  # noqa: E402
 from app.pricing.listing_price import load_pricing_config  # noqa: E402
 from app.sync.showcase import fetch_known_offers  # noqa: E402
 
+STATUS_NAMES = {"active": "активен", "draft": "черновик", "paused": "на паузе", "on_review": "на проверке"}
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Перевод лотов App Store в групповые")
@@ -93,7 +95,8 @@ def main() -> None:
     if args.dry_run:
         for category, offer_id in report.converted.items():
             n = len(groups[category].members)
-            print(f"  🔄 {category}: лот {offer_id} станет групповым (номиналов: {n}), "
+            status = report.converted_status.get(category, "")
+            print(f"  🔄 {category}: лот {offer_id} ({STATUS_NAMES.get(status, status)}) станет групповым (номиналов: {n}), "
                   f"лишних лотов {action}: {len(report.retired.get(category, []))}")
         for category, ids in report.retired.items():
             if category not in report.converted:

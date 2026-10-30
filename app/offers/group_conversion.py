@@ -41,6 +41,7 @@ TEXT_FIELDS = ("title_ru", "title_en", "description_ru", "description_en", "inst
 @dataclass
 class ConversionReport:
     converted: dict[str, int] = field(default_factory=dict)  # категория FZ → лот, ставший групповым
+    converted_status: dict[str, str] = field(default_factory=dict)  # его статус на GGSell
     existing: int = 0
     variants_added: dict[str, int] = field(default_factory=dict)
     retired: dict[str, list[int]] = field(default_factory=dict)  # категория FZ → лоты на паузу/удалённые
@@ -71,14 +72,19 @@ def category_singles(session: Session, fz_category_id: str) -> list[Listing]:
     ))
 
 
-def pick_lot(listings: list[Listing], selection: GroupSelection) -> Optional[Listing]:
-    """Лот, который станет групповым: минимального номинала из группы, если
-    такого нет — самого дешёвого из оставшихся."""
+def pick_lot(
+    listings: list[Listing], selection: GroupSelection, offers: Optional[dict[int, dict[str, Any]]] = None,
+) -> Optional[Listing]:
+    """Лот, который станет групповым: из продающихся на GGSell (у них обложка,
+    отзывы, история продаж) — минимального номинала; если продающихся нет —
+    минимального номинала из черновиков и лотов на паузе."""
     order = {p.id: i for i, p in enumerate(selection.members)}
+    offers = offers or {}
     return min(
         listings,
-        key=lambda l: (l.status == ListingStatus.ARCHIVED, order.get(l.position_id, len(order)),
-                       l.position.last_known_price_usd or 0, l.id),
+        key=lambda l: (l.status == ListingStatus.ARCHIVED,
+                       offers.get(l.ggsell_offer_id, {}).get("status") in NOT_SELLING,
+                       order.get(l.position_id, len(order)), l.position.last_known_price_usd or 0, l.id),
         default=None,
     )
 
@@ -163,7 +169,7 @@ def convert_groups(
         group = find_group_listing(session, fz_category_id)
         singles = category_singles(session, fz_category_id)
         live = [l for l in singles if l.ggsell_offer_id in offers]
-        target = group or pick_lot(live, selection)
+        target = group or pick_lot(live, selection, offers)
         if target is None:
             report.nothing.append(fz_category_id)
             continue
@@ -193,6 +199,7 @@ def convert_groups(
         if dry_run:
             if group is None:
                 report.converted[fz_category_id] = target.ggsell_offer_id
+                report.converted_status[fz_category_id] = offers.get(target.ggsell_offer_id, {}).get("status", "")
             else:
                 report.existing += 1
             if to_retire:
@@ -213,6 +220,7 @@ def convert_groups(
             target.price_source_usd_at_sync = selection.base.last_known_price_usd
             session.commit()
             report.converted[fz_category_id] = target.ggsell_offer_id
+            report.converted_status[fz_category_id] = offers.get(target.ggsell_offer_id, {}).get("status", "")
         else:
             report.existing += 1
 

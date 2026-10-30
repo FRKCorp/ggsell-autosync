@@ -265,3 +265,21 @@ def test_group_nominals_get_availability_alerts(session):
     check_availability(session, [(nominal_50, None, "FazerCards error 404: product not found")], alert=alerts.append)
 
     assert alerts and "50 TRY" in alerts[0]
+
+
+def test_selling_lot_preferred_over_cheaper_draft(session):
+    """Опубликованный лот (обложка, отзывы) важнее черновика минимального номинала."""
+    v2 = FakeBatchGGSell()
+    draft = add_single_lots(session, v2, (10, "0.21", 23), status="draft")[0]
+    active = add_single_lots(session, v2, (50, "1.02", 110), (100, "2.02", 210))
+
+    report = run(session, v2, dry_run=True)
+
+    assert report.converted == {CAT: active[0].ggsell_offer_id} and report.converted_status == {CAT: "active"}
+    assert report.retired[CAT] == [active[1].ggsell_offer_id]  # черновик не на паузу
+
+    report = run(session, v2)
+
+    assert active[0].is_group and active[0].position.fz_offer_id == "10_try"  # база — всё равно 10 TRY
+    assert [v["title_ru"] for v in v2.variants(active[0].ggsell_offer_id)][0] == "10 TRY"
+    assert draft.status == ListingStatus.ARCHIVED and v2.offers[draft.ggsell_offer_id]["status"] == "draft"
