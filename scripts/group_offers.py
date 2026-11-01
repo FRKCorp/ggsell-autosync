@@ -15,6 +15,8 @@
 
 Повторный запуск безопасен: переведённое не трогается, недоделанное
 доделывается. После --pause можно запустить с --delete — удалит лоты на паузе.
+--delete удаляет и отдельные лоты категорий, в которых у FZ сейчас нет ни одного
+номинала: продать их нельзя, а когда номиналы вернутся, групповой лот создаст upload_offers.py.
 """
 
 from __future__ import annotations
@@ -100,7 +102,8 @@ def main() -> None:
                   f"лишних лотов {action}: {len(report.retired.get(category, []))}")
         for category, ids in report.retired.items():
             if category not in report.converted:
-                print(f"  🧹 {category}: групповой лот уже есть, лишних лотов {action}: {len(ids)}")
+                reason = "нет номиналов у FZ" if category in report.empty else "групповой лот уже есть"
+                print(f"  🧹 {category}: {reason}, лишних лотов {action}: {len(ids)}")
     for category, ids in report.on_review.items():
         print(f"  🕓 {category}: лоты на проверке GGSell, на паузу их поставить нельзя: {', '.join(map(str, ids))} — "
               f"повторите запуск после проверки или удалите их (--delete)")
@@ -109,7 +112,8 @@ def main() -> None:
     if report.nothing:
         print(f"  ➕ лотов нет — групповой создаст scripts/upload_offers.py: {', '.join(report.nothing)}")
     if report.empty:
-        print(f"  ⏭ нет номиналов в продаже у FZ: {', '.join(report.empty)}")
+        print(f"  ⏭ нет номиналов в продаже у FZ: {', '.join(report.empty)}"
+              f"{'' if mode == DELETE else ' — их отдельные лоты не продаются, удалить: --delete'}")
 
     print(f"\nГотово{' (dry run — на GGSell ничего не менялось)' if args.dry_run else ''}: {report.summary(mode)}")
     for category, error in report.errors.items():

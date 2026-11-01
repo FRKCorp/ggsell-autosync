@@ -165,6 +165,23 @@ def convert_groups(
     for fz_category_id, selection in groups.items():
         if not selection.members:
             report.empty.append(fz_category_id)
+            # У FZ ни одного номинала: отдельные лоты не продать и не объединить.
+            # --delete их удаляет; когда номиналы вернутся, upload_offers.py создаст групповой лот.
+            if mode == DELETE:
+                singles = category_singles(session, fz_category_id)
+                ids = [l.ggsell_offer_id for l in singles if l.ggsell_offer_id in offers]
+                if ids and not dry_run:
+                    try:
+                        retire_offers(v2, ids, DELETE, sleep=sleep)
+                    except Exception as e:  # noqa: BLE001
+                        report.errors[fz_category_id] = f"отдельные лоты не удалены: {e}"
+                        continue
+                    for listing in singles:
+                        listing.status = ListingStatus.ARCHIVED
+                    session.commit()
+                    say(f"🗑 {fz_category_id}: нет номиналов у FZ, отдельных лотов удалено {len(ids)}")
+                if ids:
+                    report.retired[fz_category_id] = ids
             continue
         group = find_group_listing(session, fz_category_id)
         singles = category_singles(session, fz_category_id)

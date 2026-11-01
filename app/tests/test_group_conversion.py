@@ -1,5 +1,6 @@
 """Перевод отдельных лотов App Store в групповые (scripts/group_offers.py)."""
 
+from datetime import datetime, timezone
 from decimal import Decimal
 
 import pytest
@@ -283,3 +284,22 @@ def test_selling_lot_preferred_over_cheaper_draft(session):
     assert active[0].is_group and active[0].position.fz_offer_id == "10_try"  # база — всё равно 10 TRY
     assert [v["title_ru"] for v in v2.variants(active[0].ggsell_offer_id)][0] == "10 TRY"
     assert draft.status == ListingStatus.ARCHIVED and v2.offers[draft.ggsell_offer_id]["status"] == "draft"
+
+
+def test_delete_removes_lots_of_category_without_fz_nominals(session):
+    v2 = FakeBatchGGSell()
+    lots = add_single_lots(session, v2, (10, "0.21", 23), (50, "1.02", 110), status="draft")
+    for lot in lots:
+        lot.position.fz_missing_since = datetime(2026, 10, 1, tzinfo=timezone.utc)  # у FZ больше нет
+    session.commit()
+
+    report = run(session, v2)  # пауза — не трогаем
+    assert report.empty == [CAT] and report.retired == {} and all(o["status"] == "draft" for o in v2.offers.values())
+
+    report = run(session, v2, mode=DELETE, dry_run=True)
+    assert len(report.retired[CAT]) == 2 and len(v2.offers) == 2
+
+    report = run(session, v2, mode=DELETE)
+
+    assert report.errors == {} and len(report.retired[CAT]) == 2 and v2.offers == {}
+    assert all(l.status == ListingStatus.ARCHIVED for l in lots)
