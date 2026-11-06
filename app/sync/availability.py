@@ -110,6 +110,9 @@ def plan_group(listing: Listing, config: PricingConfig, rule: Optional[GroupRule
                             "is_default": v is base, "status": "active", "position": v.sort_order})
         elif v.ggsell_variant_id is not None:
             payload.append({**variant_payload(v.ggsell_variant_id, prices[v.id], base_price), "is_default": v is base})
+    # GGSell проверяет элементы по очереди и не допускает двух вариантов по
+    # умолчанию даже на миг (422), а ни одного — допускает: новый базовый — последним.
+    payload.sort(key=lambda item: item["is_default"])
     return _GroupPlan(base=base, base_price=base_price, prices=prices, hide=hide, restore=restore, payload=payload)
 
 
@@ -117,11 +120,13 @@ def _apply_group(
     session: Session, v2: GGSellV2Client, listing: Listing, plan: _GroupPlan, report: AvailabilityReport,
     sleep: Callable[[float], None],
 ) -> None:
+    # Сначала варианты: запрос с ними GGSell принимает целиком или не принимает
+    # вовсе, и тогда цену лота трогать нельзя.
+    call_with_retry(v2.create_or_update_variants, listing.ggsell_offer_id, listing.ggsell_option_id, plan.payload,
+                    sleep=sleep)
     if plan.base_price != listing.price_rub:
         call_with_retry(v2.patch_offer, listing.ggsell_offer_id, {"price": float(plan.base_price)},
                         sleep=sleep, retry_network=True)
-    call_with_retry(v2.create_or_update_variants, listing.ggsell_offer_id, listing.ggsell_option_id, plan.payload,
-                    sleep=sleep)
     new_ids: dict[str, int] = {}
     if plan.restore:
         known = {v.ggsell_variant_id for v in listing.variants}

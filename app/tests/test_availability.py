@@ -25,9 +25,13 @@ class FakeShowcase(FakeBatchGGSell):
     def create_or_update_variants(self, offer_id, option_id, variants):
         self.variant_calls += 1
         option = next(o for o in self.options[offer_id] if o["id"] == option_id)
+        before = [dict(v) for v in option["variants"]]
         for variant in variants:
             if "id" not in variant:
                 option["variants"].append(dict(variant, id=next(self.ids)))
+                if sum(1 for v in option["variants"] if v.get("is_default")) > 1:
+                    option["variants"][:] = before
+                    raise GGSellError(422, {"errors": [{"code": "FAILED_TO_SAVE"}]})
                 continue
             existing = next((v for v in option["variants"] if v["id"] == variant["id"]), None)
             if existing is None or existing.get("status") == "hidden":
@@ -35,6 +39,9 @@ class FakeShowcase(FakeBatchGGSell):
             existing.update(variant)
             if existing["status"] == "archived":
                 option["variants"].remove(existing)
+            if sum(1 for v in option["variants"] if v.get("is_default")) > 1:
+                option["variants"][:] = before  # запрос не принят целиком
+                raise GGSellError(422, {"errors": [{"code": "FAILED_TO_SAVE", "description": "1 вариант по умолчанию"}]})
         return {"data": []}
 
     def batch_activate_offers(self, offer_ids):
