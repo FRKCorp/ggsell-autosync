@@ -171,6 +171,7 @@ def check_availability(
     refresh_results: Iterable[tuple[Position, Any, Optional[str]]],
     now: Optional[datetime] = None,
     alert: Callable[[str], None] = notify_admin,
+    auto: bool = False,
 ) -> dict[str, int]:
     """refresh_results — результат refresh_all_positions: (позиция, результат,
     ошибка). Ошибка «не найден / категория 404» = позиция пропала у FZ
@@ -181,7 +182,7 @@ def check_availability(
         select(Listing.position_id).where(Listing.status != ListingStatus.ARCHIVED)
     )) | set(session.scalars(  # номиналы групповых лотов
         select(ListingVariant.position_id).join(Listing)
-        .where(Listing.status != ListingStatus.ARCHIVED, ListingVariant.status == "active")
+        .where(Listing.status != ListingStatus.ARCHIVED, ListingVariant.status.in_(("active", "unavailable")))
     ))
     gone, back, out, restocked, unexpected = [], [], [], [], []
     for position, result, error in refresh_results:
@@ -213,10 +214,12 @@ def check_availability(
                     restocked.append(position.name)
     session.commit()
 
+    untouched = ("снимаются с продажи автоматически (номинал скрывается, лот — на паузу)" if auto
+                 else "лоты на GGSell не тронуты, решите вручную")
     if gone:
-        alert(f"❗ Пропало у FazerCards ({len(gone)}) — лоты на GGSell не тронуты, решите вручную:\n{_short_list(gone)}")
+        alert(f"❗ Пропало у FazerCards ({len(gone)}) — {untouched}:\n{_short_list(gone)}")
     if out:
-        alert(f"⚠️ Закончилось у FazerCards ({len(out)}) — лоты на GGSell не тронуты:\n{_short_list(out)}")
+        alert(f"⚠️ Закончилось у FazerCards ({len(out)}) — {untouched}:\n{_short_list(out)}")
     if back:
         alert(f"✅ Снова есть у FazerCards ({len(back)}):\n{_short_list(back)}")
     if restocked:
@@ -407,7 +410,7 @@ def sync_group_variants(
                 continue
             live = on_ggsell.get(variant.ggsell_variant_id)
             if live is None:
-                if variant.status != "hidden":
+                if variant.status not in ("hidden", "unavailable"):  # unavailable — сняли сами
                     logger.warning("Лот %s: вариант %s удалён на GGSell", listing.ggsell_offer_id, variant.ggsell_variant_id)
                     variant.status = "hidden"
                     hidden += 1

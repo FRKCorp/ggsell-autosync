@@ -205,6 +205,12 @@ class BotApp:
                 settings.set_pricer_enabled(session, enabled)
                 session.commit()
                 notice = "Прайсер включён" if enabled else "Прайсер выключен — цены на GGSell не меняются"
+            elif arg == "avail":
+                auto = not settings.availability_auto(session)
+                settings.set_availability_auto(session, auto)
+                session.commit()
+                notice = ("Пропавшее у FZ будет сниматься с продажи при каждой синхронизации" if auto
+                          else "Пропавшее у FZ — только оповещение")
             elif arg == "sync":
                 self._request_sync(session)
                 notice = "Обновление цен запущено"
@@ -217,7 +223,7 @@ class BotApp:
             elif arg == "lot":
                 self.state[chat_id] = ("lot_search",)
                 self.tg.send_message(chat_id, "Пришлите id лота GGSell или часть названия.")
-            if arg in ("toggle", "sync", "show"):
+            if arg in ("toggle", "avail", "sync", "show"):
                 text, markup = views.pricer_panel(session)
                 self._edit(chat_id, message_id, text, markup)
         elif action == "lot":

@@ -69,7 +69,7 @@ def group_rule_for(fz_category_id: Optional[str], config: Optional[dict[str, Gro
     return config[max(matches, key=len)] if matches else None
 
 
-def _sort_key(position: Position) -> tuple[Decimal, float]:
+def sort_key(position: Position) -> tuple[Decimal, float]:
     """По цене FZ; при равной цене — по номиналу из названия."""
     nominal = nominal_key((position.raw_payload or {}).get("name", position.name) or "")
     try:
@@ -81,7 +81,7 @@ def _sort_key(position: Position) -> tuple[Decimal, float]:
 
 def select_group(fz_category_id: str, positions: Iterable[Position], rule: GroupRule) -> GroupSelection:
     selection = GroupSelection(fz_category_id=fz_category_id, rule=rule)
-    for position in sorted(positions, key=_sort_key):
+    for position in sorted(positions, key=sort_key):
         price = position.last_known_price_usd
         if position.fz_missing_since is not None or not price or price <= 0:
             selection.unavailable.append(position)

@@ -151,8 +151,13 @@ def pricer_panel(session: Session) -> tuple[str, dict]:
         f"Наценка (глобальная): {fmt_num(settings.global_markup_percent(session))}%",
         f"Последнее обновление цен: {fmt_time(settings.get_datetime(session, settings.PRICES_UPDATED_AT))}",
     ] + (["", "⏳ Обновление цен запрошено, итог придёт сообщением."] if requested else []))
+    auto = settings.availability_auto(session)
+    text += "\n" + (
+        "\nПропало у FZ: 🙈 снимать с продажи автоматически" if auto else "\nПропало у FZ: 🔔 только оповещение"
+    )
     markup = inline(
         [button("🔴 Выключить прайсер" if enabled else "🟢 Включить прайсер", "pricer:toggle")],
+        [button("🔔 Пропавшее: только оповещать" if auto else "🙈 Пропавшее: снимать автоматически", "pricer:avail")],
         [button("✏️ Наценка", "pricer:markup"), button("💱 Надбавка к курсу", "pricer:premium")],
         [button("🔎 Наценка лота", "pricer:lot")],
         [button("🔄 Обновить цены СЕЙЧАС", "pricer:sync")],
@@ -259,7 +264,7 @@ def _group_lines(listing: Listing, config) -> list[str]:
     lines = []
     for variant in sorted(listing.variants, key=lambda v: v.sort_order):
         position = variant.position
-        mark = "" if variant.status == "active" else " · скрыт"
+        mark = {"active": "", "unavailable": " · снят с продажи"}.get(variant.status, " · скрыт")
         if position.fz_missing_since is not None:
             mark += " · нет у FZ"
         lines.append(f"  • {position.raw_payload.get('name', position.name)}: {fmt_num(variant.price_rub)} ₽ "

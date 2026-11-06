@@ -26,6 +26,9 @@ RATE_UPDATED_AT = "rate_updated_at"  # когда курс ЦБ последни
 PRICES_UPDATED_AT = "prices_updated_at"  # последнее обновление цен (для панели)
 SYNC_FINISHED_AT = "sync_finished_at"  # синхронизация цен дошла до конца (сторож, 8.4)
 PRICER_ENABLED = "pricer_enabled"  # выключатель прайсера: false — цены на витрину не отправляются (6.8)
+# Пропавшее у FZ снимать с продажи автоматически (app/sync/availability.py);
+# false — только оповещение.
+AVAILABILITY_AUTO = "availability_auto"
 # «Обновить цены СЕЙЧАС» из бота (6.8): бот ставит запрос, scheduler его
 # забирает и запускает ту же джобу refresh_prices (две синхронизации разом не
 # идут — max_instances=1), по окончании присылает итог в Telegram.
@@ -38,6 +41,7 @@ _ENV_DEFAULTS = {
     # Запасной курс — только если ЦБ ни разу не удалось получить.
     USD_RUB_RATE: ("EXCHANGE_RATE_USD_TO_RUB", "95.0"),
     PRICER_ENABLED: ("PRICER_ENABLED", "true"),
+    AVAILABILITY_AUTO: ("AVAILABILITY_AUTO", "false"),
 }
 
 
@@ -95,6 +99,14 @@ def pricer_enabled(session: Session) -> bool:
 
 def set_pricer_enabled(session: Session, enabled: bool) -> None:
     set_value(session, PRICER_ENABLED, "true" if enabled else "false")
+
+
+def availability_auto(session: Session) -> bool:
+    return get_bool(session, AVAILABILITY_AUTO)
+
+
+def set_availability_auto(session: Session, enabled: bool) -> None:
+    set_value(session, AVAILABILITY_AUTO, "true" if enabled else "false")
 
 
 def request_price_sync(session: Session) -> None:

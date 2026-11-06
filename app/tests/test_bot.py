@@ -192,8 +192,17 @@ def test_pricer_panel(bot):
 
     text = sent(bot)[0]
     assert "Статус: 🟢 ВКЛ" in text and "Наценка (глобальная): 15%" in text
-    assert callbacks(last_markup(bot)) == ["pricer:toggle", "pricer:markup", "pricer:premium", "pricer:lot",
-                                           "pricer:sync", "pricer:show"]
+    assert "Пропало у FZ: 🔔 только оповещение" in text
+    assert callbacks(last_markup(bot)) == ["pricer:toggle", "pricer:avail", "pricer:markup", "pricer:premium",
+                                           "pricer:lot", "pricer:sync", "pricer:show"]
+
+
+def test_toggle_availability_auto(bot, factory):
+    bot.handle_update(click("pricer:avail"))
+
+    with factory() as s:
+        assert settings.availability_auto(s) is True
+    assert "Пропало у FZ: 🙈 снимать с продажи автоматически" in edited(bot)[0]
 
 
 def test_toggle_pricer(bot, factory):

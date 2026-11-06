@@ -17,6 +17,7 @@ from app.orders.notifications import notify_admin
 from app.pricing.exchange_rate import current_rate, refresh_rate
 from app.pricing.listing_price import load_pricing_config
 from app.sync.fz_catalog import refresh_all_positions
+from app.sync.availability import apply_availability
 from app.sync.showcase import (
     check_availability,
     fetch_known_offers,
@@ -96,7 +97,7 @@ def _refresh_prices() -> None:
         if fz_alert:
             notify_admin(fz_alert)
 
-        availability = check_availability(session, results)
+        availability = check_availability(session, results, auto=settings.availability_auto(session))
         logger.info("Доступность у FZ: %s", availability)
 
         showcase = sync_showcase(session, force=manual)
@@ -140,6 +141,11 @@ def sync_showcase(session, force: bool = False) -> str:
             variants = sync_group_variants(session, v2)
             if any(variants.values()):
                 logger.info("Варианты групповых лотов: %s", variants)
+            if settings.availability_auto(session):
+                availability = apply_availability(session, v2, load_pricing_config(session))
+                logger.info("Наличие у FZ, авторежим: %s", availability.summary())
+                if availability.alert_text():
+                    notify_admin(availability.alert_text())
 
             if not settings.pricer_enabled(session):
                 logger.info("Прайсер выключен — цены на GGSell не отправляю")

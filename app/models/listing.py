@@ -68,6 +68,10 @@ class Listing(TimestampMixin, Base):
     # «Номинал» (app/models/listing_variant.py). position — базовый (самый
     # дешёвый) номинал, price_rub — его цена.
     is_group: Mapped[bool] = mapped_column(default=False, server_default="false")
+
+    # Лот поставлен на паузу системой: у FZ нет товара (app/sync/availability.py).
+    # Товар вернётся — активируется только такой лот, паузу вручную не трогаем.
+    auto_paused: Mapped[bool] = mapped_column(default=False, server_default="false")
     ggsell_option_id: Mapped[Optional[int]] = mapped_column(nullable=True)
     variants: Mapped[list["ListingVariant"]] = relationship(  # noqa: F821
         back_populates="listing", order_by="ListingVariant.sort_order"
