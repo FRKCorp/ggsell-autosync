@@ -45,7 +45,7 @@ from sqlalchemy.orm import Session
 
 from app import settings
 from app.clients.fazercards import FazerCardsClient, FazerCardsError, FazerCardsRateLimitError
-from app.clients.ggsell import GGSellError, GGSellV1Client
+from app.clients.ggsell import GGSellError, GGSellV1Client, call_with_retry
 from app.models.listing import Listing
 from app.models.order import Order, OrderStatus
 from app.models.position import Position, SourceType, is_unit_priced
@@ -63,6 +63,9 @@ MAX_FZ_ORDER_RETRIES = 3
 FZ_ORDER_RETRY_DELAY_SECONDS = 5
 # Сколько ждать, пока FZ выполнит заказ, прежде чем звать человека.
 FZ_ORDER_TIMEOUT = timedelta(minutes=30)
+# Код у FZ получен, но чат GGSell не отвечает (тайм-ауты соединения, 5xx):
+# опрос FZ повторяет выдачу, а после этого срока — человеку с готовым текстом.
+DELIVERY_RETRY_WINDOW = timedelta(minutes=10)
 
 # Статусы заказа FZ (docs FZ: processing → completed / failed / refund).
 FZ_COMPLETED = "completed"
@@ -512,11 +515,22 @@ def fz_order_of(response: dict[str, Any]) -> dict[str, Any]:
 # ----------------------------------------------------------------------
 
 
-def deliver_order(
-    session: Session, ggsell_v1: GGSellV1Client, order: Order, fz_response: dict[str, Any]
-) -> Order:
+def _is_transient_ggsell_error(error: Exception) -> bool:
+    return isinstance(error, httpx.TransportError) or (
+        isinstance(error, GGSellError) and (error.status_code == 429 or error.status_code >= 500)
+    )
+
+
+def delivery_message(order: Order, fz_response: dict[str, Any]) -> Optional[str]:
     position = order.position or order.listing.position
-    message = format_delivery_message(position, order.buyer_data or {}, fz_response, quantity=order.quantity or 1)
+    return format_delivery_message(position, order.buyer_data or {}, fz_response, quantity=order.quantity or 1)
+
+
+def deliver_order(
+    session: Session, ggsell_v1: GGSellV1Client, order: Order, fz_response: dict[str, Any],
+    sleep: Callable[[float], None] = time.sleep,
+) -> Order:
+    message = delivery_message(order, fz_response)
     if message is None:
         return _to_manual_review(
             session, order,
@@ -525,13 +539,24 @@ def deliver_order(
             f"в ответе — выдайте вручную. Ответ FZ: {fz_order_of(fz_response)}",
         )
     try:
-        ggsell_v1.create_message(int(order.ggsell_invoice_id), message)
-    except GGSellError as e:
+        # Повтор после тайм-аута чтения может отправить сообщение дважды —
+        # лучше, чем покупатель без кода.
+        call_with_retry(ggsell_v1.create_message, int(order.ggsell_invoice_id), message,
+                        retries=3, sleep=sleep, retry_network=True)
+    except (GGSellError, httpx.TransportError) as e:
+        error = f"{e.status_code} {e.payload}" if isinstance(e, GGSellError) else f"{type(e).__name__}: {e}"
+        if _is_transient_ggsell_error(e):
+            # Код уже у нас: заказ остаётся «у FZ», опрос FZ повторит выдачу.
+            order.status = OrderStatus.ORDERED_UPSTREAM
+            order.error_message = f"Товар получен у FZ, чат GGSell не ответил ({error}) — повторяю выдачу"
+            session.commit()
+            logger.warning("Заказ %s: чат GGSell не ответил (%s), повторю выдачу", order.ggsell_invoice_id, error)
+            return order
         return _to_manual_review(
             session, order,
-            f"Товар получен у FZ, но не отправлен в чат: {e.status_code} {e.payload}",
+            f"Товар получен у FZ, но не отправлен в чат: {error}",
             f"Заказ {order.ggsell_invoice_id}: товар получен у FZ, но отправка в чат не удалась "
-            f"({e.status_code}). Выдать вручную! Сообщение покупателю:\n{message}",
+            f"({error}). Выдать вручную! Сообщение покупателю:\n{message}",
         )
     order.status = OrderStatus.DELIVERED
     order.delivered_message = message
@@ -541,7 +566,8 @@ def deliver_order(
 
 
 def _apply_fz_result(
-    session: Session, ggsell_v1: GGSellV1Client, order: Order, fz_response: dict[str, Any]
+    session: Session, ggsell_v1: GGSellV1Client, order: Order, fz_response: dict[str, Any],
+    sleep: Callable[[float], None] = time.sleep,
 ) -> Order:
     """Статус заказа FZ → что делаем с нашим заказом."""
     fz_order = fz_order_of(fz_response)
@@ -549,7 +575,7 @@ def _apply_fz_result(
     order.fz_status = fz_order.get("status")
     if order.fz_status == FZ_COMPLETED:
         session.commit()
-        return deliver_order(session, ggsell_v1, order, fz_response)
+        return deliver_order(session, ggsell_v1, order, fz_response, sleep=sleep)
     if order.fz_status in FZ_FINAL_FAILURES:
         return _to_manual_review(
             session, order,
@@ -692,7 +718,7 @@ def process_new_order(
 
     order.fz_ordered_at = datetime.now(timezone.utc)
     try:
-        return _apply_fz_result(session, ggsell_v1, order, fz_response)
+        return _apply_fz_result(session, ggsell_v1, order, fz_response, sleep=sleep)
     except Exception as e:  # noqa: BLE001
         return _unreadable_fz_answer(session, order, fz_response, e)
 
@@ -703,6 +729,7 @@ def poll_upstream_orders(
     ggsell_v1: GGSellV1Client,
     now: Optional[datetime] = None,
     timeout: timedelta = FZ_ORDER_TIMEOUT,
+    sleep: Callable[[float], None] = time.sleep,
 ) -> dict[str, int]:
     """Джоба опроса: заказы ORDERED_UPSTREAM → GET /orders/{id}
     у FZ → выдача / ручной разбор / ждём дальше; дольше timeout — ручной разбор."""
@@ -718,14 +745,25 @@ def poll_upstream_orders(
             response = None
         if response is not None:
             try:
-                _apply_fz_result(session, ggsell_v1, order, response)
+                _apply_fz_result(session, ggsell_v1, order, response, sleep=sleep)
             except Exception as e:  # noqa: BLE001 — один странный ответ не останавливает опрос остальных
                 _unreadable_fz_answer(session, order, response, e)
         if order.status == OrderStatus.ORDERED_UPSTREAM:
             ordered_at = order.fz_ordered_at
             if ordered_at is not None and ordered_at.tzinfo is None:
                 ordered_at = ordered_at.replace(tzinfo=timezone.utc)
-            if ordered_at is not None and now - ordered_at > timeout:
+            if order.fz_status == FZ_COMPLETED:
+                minutes = int(DELIVERY_RETRY_WINDOW.total_seconds() // 60)
+                if ordered_at is not None and now - ordered_at > DELIVERY_RETRY_WINDOW:
+                    message = delivery_message(order, response) if response is not None else None
+                    _to_manual_review(
+                        session, order,
+                        f"Товар получен у FZ, но чат GGSell не отвечал {minutes} мин",
+                        f"Заказ {order.ggsell_invoice_id}: товар получен у FZ, но чат GGSell не отвечал "
+                        f"{minutes} мин. Выдать вручную! Сообщение покупателю:\n"
+                        f"{message or fz_order_of(response or {})}",
+                    )
+            elif ordered_at is not None and now - ordered_at > timeout:
                 _to_manual_review(
                     session, order,
                     f"FZ не выполнил заказ {order.fz_order_id} за {timeout}",

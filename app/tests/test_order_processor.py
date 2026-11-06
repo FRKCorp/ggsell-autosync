@@ -295,15 +295,66 @@ def test_unmappable_buyer_data_goes_manual_review(session, config, listings):
     alert.assert_called_once()
 
 
-def test_chat_failure_keeps_message_for_manual_delivery(session, config, listings):
+def test_chat_rejects_message_goes_manual_with_text(session, config, listings):
     fz, v1 = clients()
     fz.order_topup.return_value = fz_order("completed")
-    v1.create_message.side_effect = GGSellError(500, "oops")
+    v1.create_message.side_effect = GGSellError(400, "bad request")
 
     order, alert = run(session, fz, v1, config)
 
     assert order.status == OrderStatus.MANUAL_REVIEW
     assert "Заказ выполнен" in alert.call_args.args[0]  # текст для ручной выдачи
+    v1.create_message.assert_called_once()  # 4xx не повторяем
+
+
+def test_chat_timeout_retried_then_delivered(session, config, listings):
+    """04.11 у клиента: ConnectTimeout при отправке кода в чат GGSell —
+    код у FZ уже получен, повтор отправки его выдаёт."""
+    fz, v1 = clients()
+    fz.order_topup.return_value = fz_order("completed")
+    v1.create_message.side_effect = [httpx.ConnectTimeout("timed out"), GGSellError(502, "bad gateway"), None]
+
+    order, alert = run(session, fz, v1, config)
+
+    assert order.status == OrderStatus.DELIVERED and v1.create_message.call_count == 3
+    alert.assert_not_called()
+
+
+def test_chat_down_delivery_retried_by_poll(session, config, listings):
+    fz, v1 = clients()
+    fz.order_topup.return_value = fz_order("completed")
+    v1.create_message.side_effect = httpx.ConnectTimeout("timed out")
+
+    order, alert = run(session, fz, v1, config)
+
+    assert order.status == OrderStatus.ORDERED_UPSTREAM and order.fz_status == "completed"
+    alert.assert_not_called()  # не «ответ FZ не разобран», а повтор выдачи
+    fz.order_topup.assert_called_once()
+
+    v1.create_message.side_effect = None
+    fz.get_order.return_value = fz_order("completed")
+    with patch("app.orders.order_processor.notify_admin") as alert:
+        stats = poll_upstream_orders(session, fz, v1, sleep=lambda s: None)
+
+    assert order.status == OrderStatus.DELIVERED and stats["delivered"] == 1
+    alert.assert_not_called()
+    fz.order_topup.assert_called_once()  # у FZ второй раз не покупаем
+
+
+def test_chat_down_too_long_goes_manual_with_text(session, config, listings):
+    fz, v1 = clients()
+    fz.order_topup.return_value = fz_order("completed")
+    v1.create_message.side_effect = httpx.ConnectTimeout("timed out")
+    order, _ = run(session, fz, v1, config)
+
+    fz.get_order.return_value = fz_order("completed")
+    later = datetime.now(timezone.utc) + timedelta(minutes=11)
+    with patch("app.orders.order_processor.notify_admin") as alert:
+        poll_upstream_orders(session, fz, v1, now=later, sleep=lambda s: None)
+
+    assert order.status == OrderStatus.MANUAL_REVIEW
+    text = alert.call_args.args[0]
+    assert "чат GGSell не отвечал" in text and "Заказ выполнен" in text and "МОГ" not in text
 
 
 # ----------------------------------------------------------------------
