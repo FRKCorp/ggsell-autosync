@@ -5,9 +5,12 @@ from decimal import Decimal
 
 import pytest
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.pool import StaticPool
 
+from app import settings
 from app.clients.ggsell import GGSellError
+from app.sync import jobs
 from app.models import Listing, ListingStatus, Position, SourceType
 from app.models.base import Base
 from app.sync.availability import UNAVAILABLE, apply_availability
@@ -272,3 +275,43 @@ def test_draft_lot_not_paused():
         report = apply(session, v2)
 
         assert report.paused == [] and v2.jobs == {}
+
+
+def test_removal_job_after_order_hides_nominal(monkeypatch):
+    engine = create_engine("sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool)
+    Base.metadata.create_all(engine)
+    factory = sessionmaker(engine)
+    v2 = FakeShowcase()
+    with factory() as session:
+        cards = add_cards(session, (10, "0.21"), (50, "1.02"), (100, "2.02"))
+        upload(session, v2)
+        settings.set_availability_auto(session, True)
+        gone(session, cards[1])  # так помечает заказ (order_processor.mark_gone_at_fz)
+        settings.request_availability_check(session)
+        session.commit()
+        offer_id = session.query(Listing).one().ggsell_offer_id
+
+    class Client:
+        def __init__(self, **kwargs):
+            pass
+
+        def __enter__(self):
+            return v2
+
+        def __exit__(self, *exc):
+            return False
+
+    alerts = []
+    monkeypatch.setenv("GGSELL_API_KEY", "test")
+    monkeypatch.setattr(jobs, "SessionLocal", factory)
+    monkeypatch.setattr(jobs, "GGSellV2Client", Client)
+    monkeypatch.setattr(jobs, "notify_admin", alerts.append)
+    monkeypatch.setattr("app.sync.availability.wait_batch_job", lambda *a, **k: None)
+
+    jobs.availability_check_job()
+
+    assert [v["title_ru"] for v in v2.variants(offer_id)] == ["10 TRY", "100 TRY"]
+    assert alerts and "50 TRY" in alerts[0]
+    calls = v2.variant_calls
+    jobs.availability_check_job()  # запрос снят — второй раз ничего не делает
+    assert v2.variant_calls == calls

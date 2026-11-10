@@ -55,7 +55,7 @@ from app.orders.delivery import format_delivery_message
 from app.orders.notifications import REPLY_HINT, notify_admin
 from app.pricing.calculator import PricingConfig, check_price_deviation
 from app.pricing.exchange_rate import fetch_cbr_rub_rate
-from app.sync.fz_catalog import UNEXPECTED_MARKER, UnexpectedFzResponse, parse_fz_price
+from app.sync.fz_catalog import UNEXPECTED_MARKER, ProductGoneAtFz, UnexpectedFzResponse, parse_fz_price
 
 logger = logging.getLogger(__name__)
 
@@ -285,14 +285,14 @@ def verify_price_before_charge(
         data = fz_client.get_topup_offers(position.fz_category_id)
         offer = next((o for o in data["offers"] if o["offer_id"] == position.fz_offer_id), None)
         if offer is None:
-            raise UnexpectedFzResponse(f"номинала {position.fz_offer_id!r} нет в ответе FZ")
+            raise ProductGoneAtFz(f"номинала {position.fz_offer_id!r} нет в ответе FZ")
         live_price = parse_fz_price(offer.get("price_usd"))
         fz_fields = data.get("fields", [])
     elif position.source_type == SourceType.GIFTCARD:
         data = fz_client.get_giftcard_offers(position.fz_category_id)
         offer = next((o for o in data["offers"] if o["card_id"] == position.fz_offer_id), None)
         if offer is None:
-            raise UnexpectedFzResponse(f"карты {position.fz_offer_id!r} нет в ответе FZ")
+            raise ProductGoneAtFz(f"карты {position.fz_offer_id!r} нет в ответе FZ")
         live_price = parse_fz_price(offer.get("price_usd"))
     elif position.source_type == SourceType.STEAM_GIFT:
         data = fz_client.get_steam_gift_offers(position.fz_appid)
@@ -301,7 +301,7 @@ def verify_price_before_charge(
             (r["price"] for r in offer["regions"] if r["region"] == position.region), None
         )
         if region_price is None:
-            raise UnexpectedFzResponse(f"sub_id {position.fz_sub_id!r} / {position.region} нет в ответе FZ")
+            raise ProductGoneAtFz(f"sub_id {position.fz_sub_id!r} / {position.region} нет в ответе FZ")
         live_price = parse_fz_price(region_price)
     elif buyer_fields_for(position.source_type):
         # Steam top-up / Telegram: цена единицы (или плана) из тех же эндпоинтов,
@@ -311,7 +311,7 @@ def verify_price_before_charge(
         spec = next((s for s in fetch_specs(fz_client, SourceType(position.source_type))
                      if s.external_id == position.external_id), None)
         if spec is None:
-            raise UnexpectedFzResponse(f"{position.external_id} нет в ответе FZ")
+            raise ProductGoneAtFz(f"{position.external_id} нет в ответе FZ")
         live_price = parse_fz_price(spec.price_usd)
         fz_fields = buyer_fields_for(position.source_type)
     else:
@@ -471,6 +471,23 @@ def price_check_failed(invoice_id: str, error: Exception, buyer_data: Any) -> tu
     )
 
 
+def mark_gone_at_fz(session: Session, position: Position) -> str:
+    """Заказ показал, что товара у FZ уже нет, — не ждём синхронизации:
+    позиция помечается пропавшей, в авторежиме снимается с продажи в течение
+    минуты (jobs.availability_check_job). Вернётся — синхронизация вернёт и лот.
+    Возвращает пояснение для алерта."""
+    if position.fz_missing_since is None:
+        position.fz_missing_since = datetime.now(timezone.utc)
+    if settings.availability_auto(session):
+        settings.request_availability_check(session)
+        note = "Товар помечен как пропавший у FZ и снимается с продажи (авторежим)."
+    else:
+        note = ("Товар помечен как пропавший у FZ. Снимите его с продажи вручную или включите "
+                "«🙈 Пропавшее: снимать автоматически» в «Авто-прайсере».")
+    session.commit()
+    return note
+
+
 def _verify_price_with_retries(
     fz_client: FazerCardsClient, position: Position, config: PricingConfig, sleep: Callable[[float], None]
 ) -> tuple[bool, Decimal, list[dict[str, Any]], Decimal]:
@@ -624,7 +641,10 @@ def process_new_order(
         )
     except Exception as e:  # noqa: BLE001 — любой сбой проверки цены: не покупаем, отдаём человеку
         session.rollback()
-        return _to_manual_review(session, order, *price_check_failed(invoice_id, e, ctx.buyer_data))
+        reason, text = price_check_failed(invoice_id, e, ctx.buyer_data)
+        if isinstance(e, ProductGoneAtFz):
+            text += "\n" + mark_gone_at_fz(session, ctx.position)
+        return _to_manual_review(session, order, reason, text)
     order.price_deviation_percent = deviation.quantize(Decimal("0.01"))
     if not price_ok:
         order.status = OrderStatus.PRICE_REJECTED

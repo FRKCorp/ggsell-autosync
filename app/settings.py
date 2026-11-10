@@ -29,6 +29,8 @@ PRICER_ENABLED = "pricer_enabled"  # выключатель прайсера: fa
 # Пропавшее у FZ снимать с продажи автоматически (app/sync/availability.py);
 # false — только оповещение.
 AVAILABILITY_AUTO = "availability_auto"
+# Заказ показал, что товара у FZ нет: снять с продажи, не дожидаясь синхронизации.
+AVAILABILITY_CHECK_REQUESTED_AT = "availability_check_requested_at"
 # «Обновить цены СЕЙЧАС» из бота (6.8): бот ставит запрос, scheduler его
 # забирает и запускает ту же джобу refresh_prices (две синхронизации разом не
 # идут — max_instances=1), по окончании присылает итог в Telegram.
@@ -107,6 +109,17 @@ def availability_auto(session: Session) -> bool:
 
 def set_availability_auto(session: Session, enabled: bool) -> None:
     set_value(session, AVAILABILITY_AUTO, "true" if enabled else "false")
+
+
+def request_availability_check(session: Session) -> None:
+    touch(session, AVAILABILITY_CHECK_REQUESTED_AT)
+
+
+def take_availability_check_request(session: Session) -> bool:
+    if not get(session, AVAILABILITY_CHECK_REQUESTED_AT):
+        return False
+    set_value(session, AVAILABILITY_CHECK_REQUESTED_AT, "")
+    return True
 
 
 def request_price_sync(session: Session) -> None:

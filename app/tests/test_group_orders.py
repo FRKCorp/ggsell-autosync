@@ -8,6 +8,7 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
+from app import settings
 from app.models import Listing, ListingStatus, ListingVariant, Order, OrderStatus, Position, SourceType
 from app.models.base import Base
 from app.orders.order_processor import poll_upstream_orders, process_new_order
@@ -145,3 +146,50 @@ def test_order_row_keeps_nominal(session, lot):
 
     stored = session.query(Order).one()
     assert stored.position.fz_offer_id == "50_try" and stored.listing.is_group
+
+
+def missing_card(fz, card_id):
+    fz.get_giftcard_offers.return_value = {
+        "name": "App Store & iTunes (TR)",
+        "offers": [o for o in fz_cards()["offers"] if o["card_id"] != card_id],
+    }
+
+
+def test_card_gone_at_fz_marked_and_removal_requested(session, lot):
+    """07.11 у клиента: «карты '5_usd' нет в ответе FZ» — не ждём синхронизации."""
+    settings.set_availability_auto(session, True)
+    session.commit()
+    fz, v1 = clients()
+    missing_card(fz, "50_try")
+
+    order, alert = run(session, fz, v1)
+
+    assert order.status == OrderStatus.MANUAL_REVIEW
+    fz.order_giftcard.assert_not_called()
+    gone = session.query(Position).filter_by(fz_offer_id="50_try").one()
+    assert gone.fz_missing_since is not None
+    assert settings.take_availability_check_request(session)
+    assert "снимается с продажи" in alert.call_args.args[0]
+
+
+def test_card_gone_alert_only_mode_no_request(session, lot):
+    fz, v1 = clients()
+    missing_card(fz, "50_try")
+
+    order, alert = run(session, fz, v1)
+
+    assert session.query(Position).filter_by(fz_offer_id="50_try").one().fz_missing_since is not None
+    assert not settings.take_availability_check_request(session)
+    assert "вручную" in alert.call_args.args[0]
+
+
+def test_other_price_check_failure_does_not_mark_gone(session, lot):
+    settings.set_availability_auto(session, True)
+    session.commit()
+    fz, v1 = clients(**{"50_try": "0"})  # цена 0 — неправильные данные, а не «пропало»
+
+    order, _ = run(session, fz, v1)
+
+    assert order.status == OrderStatus.MANUAL_REVIEW
+    assert session.query(Position).filter_by(fz_offer_id="50_try").one().fz_missing_since is None
+    assert not settings.take_availability_check_request(session)

@@ -363,6 +363,11 @@ class UnexpectedFzResponse(ValueError):
         super().__init__(f"{UNEXPECTED_MARKER}: {detail}")
 
 
+class ProductGoneAtFz(UnexpectedFzResponse):
+    """Категория у FZ ответила, но этого товара (номинала, карты) в ней нет —
+    товар пропал у FZ."""
+
+
 def parse_fz_price(value: Any) -> Decimal:
     """Цена из ответа FZ, только если это положительное число. Цену 0 нельзя
     принимать: из неё получился бы лот за копейки (так у клиента уже было)."""

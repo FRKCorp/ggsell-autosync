@@ -35,6 +35,8 @@ logger = logging.getLogger(__name__)
 # наценки потеряется до следующего запуска через 12 ч (нашли 03.10). Запрос
 # ждёт окончания (app/sync/scheduler.py:check_price_sync_request).
 _running = threading.Event()
+# Синхронизация и снятие с продажи по заказу меняют одни и те же лоты — по очереди.
+_showcase_lock = threading.Lock()
 
 
 def is_refresh_running() -> bool:
@@ -42,11 +44,41 @@ def is_refresh_running() -> bool:
 
 
 def refresh_prices_job() -> None:
-    _running.set()
+    with _showcase_lock:
+        _running.set()
+        try:
+            _refresh_prices()
+        finally:
+            _running.clear()
+
+
+def availability_check_job() -> None:
+    """Снять с продажи то, что заказ показал пропавшим у FZ (order_processor.mark_gone_at_fz).
+    Только по запросу и только в авторежиме; FZ и цены не трогает."""
+    if not _showcase_lock.acquire(blocking=False):
+        return  # идёт синхронизация — она сама снимет, запрос подождёт
+    session = SessionLocal()
     try:
-        _refresh_prices()
+        if not settings.take_availability_check_request(session):
+            return
+        session.commit()
+        api_key = os.getenv("GGSELL_API_KEY")
+        if not api_key or not settings.availability_auto(session):
+            return
+        with GGSellV2Client(
+            api_key=api_key, base_url=os.getenv("GGSELL_BASE_URL", "https://seller.ggsel.com"), timeout=30,
+        ) as v2:
+            report = apply_availability(session, v2, load_pricing_config(session))
+        logger.info("Наличие у FZ по заказу: %s", report.summary())
+        if report.alert_text():
+            notify_admin(report.alert_text())
+    except Exception as e:
+        session.rollback()
+        logger.exception("Снятие с продажи по заказу не удалось")
+        notify_admin(f"❗ Не удалось снять с продажи пропавшее у FZ: {e!r}. Повтор — при синхронизации цен.")
     finally:
-        _running.clear()
+        session.close()
+        _showcase_lock.release()
 
 
 def _refresh_prices() -> None:

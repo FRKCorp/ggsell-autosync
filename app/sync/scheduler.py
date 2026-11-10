@@ -24,7 +24,7 @@ from app.ops.heartbeat import beat, mark_started
 from app.ops.watchdog import Environment, run_watchdog
 from app.orders.jobs import poll_fz_orders_job, sweep_missed_orders_job
 from app.orders.notifications import notify_admin
-from app.sync.jobs import is_refresh_running, refresh_prices_job
+from app.sync.jobs import availability_check_job, is_refresh_running, refresh_prices_job
 
 logger = logging.getLogger(__name__)
 
@@ -73,6 +73,14 @@ def build_scheduler() -> BlockingScheduler:
         trigger=IntervalTrigger(seconds=15),
         id="price_sync_requests",
         name="Запрос синхронизации цен из бота",
+        coalesce=True,
+        max_instances=1,
+    )
+    scheduler.add_job(
+        availability_check_job,
+        trigger=IntervalTrigger(seconds=15),
+        id="availability_requests",
+        name="Снятие с продажи по заказу (товара нет у FZ)",
         coalesce=True,
         max_instances=1,
     )
