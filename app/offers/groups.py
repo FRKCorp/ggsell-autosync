@@ -23,9 +23,12 @@ CONFIG_PATH = Path(__file__).resolve().parents[2] / "data" / "grouped_categories
 
 @dataclass(frozen=True)
 class GroupRule:
-    max_price_usd: Decimal
+    max_price_usd: Optional[Decimal] = None  # None — без лимита
     option_title_ru: str = "Номинал"
     option_title_en: str = "Denomination"
+
+    def allows(self, price_usd: Decimal) -> bool:
+        return self.max_price_usd is None or price_usd <= self.max_price_usd
 
 
 @dataclass
@@ -49,7 +52,7 @@ def load_group_config(path: Path = CONFIG_PATH) -> dict[str, GroupRule]:
     raw = json.loads(path.read_text(encoding="utf-8"))
     return {
         key: GroupRule(
-            max_price_usd=Decimal(str(value["max_price_usd"])),
+            max_price_usd=Decimal(str(value["max_price_usd"])) if value.get("max_price_usd") is not None else None,
             option_title_ru=value.get("option_title_ru", "Номинал"),
             option_title_en=value.get("option_title_en", "Denomination"),
         )
@@ -85,7 +88,7 @@ def select_group(fz_category_id: str, positions: Iterable[Position], rule: Group
         price = position.last_known_price_usd
         if position.fz_missing_since is not None or not price or price <= 0:
             selection.unavailable.append(position)
-        elif price > rule.max_price_usd:
+        elif not rule.allows(price):
             selection.over_limit.append(position)
         else:
             selection.members.append(position)

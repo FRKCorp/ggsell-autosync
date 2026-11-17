@@ -122,6 +122,16 @@ def test_equal_prices_sorted_by_nominal():
     assert offers(group.members) == ["50_aed", "75_aed"]
 
 
+def test_rule_without_limit_keeps_expensive_nominals(tmp_path):
+    config = tmp_path / "grouped.json"
+    config.write_text('{"app_store_itunes_*": {"option_title_ru": "Номинал"}}', encoding="utf-8")
+    rule = load_group_config.__wrapped__(config)["app_store_itunes_*"]
+
+    ru = group_positions(positions(), {"app_store_itunes_*": rule})["app_store_itunes_ru"]
+
+    assert rule.max_price_usd is None and ru.over_limit == [] and offers(ru.members)[-1] == "8000_rub"
+
+
 @pytest.fixture(autouse=True)
 def fresh_config():
     load_group_config.cache_clear()

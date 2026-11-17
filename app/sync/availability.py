@@ -43,7 +43,7 @@ def is_available(position: Position, rule: Optional[GroupRule] = None) -> bool:
     if (position.fz_missing_since is not None or position.fz_out_of_stock_since is not None
             or not price or price <= 0):
         return False
-    return rule is None or price <= rule.max_price_usd
+    return rule is None or rule.allows(price)
 
 
 @dataclass
