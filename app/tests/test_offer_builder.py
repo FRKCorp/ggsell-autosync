@@ -50,6 +50,7 @@ def position(name, offer_name, source_type=SourceType.TOPUP, region="Global", va
     ("Golden Spin", SourceType.TOPUP, "Global", "Golden Spin", "Golden Spin"),  # нет в словаре — как у FZ
     ("25 USD", SourceType.GIFTCARD, "US", "Подарочная карта 25 USD", "Gift card 25 USD"),
     ("ExitLag: 1 Month Subscription", SourceType.GIFTCARD, "Global", "Подписка ExitLag 1 мес.", "ExitLag: Subscription 1 mo."),
+    ("Handful of Gems", SourceType.TOPUP, "Global", "Кристаллы (горсть)", "Handful of Gems"),
 ])
 def test_format_item(offer_name, source_type, region, ru, en):
     assert format_item(offer_name, source_type=source_type, region=region, lang="ru") == ru
@@ -125,6 +126,14 @@ def test_giftcard_offer():
     assert "Только для аккаунтов региона США" in pl["description_ru"]
     assert "Активируйте его в Google Play" in pl["instructions_ru"]
     assert draft.fz_fields == []  # у карт опций нет
+
+
+def test_service_override_tells_where_to_redeem():
+    p = position("Fortnite Packs (Xbox, AR) — Heartbreak Royale Pack", "Heartbreak Royale Pack",
+                 source_type=SourceType.GIFTCARD, region="AR", price="6.58")
+    pl = build_offer(p, CARD_CATEGORY, CONFIG, webhook_url=None).payload
+    assert pl["title_ru"].startswith("Fortnite Packs (Xbox) AR* Heartbreak Royale Pack")
+    assert "Активируйте его в Microsoft Store (Xbox)" in pl["instructions_ru"]
 
 
 def test_cover_is_placeholder_png():

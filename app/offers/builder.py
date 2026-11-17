@@ -299,7 +299,7 @@ def build_offer(
             "tag": templates["tag"][kind][lang],
             "fields": fields,
             "region_text": region_text(region, source_type, lang, templates),
-            "service": game,
+            "service": terms_data.get("services", {}).get(game, game),
             "enter_fields": enter_fields,
             "min_units": raw.get("min_units", ""),
             "max_units": raw.get("max_units", ""),

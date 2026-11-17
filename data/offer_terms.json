@@ -49,7 +49,17 @@
     "Evo Access": "Evo Access",
     "Subscription": "Подписка",
     "ExitLag: Subscription": "Подписка ExitLag",
-    "First Recharge": "Первое пополнение"
+    "First Recharge": "Первое пополнение",
+    "Handful of Gems": "Кристаллы (горсть)",
+    "Pile of Gems": "Кристаллы (куча)",
+    "Box of Gems": "Кристаллы (коробка)",
+    "Chest of Gems": "Кристаллы (сундук)",
+    "Basket of Gems": "Кристаллы (корзина)",
+    "Container of Gems": "Кристаллы (контейнер)"
+  },
+  "services": {
+    "_comment": "Где активировать код, если это не сам сервис из названия категории FZ (инструкция в карточке).",
+    "Fortnite Packs (Xbox)": "Microsoft Store (Xbox)"
   },
   "giftcard_item": {
     "ru": "Подарочная карта",
