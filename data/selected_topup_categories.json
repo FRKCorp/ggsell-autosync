@@ -42,7 +42,9 @@
     { "category_id": "undawn_global", "region": "Global" },
     { "category_id": "magic_chess_gogo_global", "region": "Global" },
     { "category_id": "magic_chess_gogo_ru", "region": "RU" },
-    { "category_id": "pubg_new_state", "region": "Global" }
+    { "category_id": "pubg_new_state", "region": "Global" },
+    { "category_id": "cats_crash_arena_turbo_stars", "region": "Global" },
+    { "category_id": "mobile_legends_adventure", "region": "Global" }
   ],
   "self_decided": [
     {

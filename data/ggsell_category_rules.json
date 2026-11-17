@@ -154,7 +154,7 @@
     {"node": null, "note": "Game Pass без указания тарифа (MENA): непонятно, в какой лист — Ultimate/Essential/Premium/PC"}
   ],
   "ea_gift_cards_*": [{"node": 155015, "by": ["region"]}],
-  "exitlag_*": [{"node": 86103}],
+  "exitlag_*": [{"node": 100426769}],
   "apex_legends_mobile_*": [{"node": 62681}],
   "apex_legendstm_*": [{"node": 98124, "by": ["nominal"]}],
   "pubg_mobile": [{"node": 100321879, "by": ["nominal"]}],
@@ -167,5 +167,19 @@
     {"node": 100323845, "review": true, "note": "Oxide: тип товара не распознан — лот в «Other», проверьте категорию"}
   ],
   "pubg_battlegrounds_global": [{"node": 100402101, "by": ["nominal"]}],
-  "razer_gold_*": [{"node": null, "note": "У Razer Gold на GGSell есть только подкатегория «Аккаунты» — листа под подарочные карты нет, а в корень лот не создать. Вариант: спросить поддержку GGSell / клиента."}]
+  "razer_gold_*": [{"node": null, "note": "У Razer Gold на GGSell есть только подкатегория «Аккаунты» — листа под подарочные карты нет, а в корень лот не создать. Вариант: спросить поддержку GGSell / клиента."}],
+  "fortnite_us": [{"node": 100420633}],
+  "fortnite_ch": [{"node": 100420631}],
+  "fortnite_de": [{"node": 100420631}],
+  "fortnite_eu": [{"node": 100420631}],
+  "fortnite_fr": [{"node": 100420631}],
+  "fortnite_ie": [{"node": 100420631}],
+  "fortnite_no": [{"node": 100420631}],
+  "fortnite_se": [{"node": 100420631}],
+  "fortnite_uk": [{"node": 100420631}],
+  "fortnite_ae": [{"node": 100420635}],
+  "fortnite_sa": [{"node": 100420635}],
+  "fortnite_packs_xbox_*": [{"node": 48130}],
+  "cats_crash_arena_turbo_stars": [{"match": "Gems", "node": 144240}, {"node": null, "note": "У CATS на GGSell для пополнений есть только «Кристаллы» (Gems); Cash, Tokens, предметы и наборы положить некуда"}],
+  "mobile_legends_adventure": [{"match": "M-CASH", "node": 132932}, {"node": null, "note": "У FZ сейчас только M-CASH; алмазы и пропуска — ветки 132930 / 132934, если появятся"}]
 }

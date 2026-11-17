@@ -252,7 +252,21 @@
 
     { "category_id": "exitlag_gift_card_tier_1_global", "variant_label": "Tier 1" },
     { "category_id": "exitlag_gift_card_tier_2_global", "variant_label": "Tier 2" },
-    { "category_id": "exitlag_gift_card_tier_3_global", "variant_label": "Tier 3" }
+    { "category_id": "exitlag_gift_card_tier_3_global", "variant_label": "Tier 3" },
+    { "category_id": "fortnite_ae", "region": "AE" },
+    { "category_id": "fortnite_ch", "region": "CH" },
+    { "category_id": "fortnite_de", "region": "DE" },
+    { "category_id": "fortnite_eu", "region": "EU" },
+    { "category_id": "fortnite_fr", "region": "FR" },
+    { "category_id": "fortnite_ie", "region": "IE" },
+    { "category_id": "fortnite_no", "region": "NO" },
+    { "category_id": "fortnite_sa", "region": "SA" },
+    { "category_id": "fortnite_se", "region": "SE" },
+    { "category_id": "fortnite_uk", "region": "UK" },
+    { "category_id": "fortnite_us", "region": "US" },
+    { "category_id": "fortnite_packs_xbox_ar", "region": "AR" },
+    { "category_id": "fortnite_packs_xbox_za", "region": "ZA" },
+    { "category_id": "exitlag_ru", "region": "RU" }
   ],
   "pending_clarification": [],
   "not_available_at_supplier": [

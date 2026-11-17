@@ -1,7 +1,51 @@
 {
-  "_comment": "Категории FZ, номиналы которых продаются одним лотом с параметром «Номинал» (app/offers/groups.py). Ключ — category_id FZ или шаблон с *. max_price_usd — номиналы дороже не продаются (у App Store модерация GGSell требует максимальный номинал не дороже $100 в эквиваленте, допуск 5%). Один лот — одна категория FZ (у App Store — один регион).",
+  "_comment": "Категории FZ, номиналы которых продаются одним лотом с параметром «Номинал» (app/offers/groups.py). Ключ — category_id FZ или шаблон с *. max_price_usd — номиналы дороже не продаются (у App Store модерация GGSell требует максимальный номинал не дороже $100 в эквиваленте, допуск 5%). Один лот — одна категория FZ (у App Store — один регион). Без max_price_usd — без лимита: Fortnite (коды V-Bucks, у GGSell лимита нет); Fortnite Packs (Xbox) — отдельные товары, не групповые.",
   "app_store_itunes_*": {
     "max_price_usd": 105,
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_ae": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_ch": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_de": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_eu": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_fr": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_ie": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_no": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_sa": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_se": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_uk": {
+    "option_title_ru": "Номинал",
+    "option_title_en": "Denomination"
+  },
+  "fortnite_us": {
     "option_title_ru": "Номинал",
     "option_title_en": "Denomination"
   }
