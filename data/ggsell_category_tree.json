@@ -8050,7 +8050,8 @@
   "fz_categories": [
    "exitlag_gift_card_tier_1_global",
    "exitlag_gift_card_tier_2_global",
-   "exitlag_gift_card_tier_3_global"
+   "exitlag_gift_card_tier_3_global",
+   "exitlag_ru"
   ],
   "roots": [
    {
@@ -8105,7 +8106,27 @@
         "fee": 0.07,
         "payment_fee": 0.027,
         "tree": "Программное обеспечение > ExitLag > Ключи > Для любых аккаунтов",
-        "has_children": false
+        "has_children": true,
+        "children": [
+         {
+          "id": 100426769,
+          "title": "ПК",
+          "content_type": "keys",
+          "fee": 0.07,
+          "payment_fee": 0.027,
+          "tree": "Программное обеспечение > ExitLag > Ключи > Для любых аккаунтов > ПК",
+          "has_children": false
+         },
+         {
+          "id": 100426781,
+          "title": "Mobile ",
+          "content_type": "keys",
+          "fee": 0.15,
+          "payment_fee": 0.027,
+          "tree": "Программное обеспечение > ExitLag > Ключи > Для любых аккаунтов > Mobile ",
+          "has_children": false
+         }
+        ]
        }
       ]
      }
@@ -26255,6 +26276,278 @@
       "fee": 0.07,
       "payment_fee": 0.027,
       "tree": "Games > Oxide: Survival island > Other",
+      "has_children": false
+     }
+    ]
+   }
+  ]
+ },
+ "Fortnite": {
+  "fz_categories": [
+   "fortnite_ae",
+   "fortnite_ch",
+   "fortnite_de",
+   "fortnite_eu",
+   "fortnite_fr",
+   "fortnite_ie",
+   "fortnite_no",
+   "fortnite_packs_xbox_ar",
+   "fortnite_packs_xbox_za",
+   "fortnite_sa",
+   "fortnite_se",
+   "fortnite_uk",
+   "fortnite_us"
+  ],
+  "roots": [
+   {
+    "id": 24128,
+    "title": "Fortnite",
+    "content_type": "game",
+    "fee": 0.15,
+    "payment_fee": 0.027,
+    "tree": "Игры > Fortnite",
+    "has_children": true,
+    "children": [
+     {
+      "id": 37382,
+      "title": "Буст",
+      "content_type": "service",
+      "fee": 0.07,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Буст",
+      "has_children": false
+     },
+     {
+      "id": 37383,
+      "title": "Боевой пропуск",
+      "content_type": "item",
+      "fee": 0.06,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Боевой пропуск",
+      "has_children": false
+     },
+     {
+      "id": 37669,
+      "title": "Подарки",
+      "content_type": "as-a-gift",
+      "fee": 0.07,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Подарки",
+      "has_children": false
+     },
+     {
+      "id": 48127,
+      "title": "Наборы/Предметы",
+      "content_type": "item",
+      "fee": 0.15,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Наборы/Предметы",
+      "has_children": true,
+      "children": [
+       {
+        "id": 24131,
+        "title": "Наборы из Epic Games",
+        "content_type": "item",
+        "fee": 0.06,
+        "payment_fee": 0.027,
+        "tree": "Игры > Fortnite > Наборы/Предметы > Наборы из Epic Games",
+        "has_children": false
+       },
+       {
+        "id": 48130,
+        "title": "Наборы из Xbox/Microsoft",
+        "content_type": "item",
+        "fee": 0.05,
+        "payment_fee": 0.027,
+        "tree": "Игры > Fortnite > Наборы/Предметы > Наборы из Xbox/Microsoft",
+        "has_children": false
+       }
+      ]
+     },
+     {
+      "id": 48129,
+      "title": "Коды пополнения V-Bucks",
+      "content_type": "gift-card",
+      "fee": 0.04,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Коды пополнения V-Bucks",
+      "has_children": true,
+      "children": [
+       {
+        "id": 100420629,
+        "title": "Global ",
+        "content_type": "currency",
+        "fee": 0.04,
+        "payment_fee": 0.027,
+        "tree": "Игры > Fortnite > Коды пополнения V-Bucks > Global ",
+        "has_children": false
+       },
+       {
+        "id": 100420631,
+        "title": "Европа ",
+        "content_type": "currency",
+        "fee": 0.04,
+        "payment_fee": 0.027,
+        "tree": "Игры > Fortnite > Коды пополнения V-Bucks > Европа ",
+        "has_children": false
+       },
+       {
+        "id": 100420633,
+        "title": "США ",
+        "content_type": "currency",
+        "fee": 0.04,
+        "payment_fee": 0.027,
+        "tree": "Игры > Fortnite > Коды пополнения V-Bucks > США ",
+        "has_children": false
+       },
+       {
+        "id": 100420635,
+        "title": "Другие страны",
+        "content_type": "currency",
+        "fee": 0.04,
+        "payment_fee": 0.027,
+        "tree": "Игры > Fortnite > Коды пополнения V-Bucks > Другие страны",
+        "has_children": false
+       }
+      ]
+     },
+     {
+      "id": 72531,
+      "title": "Покупка на ваш аккаунт",
+      "content_type": "Purchase-to-your-account",
+      "fee": 0.06,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Покупка на ваш аккаунт",
+      "has_children": false
+     },
+     {
+      "id": 151253,
+      "title": "Twitch Drops",
+      "content_type": "item",
+      "fee": 0.1,
+      "payment_fee": 0.027,
+      "tree": "Games > Fortnite > Twitch Drops",
+      "has_children": false
+     },
+     {
+      "id": 177733,
+      "title": "Отряд фортнайт",
+      "content_type": "item",
+      "fee": 0.15,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Отряд фортнайт",
+      "has_children": true,
+      "children": [
+       {
+        "id": 72931,
+        "title": "Xbox / Microsoft Store",
+        "content_type": "item",
+        "fee": 0.09,
+        "payment_fee": 0.027,
+        "tree": "Игры > Fortnite > Отряд фортнайт > Xbox / Microsoft Store",
+        "has_children": false
+       },
+       {
+        "id": 177740,
+        "title": "Epic Games Store",
+        "content_type": "item",
+        "fee": 0.09,
+        "payment_fee": 0.027,
+        "tree": "Игры > Fortnite > Отряд фортнайт > Epic Games Store",
+        "has_children": false
+       }
+      ]
+     },
+     {
+      "id": 100320253,
+      "title": "Поиск тиммейта",
+      "content_type": "service",
+      "fee": 0.07,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Поиск тиммейта",
+      "has_children": false
+     },
+     {
+      "id": 100320255,
+      "title": "Тренерство",
+      "content_type": "service",
+      "fee": 0.07,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Тренерство",
+      "has_children": false
+     },
+     {
+      "id": 100320259,
+      "title": "Аккаунты",
+      "content_type": "accounts",
+      "fee": 0.15,
+      "payment_fee": 0.027,
+      "tree": "Игры > Fortnite > Аккаунты",
+      "has_children": true,
+      "children": [
+       {
+        "id": 24130,
+        "title": "Продажа",
+        "content_type": "accounts",
+        "fee": 0.15,
+        "payment_fee": 0.027,
+        "tree": "Игры > Fortnite > Аккаунты > Продажа",
+        "has_children": false
+       },
+       {
+        "id": 100320261,
+        "title": "Rent",
+        "content_type": "rent",
+        "fee": 0.15,
+        "payment_fee": 0.027,
+        "tree": "Games > Fortnite > Accounts > Rent",
+        "has_children": false
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "CATS: Crash Arena Turbo Stars": {
+  "fz_categories": [
+   "cats_crash_arena_turbo_stars"
+  ],
+  "roots": [
+   {
+    "id": 144237,
+    "title": "CATS: Crash Arena Turbo Stars",
+    "content_type": "game",
+    "fee": 0.15,
+    "payment_fee": 0.027,
+    "tree": "Игры > CATS: Crash Arena Turbo Stars",
+    "has_children": true,
+    "children": [
+     {
+      "id": 144240,
+      "title": "Кристаллы",
+      "content_type": "currency",
+      "fee": 0.07,
+      "payment_fee": 0.027,
+      "tree": "Игры > CATS: Crash Arena Turbo Stars > Кристаллы",
+      "has_children": false
+     },
+     {
+      "id": 144241,
+      "title": "Аккаунты",
+      "content_type": "accounts",
+      "fee": 0.2,
+      "payment_fee": 0.027,
+      "tree": "Игры > CATS: Crash Arena Turbo Stars > Аккаунты",
+      "has_children": false
+     },
+     {
+      "id": 144244,
+      "title": "Прокачка",
+      "content_type": "service",
+      "fee": 0.07,
+      "payment_fee": 0.027,
+      "tree": "Игры > CATS: Crash Arena Turbo Stars > Прокачка",
       "has_children": false
      }
     ]
