@@ -180,6 +180,6 @@
   "fortnite_ae": [{"node": 100420635}],
   "fortnite_sa": [{"node": 100420635}],
   "fortnite_packs_xbox_*": [{"node": 48130}],
-  "cats_crash_arena_turbo_stars": [{"match": "Gems", "node": 144240}, {"node": null, "note": "У CATS на GGSell для пополнений есть только «Кристаллы» (Gems); Cash, Tokens, предметы и наборы положить некуда"}],
+  "cats_crash_arena_turbo_stars": [{"match": "Gems", "node": 144240}, {"node": 144244, "note": "Cash, Tokens, предметы и наборы — в «Прокачку»: так у клиента стоят ручные пополнения (19.11)"}],
   "mobile_legends_adventure": [{"match": "M-CASH", "node": 132932}, {"node": null, "note": "У FZ сейчас только M-CASH; алмазы и пропуска — ветки 132930 / 132934, если появятся"}]
 }
